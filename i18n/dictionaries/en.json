@@ -1,0 +1,51 @@
+{
+  "site": {
+    "name": "News Today",
+    "description": "Your First News Source"
+  },
+  "nav": {
+    "home": "Home",
+    "politics": "Politics",
+    "economy": "Economy",
+    "sports": "Sports",
+    "technology": "Technology",
+    "culture": "Culture",
+    "health": "Health"
+  },
+  "article": {
+    "readMore": "Read More",
+    "publishedAt": "Published on",
+    "author": "By",
+    "share": "Share",
+    "related": "Related Articles",
+    "comments": "Comments",
+    "views": "views"
+  },
+  "search": {
+    "placeholder": "Search news...",
+    "results": "Search Results",
+    "noResults": "No results found"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "seeAll": "See All",
+    "trending": "Trending",
+    "latest": "Latest News",
+    "popular": "Most Read"
+  },
+  "footer": {
+    "about": "About Us",
+    "contact": "Contact Us",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "copyright": "All Rights Reserved"
+  },
+  "newsletter": {
+    "title": "Subscribe to our Newsletter",
+    "placeholder": "Your email",
+    "subscribe": "Subscribe",
+    "success": "Successfully subscribed!"
+  }
+}

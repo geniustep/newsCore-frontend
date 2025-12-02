@@ -1,0 +1,51 @@
+{
+  "site": {
+    "name": "Actualités Aujourd'hui",
+    "description": "Votre Première Source d'Actualités"
+  },
+  "nav": {
+    "home": "Accueil",
+    "politics": "Politique",
+    "economy": "Économie",
+    "sports": "Sports",
+    "technology": "Technologie",
+    "culture": "Culture",
+    "health": "Santé"
+  },
+  "article": {
+    "readMore": "Lire la suite",
+    "publishedAt": "Publié le",
+    "author": "Par",
+    "share": "Partager",
+    "related": "Articles Connexes",
+    "comments": "Commentaires",
+    "views": "vues"
+  },
+  "search": {
+    "placeholder": "Rechercher dans les actualités...",
+    "results": "Résultats de recherche",
+    "noResults": "Aucun résultat trouvé"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "retry": "Réessayer",
+    "seeAll": "Voir tout",
+    "trending": "Tendances",
+    "latest": "Dernières Nouvelles",
+    "popular": "Les Plus Lus"
+  },
+  "footer": {
+    "about": "À propos",
+    "contact": "Contactez-nous",
+    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions Générales",
+    "copyright": "Tous droits réservés"
+  },
+  "newsletter": {
+    "title": "Abonnez-vous à notre Newsletter",
+    "placeholder": "Votre email",
+    "subscribe": "S'abonner",
+    "success": "Abonnement réussi!"
+  }
+}
