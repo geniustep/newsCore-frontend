@@ -1,5 +1,4 @@
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Cairo } from 'next/font/google';
@@ -32,8 +31,8 @@ export default async function LocaleLayout({
   // Enable static rendering
   setRequestLocale(locale);
 
-  // Fetch messages for the locale
-  const messages = await getMessages();
+  // Import messages directly to avoid using headers
+  const messages = (await import(`@/i18n/dictionaries/${locale}.json`)).default;
 
   // Get direction from locale config
   const localeKey = locale as keyof typeof localeConfig;

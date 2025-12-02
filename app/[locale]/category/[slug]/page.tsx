@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -19,6 +19,10 @@ interface CategoryPageProps {
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const { locale, slug } = params;
   const page = parseInt(searchParams.page || '1', 10);
+  
+  // Enable static rendering
+  setRequestLocale(locale);
+  
   const t = await getTranslations();
 
   try {

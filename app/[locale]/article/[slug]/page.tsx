@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Clock, Eye, User, Share2 } from 'lucide-react';
@@ -19,6 +19,10 @@ interface ArticlePageProps {
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { locale, slug } = params;
+  
+  // Enable static rendering
+  setRequestLocale(locale);
+  
   const t = await getTranslations();
 
   try {
