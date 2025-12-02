@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        cairo: ['Cairo', 'sans-serif'],
+        cairo: ['var(--font-cairo)', 'Cairo', 'sans-serif'],
         tajawal: ['Tajawal', 'sans-serif'],
       },
       colors: {

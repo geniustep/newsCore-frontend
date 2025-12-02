@@ -1,8 +1,17 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { Cairo } from 'next/font/google';
 import { locales, localeConfig } from '@/i18n/config';
 import '@/styles/globals.css';
+
+const cairo = Cairo({
+  subsets: ['latin', 'arabic'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-cairo',
+  display: 'swap',
+});
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -20,6 +29,9 @@ export default async function LocaleLayout({
     notFound();
   }
 
+  // Enable static rendering
+  setRequestLocale(locale);
+
   // Fetch messages for the locale
   const messages = await getMessages();
 
@@ -29,15 +41,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={direction} suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="font-cairo antialiased">
+      <body className={`${cairo.variable} font-cairo antialiased`}>
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
