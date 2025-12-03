@@ -1,13 +1,29 @@
 import apiClient from './client';
 import { Category } from './types';
 
+// API response wrapper type
+interface ApiResponse<T> {
+  success?: boolean;
+  data?: T;
+}
+
+// Helper to extract data from API response wrapper
+const extractData = <T>(response: ApiResponse<T> | T): T => {
+  const res = response as ApiResponse<T>;
+  if (res.data !== undefined) {
+    return res.data;
+  }
+  return response as T;
+};
+
 export const categoriesApi = {
   /**
    * Get all categories
    */
   getAll: async (): Promise<Category[]> => {
     const { data } = await apiClient.get('/categories');
-    return data;
+    const result = extractData<Category[]>(data);
+    return Array.isArray(result) ? result : [];
   },
 
   /**
@@ -15,7 +31,7 @@ export const categoriesApi = {
    */
   getById: async (id: string): Promise<Category> => {
     const { data } = await apiClient.get(`/categories/${id}`);
-    return data;
+    return extractData<Category>(data);
   },
 
   /**
@@ -23,7 +39,7 @@ export const categoriesApi = {
    */
   getBySlug: async (slug: string): Promise<Category> => {
     const { data } = await apiClient.get(`/categories/slug/${slug}`);
-    return data;
+    return extractData<Category>(data);
   },
 
   /**

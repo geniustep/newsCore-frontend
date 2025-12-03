@@ -11,6 +11,13 @@ const apiClient = axios.create({
 // Request interceptor
 apiClient.interceptors.request.use(
   (config) => {
+    // Log request details in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`API Request [${config.method?.toUpperCase()} ${config.url}]:`, {
+        params: config.params,
+        baseURL: config.baseURL,
+      });
+    }
     return config;
   },
   (error) => {
@@ -26,12 +33,24 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response) {
       // Server error
-      console.error('API Error:', error.response.data);
+      const method = error.config?.method?.toUpperCase() || 'UNKNOWN';
+      const url = error.config?.url || 'UNKNOWN';
+      const status = error.response.status;
+      const statusText = error.response.statusText;
+      console.error(`API Error [${method} ${url}]:`, {
+        status,
+        statusText,
+        data: error.response.data,
+        headers: error.response.headers,
+      });
     } else if (error.request) {
       // Network error
-      console.error('Network Error:', error.message);
+      const method = error.config?.method?.toUpperCase() || 'UNKNOWN';
+      const url = error.config?.url || 'UNKNOWN';
+      console.error(`Network Error [${method} ${url}]:`, error.message);
     } else {
-      console.error('Error:', error.message);
+      // Request setup error
+      console.error('Request Error:', error.message);
     }
     return Promise.reject(error);
   }

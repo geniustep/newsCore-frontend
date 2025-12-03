@@ -22,7 +22,13 @@ export const articlesApi = {
    * Get all published articles with pagination and filters
    */
   getPublic: async (params?: ArticleQueryParams): Promise<PaginatedResponse<Article>> => {
-    const { data } = await apiClient.get('/articles/public', { params });
+    // Convert params to ensure proper format
+    const formattedParams = params ? {
+      ...params,
+      page: params.page?.toString(),
+      limit: params.limit?.toString(),
+    } : undefined;
+    const { data } = await apiClient.get('/articles/public', { params: formattedParams });
     return extractData<PaginatedResponse<Article>>(data);
   },
 
@@ -42,7 +48,12 @@ export const articlesApi = {
     categorySlug: string,
     params?: ArticleQueryParams
   ): Promise<PaginatedResponse<Article>> => {
-    const { data } = await apiClient.get(`/articles/public/category/${categorySlug}`, { params });
+    const formattedParams = params ? {
+      ...params,
+      page: params.page?.toString(),
+      limit: params.limit?.toString(),
+    } : undefined;
+    const { data } = await apiClient.get(`/articles/public/category/${categorySlug}`, { params: formattedParams });
     return extractData<PaginatedResponse<Article>>(data);
   },
 
@@ -53,7 +64,12 @@ export const articlesApi = {
     tagSlug: string,
     params?: ArticleQueryParams
   ): Promise<PaginatedResponse<Article>> => {
-    const { data } = await apiClient.get(`/articles/public/tag/${tagSlug}`, { params });
+    const formattedParams = params ? {
+      ...params,
+      page: params.page?.toString(),
+      limit: params.limit?.toString(),
+    } : undefined;
+    const { data } = await apiClient.get(`/articles/public/tag/${tagSlug}`, { params: formattedParams });
     return extractData<PaginatedResponse<Article>>(data);
   },
 
@@ -61,8 +77,16 @@ export const articlesApi = {
    * Search articles
    */
   search: async (query: string, params?: ArticleQueryParams): Promise<PaginatedResponse<Article>> => {
+    const formattedParams = {
+      search: query,
+      ...(params ? {
+        ...params,
+        page: params.page?.toString(),
+        limit: params.limit?.toString(),
+      } : {}),
+    };
     const { data } = await apiClient.get('/articles/public', {
-      params: { search: query, ...params },
+      params: formattedParams,
     });
     return extractData<PaginatedResponse<Article>>(data);
   },
@@ -73,8 +97,8 @@ export const articlesApi = {
   getFeatured: async (limit: number = 5): Promise<Article[]> => {
     const { data } = await apiClient.get('/articles/public', {
       params: {
-        limit,
-        isFeatured: true,
+        limit: limit.toString(),
+        isFeatured: 'true', // Convert to string as some APIs expect string values
         sortBy: 'publishedAt',
         sortOrder: 'desc',
       },
@@ -89,7 +113,7 @@ export const articlesApi = {
   getTrending: async (limit: number = 10): Promise<Article[]> => {
     const { data } = await apiClient.get('/articles/public', {
       params: {
-        limit,
+        limit: limit.toString(),
         sortBy: 'viewCount',
         sortOrder: 'desc',
       },
