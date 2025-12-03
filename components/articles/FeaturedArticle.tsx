@@ -12,17 +12,30 @@ interface FeaturedArticleProps {
   article: Article;
 }
 
+// Helper to get image URL from article
+const getImageUrl = (article: Article): string | undefined => {
+  return article.coverImageUrl || article.featuredImage;
+};
+
+// Helper to get category from article
+const getCategory = (article: Article) => {
+  return article.category || article.categories?.[0];
+};
+
 export default function FeaturedArticle({ article }: FeaturedArticleProps) {
   const locale = useLocale() as Locale;
   const t = useTranslations('article');
+  
+  const imageUrl = getImageUrl(article);
+  const category = getCategory(article);
 
   return (
     <article className="relative group overflow-hidden rounded-lg shadow-lg">
       {/* Background Image */}
-      {article.featuredImage && (
+      {imageUrl && (
         <div className="relative h-[500px]">
           <Image
-            src={article.featuredImage}
+            src={imageUrl}
             alt={article.title}
             fill
             className="object-cover"
@@ -34,11 +47,13 @@ export default function FeaturedArticle({ article }: FeaturedArticleProps) {
       {/* Content Overlay */}
       <div className="absolute bottom-0 inset-x-0 p-8 text-white">
         {/* Category */}
-        <div className="mb-3">
-          <span className="px-4 py-2 bg-primary rounded-full text-sm font-semibold">
-            {article.category.name}
-          </span>
-        </div>
+        {category && (
+          <div className="mb-3">
+            <span className="px-4 py-2 bg-primary rounded-full text-sm font-semibold">
+              {category.name}
+            </span>
+          </div>
+        )}
 
         {/* Title */}
         <Link href={`/${locale}/article/${article.slug}`}>
@@ -63,10 +78,10 @@ export default function FeaturedArticle({ article }: FeaturedArticleProps) {
                 <span>{formatRelativeTime(article.publishedAt, locale)}</span>
               </div>
             )}
-            {article.viewCount > 0 && (
+            {(article.viewCount ?? 0) > 0 && (
               <div className="flex items-center gap-1">
                 <Eye className="w-4 h-4" />
-                <span>{formatCompactNumber(article.viewCount, locale)}</span>
+                <span>{formatCompactNumber(article.viewCount!, locale)}</span>
               </div>
             )}
           </div>

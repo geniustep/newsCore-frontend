@@ -16,6 +16,26 @@ interface ArticleCardProps {
   showExcerpt?: boolean;
 }
 
+// Helper to get image URL from article
+const getImageUrl = (article: Article): string | undefined => {
+  return article.coverImageUrl || article.featuredImage;
+};
+
+// Helper to get category from article
+const getCategory = (article: Article) => {
+  return article.category || article.categories?.[0];
+};
+
+// Helper to get author name
+const getAuthorName = (article: Article): string => {
+  const author = article.author;
+  if (!author) return '';
+  if ('displayName' in author && author.displayName) return author.displayName;
+  if ('name' in author && author.name) return author.name;
+  if ('firstName' in author) return `${author.firstName} ${author.lastName}`.trim();
+  return '';
+};
+
 export default function ArticleCard({
   article,
   variant = 'default',
@@ -27,6 +47,10 @@ export default function ArticleCard({
 
   const isHorizontal = variant === 'horizontal';
   const isCompact = variant === 'compact';
+  
+  const imageUrl = getImageUrl(article);
+  const category = getCategory(article);
+  const authorName = getAuthorName(article);
 
   return (
     <article
@@ -37,7 +61,7 @@ export default function ArticleCard({
       } hover:shadow-lg transition-shadow rounded-lg overflow-hidden bg-white border border-gray-200`}
     >
       {/* Image */}
-      {article.featuredImage && (
+      {imageUrl && (
         <Link
           href={`/${locale}/article/${article.slug}`}
           className={`relative overflow-hidden ${
@@ -49,15 +73,15 @@ export default function ArticleCard({
           }`}
         >
           <Image
-            src={article.featuredImage}
+            src={imageUrl}
             alt={article.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          {showCategory && (
+          {showCategory && category && (
             <div className="absolute top-3 start-3">
               <span className="px-3 py-1 bg-primary text-white text-xs font-semibold rounded-full">
-                {article.category.name}
+                {category.name}
               </span>
             </div>
           )}
@@ -86,10 +110,10 @@ export default function ArticleCard({
 
         {/* Meta */}
         <div className="mt-auto pt-3 flex items-center gap-4 text-xs text-gray-500">
-          {showAuthor && article.author && (
+          {showAuthor && authorName && (
             <div className="flex items-center gap-1">
               <User className="w-3 h-3" />
-              <span>{article.author.name}</span>
+              <span>{authorName}</span>
             </div>
           )}
           {article.publishedAt && (
@@ -98,10 +122,10 @@ export default function ArticleCard({
               <span>{formatRelativeTime(article.publishedAt, locale)}</span>
             </div>
           )}
-          {article.viewCount > 0 && (
+          {(article.viewCount ?? 0) > 0 && (
             <div className="flex items-center gap-1">
               <Eye className="w-3 h-3" />
-              <span>{formatCompactNumber(article.viewCount, locale)}</span>
+              <span>{formatCompactNumber(article.viewCount!, locale)}</span>
             </div>
           )}
         </div>

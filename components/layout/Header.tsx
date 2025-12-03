@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X, Search } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
+import { formatDate } from '@/lib/utils/date';
 import type { Category } from '@/lib/api/types';
 
 interface HeaderProps {
@@ -15,6 +16,12 @@ export default function Header({ categories = [] }: HeaderProps) {
   const t = useTranslations();
   const locale = useLocale();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentDate, setCurrentDate] = useState<string>('');
+
+  useEffect(() => {
+    // Only render date on client side to avoid hydration mismatch
+    setCurrentDate(formatDate(new Date(), locale as 'ar' | 'en' | 'fr'));
+  }, [locale]);
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
@@ -22,7 +29,7 @@ export default function Header({ categories = [] }: HeaderProps) {
       <div className="bg-primary text-white">
         <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center text-sm">
           <div className="flex items-center gap-4">
-            <span>{new Date().toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+            <span>{currentDate || '\u00A0'}</span>
           </div>
           <div className="flex items-center gap-4">
             <LanguageSwitcher />

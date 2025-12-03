@@ -1,13 +1,22 @@
 import apiClient from './client';
 import { Article, PaginatedResponse, ArticleQueryParams } from './types';
 
+// Helper to extract data from API response wrapper
+const extractData = <T>(response: any): T => {
+  // API returns { success: true, data: { data: [...], meta: {...} } }
+  if (response.data?.data !== undefined) {
+    return response.data;
+  }
+  return response;
+};
+
 export const articlesApi = {
   /**
    * Get all published articles with pagination and filters
    */
   getPublic: async (params?: ArticleQueryParams): Promise<PaginatedResponse<Article>> => {
     const { data } = await apiClient.get('/articles/public', { params });
-    return data;
+    return extractData<PaginatedResponse<Article>>(data);
   },
 
   /**
@@ -15,7 +24,8 @@ export const articlesApi = {
    */
   getBySlug: async (slug: string): Promise<Article> => {
     const { data } = await apiClient.get(`/articles/slug/${slug}`);
-    return data;
+    // API returns { success: true, data: {...article} }
+    return data.data || data;
   },
 
   /**
@@ -26,7 +36,7 @@ export const articlesApi = {
     params?: ArticleQueryParams
   ): Promise<PaginatedResponse<Article>> => {
     const { data } = await apiClient.get(`/articles/public/category/${categorySlug}`, { params });
-    return data;
+    return extractData<PaginatedResponse<Article>>(data);
   },
 
   /**
@@ -37,7 +47,7 @@ export const articlesApi = {
     params?: ArticleQueryParams
   ): Promise<PaginatedResponse<Article>> => {
     const { data } = await apiClient.get(`/articles/public/tag/${tagSlug}`, { params });
-    return data;
+    return extractData<PaginatedResponse<Article>>(data);
   },
 
   /**
@@ -47,21 +57,23 @@ export const articlesApi = {
     const { data } = await apiClient.get('/articles/public', {
       params: { search: query, ...params },
     });
-    return data;
+    return extractData<PaginatedResponse<Article>>(data);
   },
 
   /**
-   * Get featured articles (most viewed or latest)
+   * Get featured articles (isFeatured = true)
    */
   getFeatured: async (limit: number = 5): Promise<Article[]> => {
     const { data } = await apiClient.get('/articles/public', {
       params: {
         limit,
+        isFeatured: true,
         sortBy: 'publishedAt',
         sortOrder: 'desc',
       },
     });
-    return data.data;
+    const result = extractData<PaginatedResponse<Article>>(data);
+    return result.data || [];
   },
 
   /**
@@ -75,6 +87,7 @@ export const articlesApi = {
         sortOrder: 'desc',
       },
     });
-    return data.data;
+    const result = extractData<PaginatedResponse<Article>>(data);
+    return result.data || [];
   },
 };

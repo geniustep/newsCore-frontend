@@ -6,6 +6,11 @@ import FeaturedArticle from '@/components/articles/FeaturedArticle';
 import ArticleGrid from '@/components/articles/ArticleGrid';
 import ArticleList from '@/components/articles/ArticleList';
 import { articlesApi, categoriesApi } from '@/lib/api';
+import { locales } from '@/i18n/config';
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 
 export default async function HomePage({
   params: { locale },

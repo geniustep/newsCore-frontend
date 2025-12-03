@@ -10,6 +10,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'admin.sahara2797.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'bahethoarabia.com',
+      },
     ],
   },
   experimental: {

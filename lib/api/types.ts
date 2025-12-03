@@ -1,4 +1,13 @@
-// User Type
+// Author Type (from API)
+export interface Author {
+  id: string;
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  avatarUrl?: string | null;
+}
+
+// User Type (legacy)
 export interface User {
   id: string;
   name: string;
@@ -43,18 +52,27 @@ export interface SEO {
 export interface Article {
   id: string;
   title: string;
+  subtitle?: string;
   slug: string;
-  content: string;
+  content?: string;
   excerpt?: string;
-  featuredImage?: string;
+  coverImageUrl?: string;
+  featuredImage?: string; // legacy alias
   status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+  type?: string;
+  language?: string;
+  isPinned?: boolean;
+  isFeatured?: boolean;
+  isBreaking?: boolean;
+  readingTime?: number;
   publishedAt?: string;
   createdAt: string;
   updatedAt: string;
-  author: User;
-  category: Category;
-  tags: Tag[];
-  viewCount: number;
+  author: Author | User;
+  categories?: Category[];
+  category?: Category;
+  tags?: Tag[];
+  viewCount?: number;
   seo?: SEO;
 }
 
