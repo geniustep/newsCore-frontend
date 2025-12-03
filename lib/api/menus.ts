@@ -16,12 +16,12 @@ export interface MenuItem {
   cssClass?: string;
   isMegaMenu?: boolean;
   megaMenuLayout?: string;
-  megaMenuContent?: any;
+  megaMenuContent?: Record<string, unknown>;
   isActive: boolean;
   isVisible: boolean;
   showOnMobile?: boolean;
   showOnDesktop?: boolean;
-  displayConditions?: any;
+  displayConditions?: Record<string, unknown>;
   sortOrder: number;
   children?: MenuItem[];
   category?: {
@@ -93,9 +93,12 @@ export const menusApi = {
       });
       const result = extractData<Menu>(data);
       return result || null;
-    } catch (error: any) {
-      if (error.response?.status === 404) {
-        return null;
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as { response?: { status?: number } };
+        if (axiosError.response?.status === 404) {
+          return null;
+        }
       }
       throw error;
     }
@@ -111,9 +114,12 @@ export const menusApi = {
       });
       const result = extractData<Menu>(data);
       return result || null;
-    } catch (error: any) {
-      if (error.response?.status === 404) {
-        return null;
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as { response?: { status?: number } };
+        if (axiosError.response?.status === 404) {
+          return null;
+        }
       }
       throw error;
     }
@@ -122,11 +128,11 @@ export const menusApi = {
   /**
    * Get dynamic menu items (e.g., latest categories, trending tags)
    */
-  getDynamicItems: async (type: string, limit = 5): Promise<any[]> => {
+  getDynamicItems: async (type: string, limit = 5): Promise<MenuItem[]> => {
     const { data } = await apiClient.get(`/menus/dynamic/${type}`, {
       params: { limit },
     });
-    return extractData<any[]>(data) || [];
+    return extractData<MenuItem[]>(data) || [];
   },
 };
 

@@ -68,7 +68,7 @@ export default function Header({ categories = [] }: HeaderProps) {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
             {headerMenu ? (
-              <MenuRenderer menu={headerMenu} showMobile={false} showDesktop={true} />
+              <MenuRenderer menu={headerMenu} />
             ) : (
               <>
                 <Link href={`/${locale}`} className="hover:text-primary transition-colors">
@@ -105,8 +105,6 @@ export default function Header({ categories = [] }: HeaderProps) {
             {mobileMenu ? (
               <MenuRenderer
                 menu={mobileMenu}
-                showMobile={true}
-                showDesktop={false}
                 className="flex-col"
               />
             ) : (

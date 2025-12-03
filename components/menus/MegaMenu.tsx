@@ -42,13 +42,6 @@ export default function MegaMenu({ item, onClose }: MegaMenuProps) {
     return null;
   }
 
-  const gridCols =
-    item.megaMenuLayout === 'grid-2'
-      ? 'md:grid-cols-2'
-      : item.megaMenuLayout === 'grid-4'
-      ? 'md:grid-cols-4'
-      : 'md:grid-cols-3';
-
   return (
     <div
       className="relative group"
@@ -71,7 +64,7 @@ export default function MegaMenu({ item, onClose }: MegaMenuProps) {
           className="absolute z-10 grid hidden w-auto grid-cols-2 text-sm bg-neutral-primary-soft border border-default rounded-base shadow md:grid-cols-3"
           style={{ display: 'grid' }}
         >
-          {item.children.map((child, index) => (
+          {item.children.map((child) => (
             <div key={child.id} className="p-4 pb-0 text-heading md:pb-4">
               <ul className="space-y-3" aria-labelledby={`mega-menu-dropdown-button-${item.id}`}>
                 <li>

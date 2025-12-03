@@ -2,22 +2,18 @@
 
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import type { Menu, MenuItem } from '@/lib/api/menus';
 
 interface MenuRendererProps {
   menu: Menu;
   className?: string;
-  showMobile?: boolean;
-  showDesktop?: boolean;
 }
 
 export default function MenuRenderer({
   menu,
   className = '',
-  showMobile = true,
-  showDesktop = true,
 }: MenuRendererProps) {
   const locale = useLocale();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -93,7 +89,7 @@ export default function MenuRenderer({
               className="absolute z-10 grid w-auto grid-cols-2 text-sm bg-neutral-primary-soft border border-default rounded-base shadow md:grid-cols-3"
               style={{ display: 'grid' }}
             >
-              {item.children?.map((child, index) => (
+              {item.children?.map((child) => (
                 <div key={child.id} className="p-4 pb-0 text-heading md:pb-4">
                   <ul className="space-y-3" aria-labelledby={`mega-menu-dropdown-button-${item.id}`}>
                     <li>
