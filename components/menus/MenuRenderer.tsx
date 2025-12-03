@@ -138,7 +138,7 @@ export default function MenuRenderer({
             <span>{getLabel(item)}</span>
             <ChevronDown className="w-4 h-4" />
           </button>
-          {isActive && (
+          {isActive && item.children && item.children.length > 0 && (
             <div className="absolute top-full left-0 z-50 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg min-w-[200px]">
               <ul className="py-2">
                 {item.children.map((child) => (

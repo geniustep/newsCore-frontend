@@ -58,7 +58,7 @@ export default function MegaMenu({ item, onClose }: MegaMenuProps) {
         <ChevronDown className="w-4 h-4 ms-1.5" />
       </button>
 
-      {isOpen && (
+      {isOpen && item.children && item.children.length > 0 && (
         <div
           id={`mega-menu-dropdown-${item.id}`}
           className="absolute z-10 grid hidden w-auto grid-cols-2 text-sm bg-neutral-primary-soft border border-default rounded-base shadow md:grid-cols-3"
