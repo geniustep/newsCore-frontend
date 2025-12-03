@@ -9,6 +9,7 @@ import ArticleGrid from '@/components/articles/ArticleGrid';
 import { articlesApi, categoriesApi } from '@/lib/api';
 import { formatDate, formatCompactNumber } from '@/lib/utils';
 import type { Locale } from '@/i18n/config';
+import type { Article } from '@/lib/api/types';
 
 interface ArticlePageProps {
   params: {
@@ -16,6 +17,26 @@ interface ArticlePageProps {
     slug: string;
   };
 }
+
+// Helper to get image URL from article
+const getImageUrl = (article: Article): string | undefined => {
+  return article.coverImageUrl || article.featuredImage;
+};
+
+// Helper to get category from article
+const getCategory = (article: Article) => {
+  return article.category || article.categories?.[0];
+};
+
+// Helper to get author name
+const getAuthorName = (article: Article): string => {
+  const author = article.author;
+  if (!author) return '';
+  if ('displayName' in author && author.displayName) return author.displayName;
+  if ('name' in author && author.name) return author.name;
+  if ('firstName' in author) return `${author.firstName} ${author.lastName}`.trim();
+  return '';
+};
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { locale, slug } = params;
@@ -37,6 +58,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       notFound();
     }
 
+    const imageUrl = getImageUrl(article);
+    const category = getCategory(article);
+    const authorName = getAuthorName(article);
+
     return (
       <div className="min-h-screen flex flex-col">
         <Header categories={categories} />
@@ -48,26 +73,32 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <Link href={`/${locale}`} className="hover:text-primary">
                 {t('nav.home')}
               </Link>
-              <span className="mx-2">/</span>
-              <Link
-                href={`/${locale}/category/${article.category.slug}`}
-                className="hover:text-primary"
-              >
-                {article.category.name}
-              </Link>
+              {category && (
+                <>
+                  <span className="mx-2">/</span>
+                  <Link
+                    href={`/${locale}/category/${category.slug}`}
+                    className="hover:text-primary"
+                  >
+                    {category.name}
+                  </Link>
+                </>
+              )}
               <span className="mx-2">/</span>
               <span className="text-gray-900">{article.title}</span>
             </nav>
 
             {/* Category Badge */}
-            <div className="mb-4">
-              <Link
-                href={`/${locale}/category/${article.category.slug}`}
-                className="inline-block px-4 py-2 bg-primary text-white rounded-full text-sm font-semibold hover:bg-primary-light transition-colors"
-              >
-                {article.category.name}
-              </Link>
-            </div>
+            {category && (
+              <div className="mb-4">
+                <Link
+                  href={`/${locale}/category/${category.slug}`}
+                  className="inline-block px-4 py-2 bg-primary text-white rounded-full text-sm font-semibold hover:bg-primary-light transition-colors"
+                >
+                  {category.name}
+                </Link>
+              </div>
+            )}
 
             {/* Title */}
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
@@ -76,10 +107,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
             {/* Meta Info */}
             <div className="flex flex-wrap items-center gap-4 mb-6 text-sm text-gray-600 pb-6 border-b border-gray-200">
-              {article.author && (
+              {authorName && (
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4" />
-                  <span className="font-medium">{article.author.name}</span>
+                  <span className="font-medium">{authorName}</span>
                 </div>
               )}
               {article.publishedAt && (
@@ -88,10 +119,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <span>{formatDate(article.publishedAt, locale as Locale)}</span>
                 </div>
               )}
-              {article.viewCount > 0 && (
+              {(article.viewCount ?? 0) > 0 && (
                 <div className="flex items-center gap-2">
                   <Eye className="w-4 h-4" />
-                  <span>{formatCompactNumber(article.viewCount, locale)}</span>
+                  <span>{formatCompactNumber(article.viewCount!, locale)}</span>
                 </div>
               )}
             </div>
@@ -105,10 +136,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </div>
 
             {/* Featured Image */}
-            {article.featuredImage && (
+            {imageUrl && (
               <div className="relative w-full h-[500px] mb-8 rounded-lg overflow-hidden">
                 <Image
-                  src={article.featuredImage}
+                  src={imageUrl}
                   alt={article.title}
                   fill
                   className="object-cover"
@@ -118,9 +149,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             )}
 
             {/* Content */}
-            <div className="prose prose-lg max-w-none mb-12">
-              <div dangerouslySetInnerHTML={{ __html: article.content }} />
-            </div>
+            {article.content && (
+              <div className="prose prose-lg max-w-none mb-12">
+                <div dangerouslySetInnerHTML={{ __html: article.content }} />
+              </div>
+            )}
 
             {/* Tags */}
             {article.tags && article.tags.length > 0 && (
