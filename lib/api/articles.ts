@@ -1,13 +1,20 @@
 import apiClient from './client';
 import { Article, PaginatedResponse, ArticleQueryParams } from './types';
 
+// API response wrapper type
+interface ApiResponse<T> {
+  success?: boolean;
+  data?: T;
+}
+
 // Helper to extract data from API response wrapper
-const extractData = <T>(response: any): T => {
+const extractData = <T>(response: ApiResponse<T> | T): T => {
   // API returns { success: true, data: { data: [...], meta: {...} } }
-  if (response.data?.data !== undefined) {
-    return response.data;
+  const res = response as ApiResponse<T>;
+  if (res.data !== undefined) {
+    return res.data;
   }
-  return response;
+  return response as T;
 };
 
 export const articlesApi = {
