@@ -5,21 +5,43 @@ interface NewsArticleJsonLdProps {
   url: string;
 }
 
+// Helper to get author name
+const getAuthorName = (article: Article): string => {
+  const author = article.author;
+  if (!author) return 'Unknown';
+  if ('displayName' in author && author.displayName) return author.displayName;
+  if ('name' in author && author.name) return author.name;
+  if ('firstName' in author) return `${author.firstName} ${author.lastName}`.trim();
+  return 'Unknown';
+};
+
+// Helper to get category from article
+const getCategory = (article: Article) => {
+  return article.category || article.categories?.[0];
+};
+
+// Helper to get image URL from article
+const getImageUrl = (article: Article): string => {
+  return article.coverImageUrl || article.featuredImage || '';
+};
+
 export function NewsArticleJsonLd({ article, url }: NewsArticleJsonLdProps) {
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'أخبار اليوم';
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yoursite.com';
+  
+  const category = getCategory(article);
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
     headline: article.title,
     description: article.excerpt || article.title,
-    image: article.featuredImage || '',
+    image: getImageUrl(article),
     datePublished: article.publishedAt,
     dateModified: article.updatedAt,
     author: {
       '@type': 'Person',
-      name: article.author?.name || 'Unknown',
+      name: getAuthorName(article),
       url: article.author ? `${siteUrl}/author/${article.author.id}` : undefined,
     },
     publisher: {
@@ -35,7 +57,7 @@ export function NewsArticleJsonLd({ article, url }: NewsArticleJsonLdProps) {
       '@type': 'WebPage',
       '@id': url,
     },
-    articleSection: article.category.name,
+    articleSection: category?.name,
     keywords: article.tags?.map((tag) => tag.name).join(', '),
   };
 
