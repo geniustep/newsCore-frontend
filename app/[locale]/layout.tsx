@@ -1,8 +1,7 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
-import { notFound } from 'next/navigation';
 import { Cairo } from 'next/font/google';
-import { locales, localeConfig } from '@/i18n/config';
+import { locales, localeConfig, Locale } from '@/i18n/config';
 import { ThemeProvider, getThemeSettings } from '@/components/providers';
 import '@/styles/globals.css';
 
@@ -26,7 +25,7 @@ export default async function LocaleLayout({
   params: { locale: string };
 }) {
   // Validate locale - default to 'ar' if invalid
-  const validLocale = locales.includes(locale as any) ? locale : 'ar';
+  const validLocale = locales.includes(locale as Locale) ? locale : 'ar';
 
   // Enable static rendering
   setRequestLocale(validLocale);
