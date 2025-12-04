@@ -13,14 +13,10 @@ const cairo = Cairo({
   display: 'swap',
 });
 
-// Return empty to avoid static generation issues
-// Locales will be handled dynamically
+// Generate static params for locales
 export function generateStaticParams() {
-  return [];
+  return locales.map((locale) => ({ locale }));
 }
-
-// Force dynamic rendering
-export const dynamic = 'force-dynamic';
 
 export default async function LocaleLayout({
   children,
@@ -29,26 +25,55 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  // Validate locale
-  if (!locales.some(l => l === locale)) {
-    notFound();
-  }
+  // Validate locale - default to 'ar' if invalid
+  const validLocale = locales.includes(locale as any) ? locale : 'ar';
 
   // Enable static rendering
-  setRequestLocale(locale);
+  setRequestLocale(validLocale);
 
-  // Import messages directly to avoid using headers
-  const messages = (await import(`@/i18n/dictionaries/${locale}.json`)).default;
+  // Import messages with fallback
+  let messages;
+  try {
+    messages = (await import(`@/i18n/dictionaries/${validLocale}.json`)).default;
+  } catch {
+    // Fallback to Arabic if locale file not found
+    messages = (await import(`@/i18n/dictionaries/ar.json`)).default;
+  }
 
-  // Fetch theme settings from API
-  const themeSettings = await getThemeSettings();
+  // Fetch theme settings from API with error handling
+  let themeSettings;
+  try {
+    themeSettings = await getThemeSettings();
+  } catch (error) {
+    console.error('Failed to fetch theme settings:', error);
+    themeSettings = {
+      logoAr: '',
+      logoEn: '',
+      logoFr: '',
+      favicon: '',
+      primaryColor: '#ed7520',
+      secondaryColor: '#0ea5e9',
+      accentColor: '#f59e0b',
+      backgroundColor: '#ffffff',
+      textColor: '#1f2937',
+      fontFamily: 'IBM Plex Sans Arabic',
+      fontSize: '16px',
+      headingFont: 'IBM Plex Sans Arabic',
+      borderRadius: '0.5rem',
+      spacing: 'normal',
+      darkModeEnabled: false,
+      darkPrimaryColor: '#f59e0b',
+      darkBackgroundColor: '#111827',
+      darkTextColor: '#f9fafb',
+    };
+  }
 
   // Get direction from locale config
-  const localeKey = locale as keyof typeof localeConfig;
-  const direction = localeConfig[localeKey].direction;
+  const localeKey = validLocale as keyof typeof localeConfig;
+  const direction = localeConfig[localeKey]?.direction || 'rtl';
 
   return (
-    <html lang={locale} dir={direction} suppressHydrationWarning>
+    <html lang={validLocale} dir={direction} suppressHydrationWarning>
       <head>
         <link rel="icon" href={themeSettings.favicon || "/favicon.svg"} type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
