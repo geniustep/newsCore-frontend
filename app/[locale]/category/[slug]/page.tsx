@@ -20,33 +20,12 @@ interface CategoryPageProps {
 // Enable dynamic params - allow pages to be generated on-demand
 export const dynamicParams = true;
 
-// Revalidate pages every 60 seconds (ISR)
-export const revalidate = 60;
+// Force dynamic rendering to avoid build-time API calls
+export const dynamic = 'force-dynamic';
 
-// Generate static params for all categories at build time
+// Generate static params - return empty to avoid build-time issues
 export async function generateStaticParams() {
-  const params: Array<{ locale: string; slug: string }> = [];
-  
-  try {
-    // Get all categories
-    const categories = await categoriesApi.getAll();
-    
-    // Generate params for each locale and category
-    for (const locale of locales) {
-      for (const category of categories) {
-        params.push({
-          locale,
-          slug: category.slug,
-        });
-      }
-    }
-  } catch (error) {
-    console.error('Error generating static params for categories:', error);
-    // Return empty array if API is not available at build time
-    // Next.js will generate pages on-demand thanks to dynamicParams = true
-  }
-  
-  return params;
+  return [];
 }
 
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {

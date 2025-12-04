@@ -22,9 +22,14 @@ import { articlesApi, pagesApi, categoriesApi } from '@/lib/api';
 import { locales } from '@/i18n/config';
 import { Newspaper, DollarSign, Trophy, Cpu, Building2, Stethoscope } from 'lucide-react';
 
+// Return empty array to avoid static generation issues
+// Pages will be generated on-demand with ISR
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
+  return [];
 }
+
+// Force dynamic rendering to avoid build-time API calls
+export const dynamic = 'force-dynamic';
 
 // Generate metadata from homepage
 export async function generateMetadata({

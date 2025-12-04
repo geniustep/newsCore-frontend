@@ -188,10 +188,19 @@ export function ThemeProvider({ children, initialTheme }: ThemeProviderProps) {
 
 // Server component to fetch theme
 export async function getThemeSettings(): Promise<ThemeSettings> {
+  // During build time, return default theme to avoid API calls
+  if (process.env.NODE_ENV === 'production' && typeof window === 'undefined') {
+    // Check if we're in build phase
+    const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
+    if (isBuildTime) {
+      return defaultTheme;
+    }
+  }
+  
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.sahara2797.com/api/v1';
     const response = await fetch(`${apiUrl}/settings/public/theme`, {
-      next: { revalidate: 300 }, // Cache for 5 minutes
+      cache: 'no-store', // Don't cache during SSR to always get fresh data
     });
     
     if (response.ok) {

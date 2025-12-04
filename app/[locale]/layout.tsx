@@ -13,9 +13,14 @@ const cairo = Cairo({
   display: 'swap',
 });
 
+// Return empty to avoid static generation issues
+// Locales will be handled dynamically
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
+  return [];
 }
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
 
 export default async function LocaleLayout({
   children,
