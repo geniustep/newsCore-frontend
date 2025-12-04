@@ -6,7 +6,7 @@ import { Clock, Eye, User, Share2 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ArticleGrid from '@/components/articles/ArticleGrid';
-import { articlesApi, categoriesApi } from '@/lib/api';
+import { articlesApi } from '@/lib/api';
 import { formatDate, formatCompactNumber } from '@/lib/utils';
 import type { Locale } from '@/i18n/config';
 import type { Article } from '@/lib/api/types';
@@ -48,9 +48,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   try {
     // Fetch article and related data
-    const [article, categories, relatedArticles] = await Promise.all([
+    const [article, relatedArticles] = await Promise.all([
       articlesApi.getBySlug(slug),
-      categoriesApi.getTopLevel().catch(() => []),
       articlesApi.getPublic({ page: 1, limit: 3 }).catch(() => ({ data: [], meta: { total: 0, page: 1, limit: 3, totalPages: 0 } })),
     ]);
 
@@ -64,7 +63,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
     return (
       <div className="min-h-screen flex flex-col">
-        <Header categories={categories} />
+        <Header />
 
         <main className="flex-1 bg-gray-50">
           <article className="max-w-4xl mx-auto px-4 py-8">

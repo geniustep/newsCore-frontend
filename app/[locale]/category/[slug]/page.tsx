@@ -27,9 +27,8 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
   try {
     // Fetch category and articles
-    const [category, categories, articlesData] = await Promise.all([
+    const [category, articlesData] = await Promise.all([
       categoriesApi.getBySlug(slug),
-      categoriesApi.getTopLevel().catch(() => []),
       articlesApi.getByCategory(slug, { page, limit: 12 }),
     ]);
 
@@ -39,7 +38,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
     return (
       <div className="min-h-screen flex flex-col">
-        <Header categories={categories} />
+        <Header />
 
         <main className="flex-1 bg-gray-50">
           {/* Category Header */}
