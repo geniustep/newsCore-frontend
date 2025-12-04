@@ -1,7 +1,7 @@
 'use client';
 
 import { Page } from '@/lib/api';
-import { Calendar, Clock, Share2, Printer } from 'lucide-react';
+import { Calendar, Share2, Printer } from 'lucide-react';
 import Link from 'next/link';
 
 interface TemplateProps {

@@ -19,7 +19,7 @@ interface VideoSectionProps {
 
 export default function VideoSection({ videos }: VideoSectionProps) {
   const t = useTranslations();
-  const locale = useLocale();
+  useLocale();
   const [selectedVideo, setSelectedVideo] = useState(videos[0]);
 
   if (!videos || videos.length === 0) return null;

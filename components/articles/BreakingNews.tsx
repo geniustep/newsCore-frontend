@@ -17,17 +17,18 @@ export default function BreakingNews({ articles }: BreakingNewsProps) {
   const t = useTranslations();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  if (!articles || articles.length === 0) return null;
-
-  const current = articles[currentIndex];
-
   useEffect(() => {
+    if (!articles || articles.length === 0) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % articles.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [articles.length]);
+  }, [articles]);
+
+  if (!articles || articles.length === 0) return null;
+
+  const current = articles[currentIndex];
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + articles.length) % articles.length);

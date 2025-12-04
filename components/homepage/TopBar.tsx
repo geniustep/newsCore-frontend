@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { User, UserPlus, LogIn, Moon, Sun } from 'lucide-react';
+import { UserPlus, LogIn, Moon, Sun } from 'lucide-react';
 import LanguageSwitcher from '@/components/layout/LanguageSwitcher';
 import WeatherWidget from './WeatherWidget';
 import CurrencyTicker from './CurrencyTicker';

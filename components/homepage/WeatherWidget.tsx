@@ -10,7 +10,7 @@ interface WeatherData {
 }
 
 export default function WeatherWidget() {
-  const [weather, setWeather] = useState<WeatherData>({
+  const [weather] = useState<WeatherData>({
     temp: 25,
     condition: 'sunny',
     city: 'الرياض',

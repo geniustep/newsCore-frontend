@@ -112,7 +112,7 @@ const pricingPlans = [
   },
 ];
 
-export default function LandingTemplate({ page, locale }: TemplateProps) {
+export default function LandingTemplate({ page }: TemplateProps) {
   const [email, setEmail] = useState('');
 
   return (
@@ -237,7 +237,7 @@ export default function LandingTemplate({ page, locale }: TemplateProps) {
                   ))}
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-                  "{testimonial.content}"
+                  &ldquo;{testimonial.content}&rdquo;
                 </p>
                 <div className="flex items-center gap-4">
                   <img

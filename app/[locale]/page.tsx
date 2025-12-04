@@ -81,7 +81,7 @@ export default async function HomePage({
     const sideArticles = featuredArticles.slice(1, 5);
 
     // Category icons mapping
-    const categoryIcons: Record<string, any> = {
+    const categoryIcons: Record<string, React.ReactNode> = {
       politics: <Newspaper className="w-8 h-8" />,
       economy: <DollarSign className="w-8 h-8" />,
       sports: <Trophy className="w-8 h-8" />,
@@ -233,7 +233,19 @@ export default async function HomePage({
     };
 
     // Get top categories for sections
-    const topCategories = (categories as any[])?.slice(0, 4) || [];
+    type CategoryType = {
+      id: string;
+      name: string;
+      nameAr?: string;
+      slug: string;
+    };
+    type ArticleCategory = {
+      id: string;
+    };
+    type ArticleWithCategories = {
+      categories?: ArticleCategory[];
+    };
+    const topCategories = (categories as CategoryType[])?.slice(0, 4) || [];
 
     return (
       <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
@@ -294,9 +306,9 @@ export default async function HomePage({
           <VideoSection videos={mockVideos} />
 
           {/* Dynamic Category Sections */}
-          {topCategories.map((category: any, index: number) => {
+          {topCategories.map((category: CategoryType, index: number) => {
             const categoryArticles = latestArticles.data.filter(
-              (article: any) => article.categories?.some((c: any) => c.id === category.id)
+              (article: ArticleWithCategories) => article.categories?.some((c: ArticleCategory) => c.id === category.id)
             );
             
             if (categoryArticles.length < 2) return null;

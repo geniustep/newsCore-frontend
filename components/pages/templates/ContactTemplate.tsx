@@ -20,7 +20,7 @@ interface TemplateProps {
   locale: string;
 }
 
-export default function ContactTemplate({ page, locale }: TemplateProps) {
+export default function ContactTemplate({ page }: TemplateProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',

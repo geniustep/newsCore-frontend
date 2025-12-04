@@ -73,7 +73,7 @@ export default async function PageView({
   params: { slug: string; locale: string };
 }) {
   setRequestLocale(locale);
-  const t = await getTranslations();
+  await getTranslations();
 
   try {
     const page = await pagesApi.getBySlug(slug, locale);

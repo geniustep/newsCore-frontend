@@ -76,7 +76,7 @@ const values = [
   },
 ];
 
-export default function AboutTemplate({ page, locale }: TemplateProps) {
+export default function AboutTemplate({ page }: TemplateProps) {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
