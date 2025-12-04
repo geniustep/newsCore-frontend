@@ -35,7 +35,7 @@ export default async function HomePage({
 
     return (
       <div className="min-h-screen flex flex-col">
-        <Header categories={categories} />
+        <Header />
 
         {/* Breaking News */}
         {trendingArticles.length > 0 && (
@@ -107,7 +107,7 @@ export default async function HomePage({
     console.error('Error loading home page:', error);
     return (
       <div className="min-h-screen flex flex-col">
-        <Header categories={[]} />
+        <Header />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4">{t('common.error')}</h2>

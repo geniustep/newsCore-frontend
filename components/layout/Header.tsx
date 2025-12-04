@@ -6,16 +6,15 @@ import { useState, useEffect } from 'react';
 import { Menu, X, Search } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
 import { formatDate } from '@/lib/utils/date';
-import type { Category } from '@/lib/api/types';
 import { menusApi } from '@/lib/api/menus';
 import MenuRenderer from '@/components/menus/MenuRenderer';
 import type { Menu as MenuType } from '@/lib/api/menus';
 
 interface HeaderProps {
-  categories?: Category[];
+  // Categories prop is deprecated - using menus instead
 }
 
-export default function Header({ categories = [] }: HeaderProps) {
+export default function Header({}: HeaderProps = {}) {
   const t = useTranslations();
   const locale = useLocale();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -83,20 +82,9 @@ export default function Header({ categories = [] }: HeaderProps) {
             {headerMenu ? (
               <MenuRenderer menu={headerMenu} />
             ) : (
-              <>
-                <Link href={`/${locale}`} className="hover:text-primary transition-colors">
-                  {t('nav.home')}
-                </Link>
-                {categories.slice(0, 6).map((category) => (
-                  <Link
-                    key={category.id}
-                    href={`/${locale}/category/${category.slug}`}
-                    className="hover:text-primary transition-colors"
-                  >
-                    {category.name}
-                  </Link>
-                ))}
-              </>
+              <Link href={`/${locale}`} className="hover:text-primary transition-colors">
+                {t('nav.home')}
+              </Link>
             )}
             <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
               <Search className="w-5 h-5" />
@@ -121,25 +109,13 @@ export default function Header({ categories = [] }: HeaderProps) {
                 className="flex-col"
               />
             ) : (
-              <>
-                <Link
-                  href={`/${locale}`}
-                  className="py-2 hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {t('nav.home')}
-                </Link>
-                {categories.slice(0, 6).map((category) => (
-                  <Link
-                    key={category.id}
-                    href={`/${locale}/category/${category.slug}`}
-                    className="py-2 hover:text-primary transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {category.name}
-                  </Link>
-                ))}
-              </>
+              <Link
+                href={`/${locale}`}
+                className="py-2 hover:text-primary transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {t('nav.home')}
+              </Link>
             )}
           </nav>
         )}
