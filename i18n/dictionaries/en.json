@@ -33,7 +33,8 @@
     "seeAll": "See All",
     "trending": "Trending",
     "latest": "Latest News",
-    "popular": "Most Read"
+    "popular": "Most Read",
+    "more": "More"
   },
   "footer": {
     "about": "About Us",
@@ -44,8 +45,60 @@
   },
   "newsletter": {
     "title": "Subscribe to our Newsletter",
+    "description": "Get the latest news and updates directly in your inbox",
     "placeholder": "Your email",
     "subscribe": "Subscribe",
     "success": "Successfully subscribed!"
+  },
+  "sidebar": {
+    "trending": "Trending",
+    "mostRead": "Most Read",
+    "mostShared": "Most Shared",
+    "mostCommented": "Most Commented"
+  },
+  "poll": {
+    "title": "Poll",
+    "vote": "Vote",
+    "totalVotes": "Total Votes",
+    "results": "Results"
+  },
+  "sections": {
+    "videos": "Videos",
+    "latest": "Latest",
+    "mostViewed": "Most Viewed",
+    "opinions": "Opinions & Articles",
+    "allWriters": "All Writers",
+    "features": "Features & Reports",
+    "photoGalleries": "Photo Gallery",
+    "podcast": "Podcast",
+    "live": "Live",
+    "partners": "Our Partners",
+    "socialMedia": "Follow Us on Social Media"
+  },
+  "video": {
+    "views": "views",
+    "playlist": "Playlist",
+    "watchNow": "Watch Now",
+    "duration": "Duration"
+  },
+  "apps": {
+    "title": "Download Our App",
+    "subtitle": "Get the latest news on your phone",
+    "appStore": "App Store",
+    "googlePlay": "Google Play"
+  },
+  "breaking": {
+    "title": "Breaking",
+    "now": "Now"
+  },
+  "categories": {
+    "politics": "Politics",
+    "economy": "Economy",
+    "sports": "Sports",
+    "technology": "Technology",
+    "culture": "Culture",
+    "health": "Health",
+    "world": "World",
+    "local": "Local"
   }
 }

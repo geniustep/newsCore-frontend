@@ -33,7 +33,8 @@
     "seeAll": "Voir tout",
     "trending": "Tendances",
     "latest": "Dernières Nouvelles",
-    "popular": "Les Plus Lus"
+    "popular": "Les Plus Lus",
+    "more": "Plus"
   },
   "footer": {
     "about": "À propos",
@@ -44,8 +45,60 @@
   },
   "newsletter": {
     "title": "Abonnez-vous à notre Newsletter",
+    "description": "Recevez les dernières actualités directement dans votre boîte mail",
     "placeholder": "Votre email",
     "subscribe": "S'abonner",
     "success": "Abonnement réussi!"
+  },
+  "sidebar": {
+    "trending": "Tendances",
+    "mostRead": "Les Plus Lus",
+    "mostShared": "Les Plus Partagés",
+    "mostCommented": "Les Plus Commentés"
+  },
+  "poll": {
+    "title": "Sondage",
+    "vote": "Voter",
+    "totalVotes": "Total des votes",
+    "results": "Résultats"
+  },
+  "sections": {
+    "videos": "Vidéos",
+    "latest": "Récent",
+    "mostViewed": "Les Plus Vues",
+    "opinions": "Opinions & Articles",
+    "allWriters": "Tous les Auteurs",
+    "features": "Reportages & Enquêtes",
+    "photoGalleries": "Galerie Photos",
+    "podcast": "Podcast",
+    "live": "En Direct",
+    "partners": "Nos Partenaires",
+    "socialMedia": "Suivez-nous sur les Réseaux Sociaux"
+  },
+  "video": {
+    "views": "vues",
+    "playlist": "Playlist",
+    "watchNow": "Regarder",
+    "duration": "Durée"
+  },
+  "apps": {
+    "title": "Téléchargez Notre Application",
+    "subtitle": "Recevez les dernières actualités sur votre téléphone",
+    "appStore": "App Store",
+    "googlePlay": "Google Play"
+  },
+  "breaking": {
+    "title": "Flash Info",
+    "now": "Maintenant"
+  },
+  "categories": {
+    "politics": "Politique",
+    "economy": "Économie",
+    "sports": "Sports",
+    "technology": "Technologie",
+    "culture": "Culture",
+    "health": "Santé",
+    "world": "Monde",
+    "local": "Local"
   }
 }

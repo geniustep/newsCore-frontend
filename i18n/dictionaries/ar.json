@@ -33,7 +33,8 @@
     "seeAll": "عرض الكل",
     "trending": "الأكثر تداولاً",
     "latest": "آخر الأخبار",
-    "popular": "الأكثر قراءة"
+    "popular": "الأكثر قراءة",
+    "more": "المزيد"
   },
   "footer": {
     "about": "من نحن",
@@ -44,8 +45,60 @@
   },
   "newsletter": {
     "title": "اشترك في نشرتنا الإخبارية",
+    "description": "احصل على آخر الأخبار والتحديثات مباشرة في بريدك الإلكتروني",
     "placeholder": "بريدك الإلكتروني",
     "subscribe": "اشترك",
     "success": "تم الاشتراك بنجاح!"
+  },
+  "sidebar": {
+    "trending": "الأكثر تداولاً",
+    "mostRead": "الأكثر قراءة",
+    "mostShared": "الأكثر مشاركة",
+    "mostCommented": "الأكثر تعليقاً"
+  },
+  "poll": {
+    "title": "استطلاع الرأي",
+    "vote": "صوّت",
+    "totalVotes": "إجمالي الأصوات",
+    "results": "النتائج"
+  },
+  "sections": {
+    "videos": "الفيديوهات",
+    "latest": "الأحدث",
+    "mostViewed": "الأكثر مشاهدة",
+    "opinions": "آراء ومقالات",
+    "allWriters": "جميع الكُتّاب",
+    "features": "تقارير وتحقيقات",
+    "photoGalleries": "معرض الصور",
+    "podcast": "البودكاست",
+    "live": "البث المباشر",
+    "partners": "شركاؤنا",
+    "socialMedia": "تابعونا على وسائل التواصل"
+  },
+  "video": {
+    "views": "مشاهدة",
+    "playlist": "قائمة التشغيل",
+    "watchNow": "شاهد الآن",
+    "duration": "المدة"
+  },
+  "apps": {
+    "title": "حمّل تطبيقنا",
+    "subtitle": "احصل على آخر الأخبار على هاتفك",
+    "appStore": "متجر آبل",
+    "googlePlay": "جوجل بلاي"
+  },
+  "breaking": {
+    "title": "عاجل",
+    "now": "الآن"
+  },
+  "categories": {
+    "politics": "سياسة",
+    "economy": "اقتصاد",
+    "sports": "رياضة",
+    "technology": "تقنية",
+    "culture": "ثقافة",
+    "health": "صحة",
+    "world": "دولي",
+    "local": "محلي"
   }
 }

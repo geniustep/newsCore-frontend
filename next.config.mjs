@@ -14,6 +14,26 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'bahethoarabia.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'i1.hespress.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i2.hespress.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i3.hespress.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.hespress.com',
+      },
     ],
   },
   experimental: {
