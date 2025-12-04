@@ -37,9 +37,20 @@ export const categoriesApi = {
   /**
    * Get a single category by slug
    */
-  getBySlug: async (slug: string): Promise<Category> => {
-    const { data } = await apiClient.get(`/categories/slug/${slug}`);
-    return extractData<Category>(data);
+  getBySlug: async (slug: string): Promise<Category | null> => {
+    try {
+      const { data } = await apiClient.get(`/categories/slug/${slug}`);
+      const result = extractData<Category>(data);
+      return result || null;
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as { response?: { status?: number } };
+        if (axiosError.response?.status === 404) {
+          return null;
+        }
+      }
+      throw error;
+    }
   },
 
   /**

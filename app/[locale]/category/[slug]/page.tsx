@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ArticleGrid from '@/components/articles/ArticleGrid';
 import { categoriesApi, articlesApi } from '@/lib/api';
+import { locales } from '@/i18n/config';
 
 interface CategoryPageProps {
   params: {
@@ -14,6 +15,38 @@ interface CategoryPageProps {
   searchParams: {
     page?: string;
   };
+}
+
+// Enable dynamic params - allow pages to be generated on-demand
+export const dynamicParams = true;
+
+// Revalidate pages every 60 seconds (ISR)
+export const revalidate = 60;
+
+// Generate static params for all categories at build time
+export async function generateStaticParams() {
+  const params: Array<{ locale: string; slug: string }> = [];
+  
+  try {
+    // Get all categories
+    const categories = await categoriesApi.getAll();
+    
+    // Generate params for each locale and category
+    for (const locale of locales) {
+      for (const category of categories) {
+        params.push({
+          locale,
+          slug: category.slug,
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Error generating static params for categories:', error);
+    // Return empty array if API is not available at build time
+    // Next.js will generate pages on-demand thanks to dynamicParams = true
+  }
+  
+  return params;
 }
 
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
@@ -27,13 +60,31 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
   try {
     // Fetch category and articles
-    const [category, articlesData] = await Promise.all([
+    const [categoryResult, articlesDataResult] = await Promise.allSettled([
       categoriesApi.getBySlug(slug),
       articlesApi.getByCategory(slug, { page, limit: 12 }),
     ]);
 
-    if (!category) {
+    // Handle category fetch
+    if (categoryResult.status === 'rejected') {
+      console.error('Error fetching category:', slug, categoryResult.reason);
       notFound();
+    }
+
+    const category = categoryResult.value;
+    if (!category) {
+      console.error('Category not found:', slug);
+      notFound();
+    }
+
+    // Handle articles fetch
+    let articlesData;
+    if (articlesDataResult.status === 'fulfilled') {
+      articlesData = articlesDataResult.value;
+    } else {
+      console.error('Error fetching articles:', articlesDataResult.reason);
+      // Use empty data if articles fetch fails
+      articlesData = { data: [], meta: { total: 0, page: 1, limit: 12, totalPages: 0 } };
     }
 
     return (
