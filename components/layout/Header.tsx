@@ -10,11 +10,7 @@ import { menusApi } from '@/lib/api/menus';
 import MenuRenderer from '@/components/menus/MenuRenderer';
 import type { Menu as MenuType } from '@/lib/api/menus';
 
-interface HeaderProps {
-  // Categories prop is deprecated - using menus instead
-}
-
-export default function Header({}: HeaderProps = {}) {
+export default function Header() {
   const t = useTranslations();
   const locale = useLocale();
   const [isMenuOpen, setIsMenuOpen] = useState(false);

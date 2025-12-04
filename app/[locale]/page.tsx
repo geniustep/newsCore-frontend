@@ -5,7 +5,7 @@ import BreakingNews from '@/components/articles/BreakingNews';
 import FeaturedArticle from '@/components/articles/FeaturedArticle';
 import ArticleGrid from '@/components/articles/ArticleGrid';
 import ArticleList from '@/components/articles/ArticleList';
-import { articlesApi, categoriesApi } from '@/lib/api';
+import { articlesApi } from '@/lib/api';
 import { locales } from '@/i18n/config';
 
 export function generateStaticParams() {
@@ -24,8 +24,7 @@ export default async function HomePage({
 
   try {
     // Fetch data
-    const [categories, featuredArticles, latestArticles, trendingArticles] = await Promise.all([
-      categoriesApi.getTopLevel().catch(() => []),
+    const [featuredArticles, latestArticles, trendingArticles] = await Promise.all([
       articlesApi.getFeatured(1).catch(() => []),
       articlesApi.getPublic({ page: 1, limit: 6 }).catch(() => ({ data: [], meta: { total: 0, page: 1, limit: 6, totalPages: 0 } })),
       articlesApi.getTrending(5).catch(() => []),
