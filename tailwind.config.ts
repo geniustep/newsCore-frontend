@@ -15,12 +15,22 @@ const config: Config = {
       },
       colors: {
         primary: {
-          DEFAULT: '#1a365d',
-          light: '#2b6cb0',
+          DEFAULT: 'var(--color-primary)',
+          light: 'var(--color-secondary)',
           dark: '#1a202c',
         },
-        secondary: '#c53030',
-        accent: '#d69e2e',
+        secondary: 'var(--color-secondary)',
+        accent: 'var(--color-accent)',
+        theme: {
+          primary: 'rgb(var(--color-primary-rgb) / <alpha-value>)',
+          secondary: 'rgb(var(--color-secondary-rgb) / <alpha-value>)',
+          accent: 'rgb(var(--color-accent-rgb) / <alpha-value>)',
+          background: 'rgb(var(--color-background-rgb) / <alpha-value>)',
+          text: 'rgb(var(--color-text-rgb) / <alpha-value>)',
+        },
+      },
+      borderRadius: {
+        theme: 'var(--border-radius)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
