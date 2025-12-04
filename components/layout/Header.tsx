@@ -24,6 +24,8 @@ export default function Header({ categories = [] }: HeaderProps) {
   const [mobileMenu, setMobileMenu] = useState<MenuType | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+    
     // Only render date on client side to avoid hydration mismatch
     setCurrentDate(formatDate(new Date(), locale as 'ar' | 'en' | 'fr'));
 
@@ -31,16 +33,27 @@ export default function Header({ categories = [] }: HeaderProps) {
     const loadMenus = async () => {
       try {
         const [header, mobile] = await Promise.all([
-          menusApi.getByLocation('header', locale),
-          menusApi.getByLocation('mobile', locale),
+          menusApi.getByLocation('header', locale).catch(() => null),
+          menusApi.getByLocation('mobile', locale).catch(() => null),
         ]);
-        if (header) setHeaderMenu(header);
-        if (mobile) setMobileMenu(mobile);
+        if (isMounted) {
+          if (header) setHeaderMenu(header);
+          if (mobile) setMobileMenu(mobile);
+        }
       } catch (error) {
-        console.error('Failed to load menus:', error);
+        // Silently fail - fallback to default navigation
+        if (isMounted) {
+          setHeaderMenu(null);
+          setMobileMenu(null);
+        }
       }
     };
+    
     loadMenus();
+    
+    return () => {
+      isMounted = false;
+    };
   }, [locale]);
 
   return (

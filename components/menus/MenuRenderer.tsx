@@ -7,7 +7,7 @@ import { ChevronDown } from 'lucide-react';
 import type { Menu, MenuItem } from '@/lib/api/menus';
 
 interface MenuRendererProps {
-  menu: Menu;
+  menu: Menu | null;
   className?: string;
 }
 
@@ -52,14 +52,16 @@ export default function MenuRenderer({
     }
 
     if (item.type === 'DIVIDER') {
-      return <div key={item.id} className="border-t my-2" />;
+      return <li key={item.id} className="border-t my-2 list-none" />;
     }
 
     if (item.type === 'HEADING') {
       return (
-        <div key={item.id} className="font-semibold text-gray-700 px-4 py-2">
-          {getLabel(item)}
-        </div>
+        <li key={item.id} className="list-none">
+          <div className="font-semibold text-gray-700 px-4 py-2">
+            {getLabel(item)}
+          </div>
+        </li>
       );
     }
 
@@ -167,12 +169,20 @@ export default function MenuRenderer({
     );
   };
 
+  if (!menu || !menu.items || menu.items.length === 0) {
+    return null;
+  }
+
+  const filteredItems = menu.items.filter((item) => item.isActive && item.isVisible);
+
+  if (filteredItems.length === 0) {
+    return null;
+  }
+
   return (
     <nav className={`flex items-center gap-2 ${className}`}>
       <ul className="flex items-center gap-2 flex-wrap">
-        {menu.items
-          .filter((item) => item.isActive && item.isVisible)
-          .map((item) => renderMenuItem(item))}
+        {filteredItems.map((item) => renderMenuItem(item))}
       </ul>
     </nav>
   );

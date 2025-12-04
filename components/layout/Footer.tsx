@@ -20,25 +20,38 @@ export default function Footer() {
   }>({});
 
   useEffect(() => {
+    let isMounted = true;
+    
     const loadFooterMenus = async () => {
       try {
         const [menu1, menu2, menu3, menu4] = await Promise.all([
-          menusApi.getByLocation('footer-1', locale),
-          menusApi.getByLocation('footer-2', locale),
-          menusApi.getByLocation('footer-3', locale),
-          menusApi.getByLocation('footer-4', locale),
+          menusApi.getByLocation('footer-1', locale).catch(() => null),
+          menusApi.getByLocation('footer-2', locale).catch(() => null),
+          menusApi.getByLocation('footer-3', locale).catch(() => null),
+          menusApi.getByLocation('footer-4', locale).catch(() => null),
         ]);
-        setFooterMenus({
-          footer1: menu1 || undefined,
-          footer2: menu2 || undefined,
-          footer3: menu3 || undefined,
-          footer4: menu4 || undefined,
-        });
+        
+        if (isMounted) {
+          setFooterMenus({
+            footer1: menu1 || undefined,
+            footer2: menu2 || undefined,
+            footer3: menu3 || undefined,
+            footer4: menu4 || undefined,
+          });
+        }
       } catch (error) {
-        console.error('Failed to load footer menus:', error);
+        // Silently fail - fallback to default footer
+        if (isMounted) {
+          setFooterMenus({});
+        }
       }
     };
+    
     loadFooterMenus();
+    
+    return () => {
+      isMounted = false;
+    };
   }, [locale]);
 
   return (
@@ -80,22 +93,6 @@ export default function Footer() {
                       {t('nav.home')}
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      href={`/${locale}/about`}
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      {t('footer.about')}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href={`/${locale}/contact`}
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      {t('footer.contact')}
-                    </Link>
-                  </li>
                 </ul>
               </>
             )}
@@ -112,21 +109,11 @@ export default function Footer() {
               <>
                 <h4 className="font-semibold mb-4">{t('footer.terms')}</h4>
                 <ul className="space-y-2 text-sm">
-                  <li>
-                    <Link
-                      href={`/${locale}/privacy`}
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      {t('footer.privacy')}
-                    </Link>
+                  <li className="text-gray-400">
+                    {t('footer.privacy')}
                   </li>
-                  <li>
-                    <Link
-                      href={`/${locale}/terms`}
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      {t('footer.terms')}
-                    </Link>
+                  <li className="text-gray-400">
+                    {t('footer.terms')}
                   </li>
                 </ul>
               </>
