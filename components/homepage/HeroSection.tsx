@@ -13,6 +13,19 @@ interface HeroSectionProps {
   layout?: 'classic' | 'grid' | 'magazine';
 }
 
+// Helper to get image URL from article
+const getImageUrl = (article: Article): string | undefined => {
+  return article.coverImageUrl || article.featuredImage;
+};
+
+// Helper to get author name
+const getAuthorName = (author: Article['author']): string => {
+  if ('displayName' in author && author.displayName) return author.displayName;
+  if ('name' in author && author.name) return author.name;
+  if ('firstName' in author) return `${author.firstName} ${author.lastName}`;
+  return '';
+};
+
 export default function HeroSection({
   mainArticle,
   sideArticles = [],
@@ -49,10 +62,10 @@ export default function HeroSection({
               href={`/${locale}/article/${mainArticle.slug}`}
               className="group block relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-shadow"
             >
-              {mainArticle.featured_image && (
+              {getImageUrl(mainArticle) && (
                 <div className="aspect-[16/9] bg-gray-200 relative overflow-hidden">
                   <img
-                    src={mainArticle.featured_image}
+                    src={getImageUrl(mainArticle)}
                     alt={mainArticle.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -77,13 +90,13 @@ export default function HeroSection({
                   {mainArticle.author && (
                     <span className="flex items-center gap-1">
                       <User className="w-4 h-4" />
-                      {mainArticle.author.name}
+                      {getAuthorName(mainArticle.author)}
                     </span>
                   )}
-                  {mainArticle.published_at && (
+                  {mainArticle.publishedAt && (
                     <span className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
-                      {formatTime(mainArticle.published_at)}
+                      {formatTime(mainArticle.publishedAt)}
                     </span>
                   )}
                 </div>
@@ -100,10 +113,10 @@ export default function HeroSection({
                 className="group block"
               >
                 <div className="flex gap-4">
-                  {article.featured_image && (
+                  {getImageUrl(article) && (
                     <div className="w-24 h-24 flex-shrink-0 bg-gray-200 rounded overflow-hidden">
                       <img
-                        src={article.featured_image}
+                        src={getImageUrl(article)}
                         alt={article.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
@@ -118,9 +131,9 @@ export default function HeroSection({
                     <h3 className="font-bold text-sm md:text-base group-hover:text-primary transition-colors line-clamp-2 mb-1">
                       {article.title}
                     </h3>
-                    {article.published_at && (
+                    {article.publishedAt && (
                       <p className="text-xs text-gray-500">
-                        {formatTime(article.published_at)}
+                        {formatTime(article.publishedAt)}
                       </p>
                     )}
                   </div>
@@ -147,10 +160,10 @@ export default function HeroSection({
                 index === 0 ? 'md:col-span-2 md:row-span-2' : ''
               }`}
             >
-              {article.featured_image && (
+              {getImageUrl(article) && (
                 <div className={`bg-gray-200 relative overflow-hidden ${index === 0 ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}>
                   <img
-                    src={article.featured_image}
+                    src={getImageUrl(article)}
                     alt={article.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -186,10 +199,10 @@ export default function HeroSection({
         href={`/${locale}/article/${mainArticle.slug}`}
         className="group block relative overflow-hidden rounded-lg shadow-2xl"
       >
-        {mainArticle.featured_image && (
+        {getImageUrl(mainArticle) && (
           <div className="aspect-[21/9] bg-gray-200 relative overflow-hidden">
             <img
-              src={mainArticle.featured_image}
+              src={getImageUrl(mainArticle)}
               alt={mainArticle.title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
@@ -214,13 +227,13 @@ export default function HeroSection({
             {mainArticle.author && (
               <span className="flex items-center gap-2">
                 <User className="w-5 h-5" />
-                {mainArticle.author.name}
+                {getAuthorName(mainArticle.author)}
               </span>
             )}
-            {mainArticle.published_at && (
+            {mainArticle.publishedAt && (
               <span className="flex items-center gap-2">
                 <Clock className="w-5 h-5" />
-                {formatTime(mainArticle.published_at)}
+                {formatTime(mainArticle.publishedAt)}
               </span>
             )}
           </div>
