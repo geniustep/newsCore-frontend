@@ -49,8 +49,8 @@ export default function BreakingNews({ articles }: BreakingNewsProps) {
     }
   };
 
-  const timeAgo = current.published_at
-    ? formatDistanceToNow(new Date(current.published_at), {
+  const timeAgo = current.publishedAt
+    ? formatDistanceToNow(new Date(current.publishedAt), {
         addSuffix: true,
         locale: getLocale(),
       })
