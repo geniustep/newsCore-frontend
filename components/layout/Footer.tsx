@@ -39,7 +39,7 @@ export default function Footer() {
             footer4: menu4 || undefined,
           });
         }
-      } catch (error) {
+      } catch {
         // Silently fail - fallback to default footer
         if (isMounted) {
           setFooterMenus({});

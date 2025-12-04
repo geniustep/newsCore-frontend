@@ -40,7 +40,7 @@ export default function Header({ categories = [] }: HeaderProps) {
           if (header) setHeaderMenu(header);
           if (mobile) setMobileMenu(mobile);
         }
-      } catch (error) {
+      } catch {
         // Silently fail - fallback to default navigation
         if (isMounted) {
           setHeaderMenu(null);
