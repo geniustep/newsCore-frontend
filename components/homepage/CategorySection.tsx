@@ -87,10 +87,10 @@ export default function CategorySection({
                 href={`/${locale}/article/${mainArticle.slug}`}
                 className="group block relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow"
               >
-                {mainArticle.featured_image && (
+                {(mainArticle.coverImageUrl || mainArticle.featuredImage) && (
                   <div className="aspect-[16/9] bg-gray-200 relative overflow-hidden">
                     <img
-                      src={mainArticle.featured_image}
+                      src={mainArticle.coverImageUrl || mainArticle.featuredImage}
                       alt={mainArticle.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -106,10 +106,10 @@ export default function CategorySection({
                       {mainArticle.excerpt}
                     </p>
                   )}
-                  {mainArticle.published_at && (
+                  {mainArticle.publishedAt && (
                     <div className="flex items-center gap-2 text-sm text-white/80">
                       <Clock className="w-4 h-4" />
-                      {formatTime(mainArticle.published_at)}
+                      {formatTime(mainArticle.publishedAt)}
                     </div>
                   )}
                 </div>
@@ -126,10 +126,10 @@ export default function CategorySection({
                 className="group block pb-4 border-b border-gray-200 last:border-0"
               >
                 <div className="flex gap-4">
-                  {article.featured_image && (
+                  {(article.coverImageUrl || article.featuredImage) && (
                     <div className="w-28 h-20 flex-shrink-0 bg-gray-200 rounded overflow-hidden">
                       <img
-                        src={article.featured_image}
+                        src={article.coverImageUrl || article.featuredImage}
                         alt={article.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
@@ -139,10 +139,10 @@ export default function CategorySection({
                     <h4 className="font-bold text-base group-hover:text-primary transition-colors line-clamp-2 mb-2">
                       {article.title}
                     </h4>
-                    {article.published_at && (
+                    {article.publishedAt && (
                       <p className="text-xs text-gray-500 flex items-center gap-1">
                         <Clock className="w-3 h-3" />
-                        {formatTime(article.published_at)}
+                        {formatTime(article.publishedAt)}
                       </p>
                     )}
                   </div>
