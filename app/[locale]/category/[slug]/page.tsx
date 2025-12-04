@@ -5,7 +5,6 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ArticleGrid from '@/components/articles/ArticleGrid';
 import { categoriesApi, articlesApi } from '@/lib/api';
-import { locales } from '@/i18n/config';
 
 interface CategoryPageProps {
   params: {

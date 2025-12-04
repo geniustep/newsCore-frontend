@@ -19,7 +19,6 @@ import AppsSection from '@/components/homepage/AppsSection';
 import { BackToTop, ChatWidget, CookieNotice } from '@/components/homepage/FloatingElements';
 import ArticleGrid from '@/components/articles/ArticleGrid';
 import { articlesApi, pagesApi, categoriesApi } from '@/lib/api';
-import { locales } from '@/i18n/config';
 import { Newspaper, DollarSign, Trophy, Cpu, Building2, Stethoscope } from 'lucide-react';
 
 // Return empty array to avoid static generation issues
