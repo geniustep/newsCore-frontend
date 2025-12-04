@@ -62,10 +62,10 @@ export function MostReadWidget({ articles }: MostReadProps) {
               <h4 className="font-semibold text-sm group-hover:text-primary transition-colors line-clamp-2">
                 {article.title}
               </h4>
-              {article.featured_image && (
+              {(article.coverImageUrl || article.featuredImage) && (
                 <div className="w-full h-20 mt-2 bg-gray-200 rounded overflow-hidden">
                   <img
-                    src={article.featured_image}
+                    src={article.coverImageUrl || article.featuredImage}
                     alt={article.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                   />
