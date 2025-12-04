@@ -48,6 +48,11 @@ export interface MenuItem {
     title: string;
     coverImageUrl?: string;
   };
+  page?: {
+    id: string;
+    slug: string;
+    title: string;
+  };
 }
 
 export interface Menu {

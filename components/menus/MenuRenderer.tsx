@@ -38,6 +38,9 @@ export default function MenuRenderer({
     if (item.type === 'ARTICLE' && item.article) {
       return `/${locale}/article/${item.article.slug}`;
     }
+    if (item.type === 'PAGE' && item.page) {
+      return `/${locale}/page/${item.page.slug}`;
+    }
     return '#';
   };
 
