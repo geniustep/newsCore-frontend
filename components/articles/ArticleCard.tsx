@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLocale } from 'next-intl';
@@ -44,6 +45,15 @@ export default function ArticleCard({
   showExcerpt = true,
 }: ArticleCardProps) {
   const locale = useLocale() as Locale;
+  const [mounted, setMounted] = useState(false);
+  const [relativeTime, setRelativeTime] = useState<string>('');
+
+  useEffect(() => {
+    setMounted(true);
+    if (article.publishedAt) {
+      setRelativeTime(formatRelativeTime(article.publishedAt, locale));
+    }
+  }, [article.publishedAt, locale]);
 
   const isHorizontal = variant === 'horizontal';
   const isCompact = variant === 'compact';
@@ -116,10 +126,10 @@ export default function ArticleCard({
               <span>{authorName}</span>
             </div>
           )}
-          {article.publishedAt && (
+          {mounted && article.publishedAt && relativeTime && (
             <div className="flex items-center gap-1">
               <Clock className="w-3 h-3" />
-              <span>{formatRelativeTime(article.publishedAt, locale)}</span>
+              <span>{relativeTime}</span>
             </div>
           )}
           {(article.viewCount ?? 0) > 0 && (

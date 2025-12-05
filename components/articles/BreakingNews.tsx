@@ -20,9 +20,23 @@ export default function BreakingNews({ articles, useApi = true }: BreakingNewsPr
   const [currentIndex, setCurrentIndex] = useState(0);
   const [breakingNews, setBreakingNews] = useState<BreakingNewsItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const [timeAgo, setTimeAgo] = useState<string>('');
+
+  const getLocale = () => {
+    switch (locale) {
+      case 'ar':
+        return ar;
+      case 'fr':
+        return fr;
+      default:
+        return enUS;
+    }
+  };
 
   // Fetch breaking news from API if useApi is true
   useEffect(() => {
+    setMounted(true);
     if (useApi) {
       breakingNewsApi
         .getActive()
@@ -38,20 +52,33 @@ export default function BreakingNews({ articles, useApi = true }: BreakingNewsPr
     }
   }, [useApi]);
 
+  const items = useApi ? breakingNews : (articles || []);
+  const current = items[currentIndex];
+
+  // Update time ago when current item changes
   useEffect(() => {
-    const items = useApi ? breakingNews : (articles || []);
+    if (current && 'publishedAt' in current && current.publishedAt) {
+      setTimeAgo(
+        formatDistanceToNow(new Date(current.publishedAt), {
+          addSuffix: true,
+          locale: getLocale(),
+        })
+      );
+    } else {
+      setTimeAgo('');
+    }
+  }, [current, locale]);
+
+  useEffect(() => {
     if (!items || items.length === 0) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % items.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [breakingNews, articles, useApi]);
+  }, [breakingNews, articles, useApi, items.length]);
 
-  const items = useApi ? breakingNews : (articles || []);
-  if (loading || !items || items.length === 0) return null;
-
-  const current = items[currentIndex];
+  if (loading || !mounted || !items || items.length === 0) return null;
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
@@ -59,17 +86,6 @@ export default function BreakingNews({ articles, useApi = true }: BreakingNewsPr
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % items.length);
-  };
-
-  const getLocale = () => {
-    switch (locale) {
-      case 'ar':
-        return ar;
-      case 'fr':
-        return fr;
-      default:
-        return enUS;
-    }
   };
 
   // Get URL - either from breaking news item or article slug
@@ -82,13 +98,6 @@ export default function BreakingNews({ articles, useApi = true }: BreakingNewsPr
     }
     return '#';
   };
-
-  const timeAgo = 'publishedAt' in current && current.publishedAt
-    ? formatDistanceToNow(new Date(current.publishedAt), {
-        addSuffix: true,
-        locale: getLocale(),
-      })
-    : '';
 
   return (
     <div className="bg-secondary text-white py-3 overflow-hidden">

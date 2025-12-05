@@ -12,11 +12,13 @@ import { formatDate } from '@/lib/utils/date';
 export default function TopBar() {
   const t = useTranslations();
   const locale = useLocale();
+  const [mounted, setMounted] = useState(false);
   const [currentDate, setCurrentDate] = useState<string>('');
   const [hijriDate, setHijriDate] = useState<string>('');
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     // Set Gregorian date
     setCurrentDate(formatDate(new Date(), locale as 'ar' | 'en' | 'fr'));
 
@@ -42,11 +44,15 @@ export default function TopBar() {
           {/* Left Section - Dates and Weather */}
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
-              <span>{currentDate}</span>
-              {locale === 'ar' && (
+              {mounted && (
                 <>
-                  <span className="text-white/60">|</span>
-                  <span className="text-white/90">{hijriDate}</span>
+                  <span>{currentDate}</span>
+                  {locale === 'ar' && (
+                    <>
+                      <span className="text-white/60">|</span>
+                      <span className="text-white/90">{hijriDate}</span>
+                    </>
+                  )}
                 </>
               )}
             </div>

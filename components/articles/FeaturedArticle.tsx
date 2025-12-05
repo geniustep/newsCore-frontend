@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
@@ -25,6 +26,15 @@ const getCategory = (article: Article) => {
 export default function FeaturedArticle({ article }: FeaturedArticleProps) {
   const locale = useLocale() as Locale;
   const t = useTranslations('article');
+  const [mounted, setMounted] = useState(false);
+  const [relativeTime, setRelativeTime] = useState<string>('');
+
+  useEffect(() => {
+    setMounted(true);
+    if (article.publishedAt) {
+      setRelativeTime(formatRelativeTime(article.publishedAt, locale));
+    }
+  }, [article.publishedAt, locale]);
   
   const imageUrl = getImageUrl(article);
   const category = getCategory(article);
@@ -72,10 +82,10 @@ export default function FeaturedArticle({ article }: FeaturedArticleProps) {
         {/* Meta & Read More */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 text-sm">
-            {article.publishedAt && (
+            {mounted && article.publishedAt && relativeTime && (
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
-                <span>{formatRelativeTime(article.publishedAt, locale)}</span>
+                <span>{relativeTime}</span>
               </div>
             )}
             {(article.viewCount ?? 0) > 0 && (
