@@ -6,3 +6,5 @@ export * from './tags';
 export * from './menus';
 export * from './pages';
 export * from './settings';
+export * from './breaking-news';
+export * from './analytics';

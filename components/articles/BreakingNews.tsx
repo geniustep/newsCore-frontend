@@ -6,36 +6,59 @@ import { useLocale, useTranslations } from 'next-intl';
 import { AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { ar, enUS, fr } from 'date-fns/locale';
+import { breakingNewsApi, type BreakingNewsItem } from '@/lib/api/breaking-news';
 import type { Article } from '@/lib/api/types';
 
 interface BreakingNewsProps {
-  articles: Article[];
+  articles?: Article[]; // Optional for backward compatibility
+  useApi?: boolean; // Use API instead of props
 }
 
-export default function BreakingNews({ articles }: BreakingNewsProps) {
+export default function BreakingNews({ articles, useApi = true }: BreakingNewsProps) {
   const locale = useLocale();
   const t = useTranslations();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [breakingNews, setBreakingNews] = useState<BreakingNewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch breaking news from API if useApi is true
+  useEffect(() => {
+    if (useApi) {
+      breakingNewsApi
+        .getActive()
+        .then((data) => {
+          setBreakingNews(data);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, [useApi]);
 
   useEffect(() => {
-    if (!articles || articles.length === 0) return;
+    const items = useApi ? breakingNews : (articles || []);
+    if (!items || items.length === 0) return;
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % articles.length);
+      setCurrentIndex((prev) => (prev + 1) % items.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [articles]);
+  }, [breakingNews, articles, useApi]);
 
-  if (!articles || articles.length === 0) return null;
+  const items = useApi ? breakingNews : (articles || []);
+  if (loading || !items || items.length === 0) return null;
 
-  const current = articles[currentIndex];
+  const current = items[currentIndex];
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + articles.length) % articles.length);
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % articles.length);
+    setCurrentIndex((prev) => (prev + 1) % items.length);
   };
 
   const getLocale = () => {
@@ -49,7 +72,18 @@ export default function BreakingNews({ articles }: BreakingNewsProps) {
     }
   };
 
-  const timeAgo = current.publishedAt
+  // Get URL - either from breaking news item or article slug
+  const getUrl = () => {
+    if (useApi && 'url' in current) {
+      return (current as BreakingNewsItem).url;
+    }
+    if ('slug' in current) {
+      return `/${locale}/article/${(current as Article).slug}`;
+    }
+    return '#';
+  };
+
+  const timeAgo = 'publishedAt' in current && current.publishedAt
     ? formatDistanceToNow(new Date(current.publishedAt), {
         addSuffix: true,
         locale: getLocale(),
@@ -69,7 +103,7 @@ export default function BreakingNews({ articles }: BreakingNewsProps) {
           {/* News Content */}
           <div className="flex-1 overflow-hidden">
             <Link
-              href={`/${locale}/article/${current.slug}`}
+              href={getUrl()}
               className="block hover:text-accent transition-colors"
             >
               <div className="flex items-center gap-3">
@@ -82,7 +116,7 @@ export default function BreakingNews({ articles }: BreakingNewsProps) {
           </div>
 
           {/* Navigation Arrows */}
-          {articles.length > 1 && (
+          {items.length > 1 && (
             <div className="flex items-center gap-2">
               <button
                 onClick={handlePrev}
@@ -92,7 +126,7 @@ export default function BreakingNews({ articles }: BreakingNewsProps) {
                 <ChevronRight className="w-5 h-5" />
               </button>
               <span className="text-xs whitespace-nowrap">
-                {currentIndex + 1} / {articles.length}
+                {currentIndex + 1} / {items.length}
               </span>
               <button
                 onClick={handleNext}
