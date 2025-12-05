@@ -26,7 +26,7 @@ interface Article {
   updatedAt: string;
   author: {
     id: string;
-    displayName?: string;
+    displayName: string;
     firstName: string;
     lastName: string;
   };
