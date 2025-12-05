@@ -12,43 +12,22 @@ import { BackToTop, CookieNotice } from '@/components/homepage/FloatingElements'
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Clock, Eye, ArrowLeft } from 'lucide-react';
+import type { Article } from '@/lib/api/types';
 
-interface Article {
+// Extended category type for this template (includes nameAr for Arabic support)
+interface CategoryWithArabic {
   id: string;
-  title: string;
+  name: string;
+  nameAr?: string;
   slug: string;
-  excerpt?: string;
-  coverImageUrl?: string;
-  publishedAt?: string;
-  readingTime?: number;
-  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
-  createdAt: string;
-  updatedAt: string;
-  author: {
-    id: string;
-    displayName: string;
-    firstName: string;
-    lastName: string;
-  };
-  categories?: Array<{
-    id: string;
-    name: string;
-    nameAr?: string;
-    slug: string;
-  }>;
+  color?: string;
 }
 
 interface HomeGridTemplateProps {
   featuredArticles: Article[];
   latestArticles: Article[];
   trendingArticles: Article[];
-  categories: Array<{
-    id: string;
-    name: string;
-    nameAr?: string;
-    slug: string;
-    color?: string;
-  }>;
+  categories: CategoryWithArabic[];
 }
 
 export default function HomeGridTemplate({
