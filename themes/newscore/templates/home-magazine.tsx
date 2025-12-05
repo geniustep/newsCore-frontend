@@ -24,6 +24,17 @@ interface HomeMagazineTemplateProps {
   categories: Category[];
 }
 
+// Helper function to get author name from Author | User union type
+function getAuthorDisplayName(author: Article['author']): string {
+  if ('displayName' in author) {
+    return author.displayName || `${author.firstName} ${author.lastName}`;
+  }
+  if ('name' in author) {
+    return author.name;
+  }
+  return 'فريق التحرير';
+}
+
 export default function HomeMagazineTemplate({
   featuredArticles,
   latestArticles,
@@ -87,7 +98,7 @@ export default function HomeMagazineTemplate({
                     {mainFeatured.author && (
                       <div className="flex items-center gap-2">
                         <User className="w-4 h-4" />
-                        <span>{mainFeatured.author.displayName || `${mainFeatured.author.firstName} ${mainFeatured.author.lastName}`}</span>
+                        <span>{getAuthorDisplayName(mainFeatured.author)}</span>
                       </div>
                     )}
                     {mainFeatured.publishedAt && (
