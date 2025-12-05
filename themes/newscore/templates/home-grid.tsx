@@ -21,10 +21,14 @@ interface Article {
   coverImageUrl?: string;
   publishedAt?: string;
   readingTime?: number;
-  author?: {
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+  createdAt: string;
+  updatedAt: string;
+  author: {
+    id: string;
     displayName?: string;
-    firstName?: string;
-    lastName?: string;
+    firstName: string;
+    lastName: string;
   };
   categories?: Array<{
     id: string;
