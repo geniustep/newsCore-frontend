@@ -5,6 +5,7 @@ export interface Author {
   lastName: string;
   displayName: string;
   avatarUrl?: string | null;
+  bio?: string;
 }
 
 // User Type (legacy)
@@ -35,6 +36,7 @@ export interface Category {
 export interface Tag {
   id: string;
   name: string;
+  nameAr?: string;
   slug: string;
   articlesCount: number;
   createdAt: string;

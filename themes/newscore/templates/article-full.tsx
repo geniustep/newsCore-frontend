@@ -7,42 +7,17 @@ import { BackToTop, CookieNotice } from '@/components/homepage/FloatingElements'
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Clock, User, Share2, Bookmark, Facebook, Twitter, Linkedin, Link2, ChevronRight, ChevronLeft } from 'lucide-react';
+import type { Article } from '@/lib/api/types';
 
-interface Article {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt?: string;
+// Extended Article type for full article template with additional fields
+interface ArticleWithContent extends Omit<Article, 'content'> {
   content: string;
   contentHtml?: string;
-  coverImageUrl?: string;
   coverImageAlt?: string;
-  publishedAt?: string;
-  readingTime?: number;
-  author?: {
-    id: string;
-    displayName?: string;
-    firstName?: string;
-    lastName?: string;
-    avatarUrl?: string;
-    bio?: string;
-  };
-  categories?: Array<{
-    id: string;
-    name: string;
-    nameAr?: string;
-    slug: string;
-  }>;
-  tags?: Array<{
-    id: string;
-    name: string;
-    nameAr?: string;
-    slug: string;
-  }>;
 }
 
 interface ArticleFullTemplateProps {
-  article: Article;
+  article: ArticleWithContent;
   relatedArticles: Article[];
   prevArticle?: Article | null;
   nextArticle?: Article | null;

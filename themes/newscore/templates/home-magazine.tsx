@@ -15,38 +15,13 @@ import { BackToTop, CookieNotice } from '@/components/homepage/FloatingElements'
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Clock, User } from 'lucide-react';
-
-interface Article {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt?: string;
-  coverImageUrl?: string;
-  publishedAt?: string;
-  readingTime?: number;
-  author?: {
-    displayName?: string;
-    firstName?: string;
-    lastName?: string;
-  };
-  categories?: Array<{
-    id: string;
-    name: string;
-    nameAr?: string;
-    slug: string;
-  }>;
-}
+import type { Article, Category } from '@/lib/api/types';
 
 interface HomeMagazineTemplateProps {
   featuredArticles: Article[];
   latestArticles: Article[];
   trendingArticles: Article[];
-  categories: Array<{
-    id: string;
-    name: string;
-    nameAr?: string;
-    slug: string;
-  }>;
+  categories: Category[];
 }
 
 export default function HomeMagazineTemplate({
