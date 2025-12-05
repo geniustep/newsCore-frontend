@@ -54,7 +54,7 @@ export default function BreakingNews({ articles, useApi = true }: BreakingNewsPr
   const current = items[currentIndex];
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + articles.length) % articles.length);
+    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
   };
 
   const handleNext = () => {
