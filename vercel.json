@@ -1,13 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [
+  "redirects": [
     {
       "source": "/nc-admin",
-      "destination": "https://admin.sahara2797.com/"
+      "destination": "https://admin.sahara2797.com/",
+      "permanent": false
     },
     {
       "source": "/nc-admin/:path*",
-      "destination": "https://admin.sahara2797.com/:path*"
+      "destination": "https://admin.sahara2797.com/:path*",
+      "permanent": false
     }
   ]
 }
