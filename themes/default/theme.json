@@ -1,0 +1,476 @@
+{
+  "id": "default",
+  "name": "NewsCore Default Theme",
+  "version": "1.0.0",
+  "author": "NewsCore Team",
+  "authorUrl": "https://newscore.dev",
+  "description": "القالب الافتراضي لنظام NewsCore - تصميم عصري وسريع الاستجابة مع دعم كامل للغة العربية",
+  "previewImage": "/themes/default/preview.png",
+  "screenshots": [
+    "/themes/default/screenshots/home.png",
+    "/themes/default/screenshots/article.png",
+    "/themes/default/screenshots/category.png"
+  ],
+  
+  "features": [
+    "articles",
+    "pages",
+    "categories",
+    "tags",
+    "menus",
+    "widgets",
+    "breaking-news",
+    "search",
+    "dark-mode",
+    "rtl"
+  ],
+  
+  "templates": [
+    {
+      "id": "home",
+      "name": "Home Page",
+      "description": "الصفحة الرئيسية مع أقسام متعددة",
+      "file": "templates/home.tsx",
+      "type": "home",
+      "isDefault": true
+    },
+    {
+      "id": "home-magazine",
+      "name": "Magazine Home",
+      "description": "تصميم المجلات",
+      "file": "templates/home-magazine.tsx",
+      "type": "home"
+    },
+    {
+      "id": "article",
+      "name": "Article Page",
+      "description": "صفحة المقال الافتراضية",
+      "file": "templates/article.tsx",
+      "type": "article",
+      "isDefault": true
+    },
+    {
+      "id": "article-full",
+      "name": "Full Width Article",
+      "description": "مقال بعرض كامل",
+      "file": "templates/article-full.tsx",
+      "type": "article"
+    },
+    {
+      "id": "category",
+      "name": "Category Page",
+      "description": "صفحة التصنيف",
+      "file": "templates/category.tsx",
+      "type": "category",
+      "isDefault": true
+    },
+    {
+      "id": "page-default",
+      "name": "Default Page",
+      "description": "الصفحة الافتراضية",
+      "file": "templates/page.tsx",
+      "type": "page",
+      "isDefault": true
+    },
+    {
+      "id": "page-full-width",
+      "name": "Full Width Page",
+      "description": "صفحة بعرض كامل",
+      "file": "templates/page-full.tsx",
+      "type": "page"
+    },
+    {
+      "id": "search",
+      "name": "Search Results",
+      "description": "نتائج البحث",
+      "file": "templates/search.tsx",
+      "type": "search",
+      "isDefault": true
+    },
+    {
+      "id": "error",
+      "name": "Error Page",
+      "description": "صفحة الخطأ",
+      "file": "templates/error.tsx",
+      "type": "error",
+      "isDefault": true
+    }
+  ],
+  
+  "regions": [
+    {
+      "id": "header",
+      "name": "Header",
+      "description": "منطقة الترويسة",
+      "type": "header"
+    },
+    {
+      "id": "top-bar",
+      "name": "Top Bar",
+      "description": "الشريط العلوي",
+      "type": "widget-area"
+    },
+    {
+      "id": "sidebar-right",
+      "name": "Right Sidebar",
+      "description": "الشريط الجانبي الأيمن",
+      "type": "sidebar",
+      "maxWidgets": 10
+    },
+    {
+      "id": "sidebar-left",
+      "name": "Left Sidebar",
+      "description": "الشريط الجانبي الأيسر",
+      "type": "sidebar",
+      "maxWidgets": 10
+    },
+    {
+      "id": "content-before",
+      "name": "Before Content",
+      "description": "قبل المحتوى",
+      "type": "widget-area"
+    },
+    {
+      "id": "content-after",
+      "name": "After Content",
+      "description": "بعد المحتوى",
+      "type": "widget-area"
+    },
+    {
+      "id": "footer-widgets",
+      "name": "Footer Widgets",
+      "description": "ودجات التذييل",
+      "type": "widget-area",
+      "maxWidgets": 4
+    },
+    {
+      "id": "footer",
+      "name": "Footer",
+      "description": "منطقة التذييل",
+      "type": "footer"
+    }
+  ],
+  
+  "customizer": {
+    "sections": [
+      {
+        "id": "colors",
+        "title": "الألوان",
+        "description": "تخصيص ألوان الموقع",
+        "fields": [
+          {
+            "id": "primaryColor",
+            "type": "color",
+            "label": "اللون الأساسي",
+            "description": "اللون الرئيسي للموقع",
+            "default": "#ed7520"
+          },
+          {
+            "id": "secondaryColor",
+            "type": "color",
+            "label": "اللون الثانوي",
+            "default": "#0ea5e9"
+          },
+          {
+            "id": "accentColor",
+            "type": "color",
+            "label": "لون التمييز",
+            "default": "#f59e0b"
+          },
+          {
+            "id": "backgroundColor",
+            "type": "color",
+            "label": "لون الخلفية",
+            "default": "#ffffff"
+          },
+          {
+            "id": "textColor",
+            "type": "color",
+            "label": "لون النص",
+            "default": "#1f2937"
+          },
+          {
+            "id": "headerBackground",
+            "type": "color",
+            "label": "خلفية الترويسة",
+            "default": "#ffffff"
+          },
+          {
+            "id": "footerBackground",
+            "type": "color",
+            "label": "خلفية التذييل",
+            "default": "#1f2937"
+          }
+        ]
+      },
+      {
+        "id": "typography",
+        "title": "الخطوط",
+        "description": "تخصيص الخطوط",
+        "fields": [
+          {
+            "id": "fontFamily",
+            "type": "select",
+            "label": "الخط الأساسي",
+            "default": "Cairo",
+            "options": [
+              { "value": "Cairo", "label": "Cairo" },
+              { "value": "IBM Plex Sans Arabic", "label": "IBM Plex Sans Arabic" },
+              { "value": "Tajawal", "label": "Tajawal" },
+              { "value": "Almarai", "label": "Almarai" },
+              { "value": "Noto Sans Arabic", "label": "Noto Sans Arabic" }
+            ]
+          },
+          {
+            "id": "headingFont",
+            "type": "select",
+            "label": "خط العناوين",
+            "default": "Cairo",
+            "options": [
+              { "value": "Cairo", "label": "Cairo" },
+              { "value": "IBM Plex Sans Arabic", "label": "IBM Plex Sans Arabic" },
+              { "value": "Tajawal", "label": "Tajawal" },
+              { "value": "Almarai", "label": "Almarai" }
+            ]
+          },
+          {
+            "id": "fontSize",
+            "type": "select",
+            "label": "حجم الخط",
+            "default": "16px",
+            "options": [
+              { "value": "14px", "label": "صغير" },
+              { "value": "16px", "label": "متوسط" },
+              { "value": "18px", "label": "كبير" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "layout",
+        "title": "التخطيط",
+        "description": "تخصيص تخطيط الصفحات",
+        "fields": [
+          {
+            "id": "containerWidth",
+            "type": "select",
+            "label": "عرض المحتوى",
+            "default": "1280px",
+            "options": [
+              { "value": "1024px", "label": "ضيق" },
+              { "value": "1280px", "label": "متوسط" },
+              { "value": "1536px", "label": "واسع" },
+              { "value": "100%", "label": "كامل العرض" }
+            ]
+          },
+          {
+            "id": "sidebarPosition",
+            "type": "select",
+            "label": "موقع الشريط الجانبي",
+            "default": "right",
+            "options": [
+              { "value": "right", "label": "يمين" },
+              { "value": "left", "label": "يسار" },
+              { "value": "none", "label": "بدون" }
+            ]
+          },
+          {
+            "id": "borderRadius",
+            "type": "select",
+            "label": "استدارة الحواف",
+            "default": "0.5rem",
+            "options": [
+              { "value": "0", "label": "بدون" },
+              { "value": "0.25rem", "label": "خفيف" },
+              { "value": "0.5rem", "label": "متوسط" },
+              { "value": "1rem", "label": "كبير" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "header",
+        "title": "الترويسة",
+        "description": "تخصيص الترويسة",
+        "fields": [
+          {
+            "id": "headerStyle",
+            "type": "select",
+            "label": "نمط الترويسة",
+            "default": "default",
+            "options": [
+              { "value": "default", "label": "افتراضي" },
+              { "value": "centered", "label": "وسط" },
+              { "value": "minimal", "label": "بسيط" }
+            ]
+          },
+          {
+            "id": "stickyHeader",
+            "type": "toggle",
+            "label": "ترويسة ثابتة",
+            "default": true
+          },
+          {
+            "id": "showTopBar",
+            "type": "toggle",
+            "label": "إظهار الشريط العلوي",
+            "default": true
+          },
+          {
+            "id": "showSearch",
+            "type": "toggle",
+            "label": "إظهار البحث",
+            "default": true
+          }
+        ]
+      },
+      {
+        "id": "footer",
+        "title": "التذييل",
+        "description": "تخصيص التذييل",
+        "fields": [
+          {
+            "id": "footerColumns",
+            "type": "select",
+            "label": "عدد الأعمدة",
+            "default": "4",
+            "options": [
+              { "value": "2", "label": "2 أعمدة" },
+              { "value": "3", "label": "3 أعمدة" },
+              { "value": "4", "label": "4 أعمدة" }
+            ]
+          },
+          {
+            "id": "showSocialLinks",
+            "type": "toggle",
+            "label": "إظهار روابط التواصل",
+            "default": true
+          },
+          {
+            "id": "showNewsletter",
+            "type": "toggle",
+            "label": "إظهار نموذج النشرة",
+            "default": true
+          }
+        ]
+      },
+      {
+        "id": "homepage",
+        "title": "الصفحة الرئيسية",
+        "description": "تخصيص الصفحة الرئيسية",
+        "fields": [
+          {
+            "id": "showHero",
+            "type": "toggle",
+            "label": "إظهار البانر الرئيسي",
+            "default": true
+          },
+          {
+            "id": "heroStyle",
+            "type": "select",
+            "label": "نمط البانر",
+            "default": "slider",
+            "options": [
+              { "value": "slider", "label": "عرض شرائح" },
+              { "value": "featured", "label": "مقال مميز" },
+              { "value": "grid", "label": "شبكة" }
+            ]
+          },
+          {
+            "id": "showBreakingNews",
+            "type": "toggle",
+            "label": "إظهار الأخبار العاجلة",
+            "default": true
+          },
+          {
+            "id": "articlesPerSection",
+            "type": "number",
+            "label": "عدد المقالات لكل قسم",
+            "default": 6,
+            "min": 3,
+            "max": 12
+          }
+        ]
+      },
+      {
+        "id": "article",
+        "title": "صفحة المقال",
+        "description": "تخصيص صفحة المقال",
+        "fields": [
+          {
+            "id": "showAuthor",
+            "type": "toggle",
+            "label": "إظهار الكاتب",
+            "default": true
+          },
+          {
+            "id": "showDate",
+            "type": "toggle",
+            "label": "إظهار التاريخ",
+            "default": true
+          },
+          {
+            "id": "showReadingTime",
+            "type": "toggle",
+            "label": "إظهار وقت القراءة",
+            "default": true
+          },
+          {
+            "id": "showShareButtons",
+            "type": "toggle",
+            "label": "إظهار أزرار المشاركة",
+            "default": true
+          },
+          {
+            "id": "showRelatedArticles",
+            "type": "toggle",
+            "label": "إظهار مقالات ذات صلة",
+            "default": true
+          },
+          {
+            "id": "relatedArticlesCount",
+            "type": "number",
+            "label": "عدد المقالات ذات الصلة",
+            "default": 4,
+            "min": 2,
+            "max": 8
+          }
+        ]
+      },
+      {
+        "id": "darkMode",
+        "title": "الوضع الداكن",
+        "description": "تخصيص الوضع الداكن",
+        "fields": [
+          {
+            "id": "darkModeEnabled",
+            "type": "toggle",
+            "label": "تفعيل الوضع الداكن",
+            "default": true
+          },
+          {
+            "id": "darkPrimaryColor",
+            "type": "color",
+            "label": "اللون الأساسي (داكن)",
+            "default": "#f59e0b"
+          },
+          {
+            "id": "darkBackgroundColor",
+            "type": "color",
+            "label": "لون الخلفية (داكن)",
+            "default": "#111827"
+          },
+          {
+            "id": "darkTextColor",
+            "type": "color",
+            "label": "لون النص (داكن)",
+            "default": "#f9fafb"
+          }
+        ]
+      }
+    ]
+  },
+  
+  "minCoreVersion": "1.0.0",
+  "requiredModules": []
+}
