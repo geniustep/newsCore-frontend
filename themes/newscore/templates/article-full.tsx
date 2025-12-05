@@ -31,9 +31,22 @@ export default function ArticleFullTemplate({
 }: ArticleFullTemplateProps) {
   const t = useTranslations();
 
-  const authorName = article.author?.displayName || 
-    `${article.author?.firstName || ''} ${article.author?.lastName || ''}`.trim() || 
-    'فريق التحرير';
+  // Handle both Author and User types for author name
+  const getAuthorName = () => {
+    if (!article.author) return 'فريق التحرير';
+    // Check if it's an Author type (has displayName)
+    if ('displayName' in article.author) {
+      return article.author.displayName || 
+        `${article.author.firstName || ''} ${article.author.lastName || ''}`.trim() || 
+        'فريق التحرير';
+    }
+    // It's a User type (has name)
+    if ('name' in article.author) {
+      return article.author.name || 'فريق التحرير';
+    }
+    return 'فريق التحرير';
+  };
+  const authorName = getAuthorName();
 
   const handleShare = (platform: string) => {
     const url = typeof window !== 'undefined' ? window.location.href : '';
@@ -218,7 +231,7 @@ export default function ArticleFullTemplate({
               <div className="flex items-start gap-6">
                 <div className="relative w-20 h-20 rounded-full overflow-hidden flex-shrink-0">
                   <Image
-                    src={article.author.avatarUrl || 'https://placehold.co/200x200/1a365d/ffffff?text=A'}
+                    src={('avatarUrl' in article.author ? article.author.avatarUrl : ('avatar' in article.author ? article.author.avatar : null)) || 'https://placehold.co/200x200/1a365d/ffffff?text=A'}
                     alt={authorName}
                     fill
                     className="object-cover"
@@ -228,7 +241,7 @@ export default function ArticleFullTemplate({
                   <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                     {authorName}
                   </h4>
-                  {article.author.bio && (
+                  {'bio' in article.author && article.author.bio && (
                     <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
                       {article.author.bio}
                     </p>
