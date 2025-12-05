@@ -6,33 +6,15 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 const nextConfig = {
   images: {
     remotePatterns: [
+      // Main API server for uploads
       {
         protocol: 'https',
-        hostname: 'admin.sahara2797.com',
+        hostname: 'api.sahara2797.com',
       },
+      // Allow any external image sources (for news articles from various sources)
       {
         protocol: 'https',
-        hostname: 'bahethoarabia.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'i1.hespress.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'i2.hespress.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'i3.hespress.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'placehold.co',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.hespress.com',
+        hostname: '**',
       },
     ],
   },

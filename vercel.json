@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/nc-admin",
+      "destination": "https://admin.sahara2797.com/"
+    },
+    {
+      "source": "/nc-admin/:path*",
+      "destination": "https://admin.sahara2797.com/:path*"
+    }
+  ]
+}
