@@ -1,0 +1,1287 @@
+{
+  "id": "newscore",
+  "name": "NewsCore Theme",
+  "nameAr": "قالب نيوز كور",
+  "version": "1.0.0",
+  "author": "NewsCore Team",
+  "authorUrl": "https://newscore.dev",
+  "description": "A comprehensive, modern news theme with RTL support, dark mode, and multiple homepage layouts. Built with Next.js 14 and Tailwind CSS.",
+  "descriptionAr": "قالب إخباري شامل وحديث مع دعم كامل للغة العربية والوضع الداكن وتخطيطات متعددة للصفحة الرئيسية. مبني بـ Next.js 14 و Tailwind CSS.",
+  "previewImage": "/themes/newscore/preview.png",
+  "screenshots": [
+    "/themes/newscore/screenshots/home-classic.png",
+    "/themes/newscore/screenshots/home-magazine.png",
+    "/themes/newscore/screenshots/home-grid.png",
+    "/themes/newscore/screenshots/article.png",
+    "/themes/newscore/screenshots/category.png",
+    "/themes/newscore/screenshots/dark-mode.png"
+  ],
+  
+  "features": [
+    "articles",
+    "pages",
+    "categories",
+    "tags",
+    "menus",
+    "mega-menu",
+    "widgets",
+    "breaking-news",
+    "search",
+    "dark-mode",
+    "rtl",
+    "multi-language",
+    "seo-optimized",
+    "responsive",
+    "video-section",
+    "podcast-section",
+    "live-streaming",
+    "photo-gallery",
+    "opinion-section",
+    "newsletter",
+    "social-hub",
+    "weather-widget",
+    "currency-ticker",
+    "mobile-app-promo",
+    "floating-elements",
+    "accessibility"
+  ],
+  
+  "templates": [
+    {
+      "id": "home-classic",
+      "name": "Classic Home",
+      "nameAr": "الرئيسية الكلاسيكية",
+      "description": "Classic news homepage with featured article on left and sidebar articles",
+      "descriptionAr": "صفحة رئيسية كلاسيكية مع مقال مميز على اليسار وأخبار جانبية",
+      "file": "app/[locale]/page.tsx",
+      "type": "home",
+      "isDefault": true,
+      "preview": "/themes/newscore/previews/home-classic.png"
+    },
+    {
+      "id": "home-magazine",
+      "name": "Magazine Home",
+      "nameAr": "الرئيسية المجلة",
+      "description": "Magazine-style homepage with large hero images",
+      "descriptionAr": "صفحة رئيسية بأسلوب المجلات مع صور بطولية كبيرة",
+      "file": "templates/home-magazine.tsx",
+      "type": "home",
+      "preview": "/themes/newscore/previews/home-magazine.png"
+    },
+    {
+      "id": "home-grid",
+      "name": "Grid Home",
+      "nameAr": "الرئيسية الشبكية",
+      "description": "Grid-based homepage with multiple article sizes",
+      "descriptionAr": "صفحة رئيسية شبكية مع أحجام متعددة للمقالات",
+      "file": "templates/home-grid.tsx",
+      "type": "home",
+      "preview": "/themes/newscore/previews/home-grid.png"
+    },
+    {
+      "id": "article-default",
+      "name": "Default Article",
+      "nameAr": "المقال الافتراضي",
+      "description": "Standard article page with sidebar",
+      "descriptionAr": "صفحة مقال قياسية مع شريط جانبي",
+      "file": "app/[locale]/article/[slug]/page.tsx",
+      "type": "article",
+      "isDefault": true,
+      "preview": "/themes/newscore/previews/article-default.png"
+    },
+    {
+      "id": "article-full-width",
+      "name": "Full Width Article",
+      "nameAr": "مقال بعرض كامل",
+      "description": "Full-width article page without sidebar",
+      "descriptionAr": "صفحة مقال بعرض كامل بدون شريط جانبي",
+      "file": "templates/article-full.tsx",
+      "type": "article",
+      "preview": "/themes/newscore/previews/article-full.png"
+    },
+    {
+      "id": "article-featured",
+      "name": "Featured Article",
+      "nameAr": "مقال مميز",
+      "description": "Article with large hero image and immersive reading experience",
+      "descriptionAr": "مقال مع صورة بطولية كبيرة وتجربة قراءة غامرة",
+      "file": "templates/article-featured.tsx",
+      "type": "article",
+      "preview": "/themes/newscore/previews/article-featured.png"
+    },
+    {
+      "id": "category-default",
+      "name": "Default Category",
+      "nameAr": "التصنيف الافتراضي",
+      "description": "Standard category archive page",
+      "descriptionAr": "صفحة أرشيف التصنيف القياسية",
+      "file": "app/[locale]/category/[slug]/page.tsx",
+      "type": "category",
+      "isDefault": true,
+      "preview": "/themes/newscore/previews/category-default.png"
+    },
+    {
+      "id": "category-grid",
+      "name": "Grid Category",
+      "nameAr": "تصنيف شبكي",
+      "description": "Category page with grid layout",
+      "descriptionAr": "صفحة تصنيف بتخطيط شبكي",
+      "file": "templates/category-grid.tsx",
+      "type": "category",
+      "preview": "/themes/newscore/previews/category-grid.png"
+    },
+    {
+      "id": "page-default",
+      "name": "Default Page",
+      "nameAr": "الصفحة الافتراضية",
+      "description": "Standard static page",
+      "descriptionAr": "صفحة ثابتة قياسية",
+      "file": "app/[locale]/page/[slug]/page.tsx",
+      "type": "page",
+      "isDefault": true,
+      "preview": "/themes/newscore/previews/page-default.png"
+    },
+    {
+      "id": "page-full-width",
+      "name": "Full Width Page",
+      "nameAr": "صفحة بعرض كامل",
+      "description": "Full-width page without sidebar",
+      "descriptionAr": "صفحة بعرض كامل بدون شريط جانبي",
+      "file": "templates/page-full.tsx",
+      "type": "page",
+      "preview": "/themes/newscore/previews/page-full.png"
+    },
+    {
+      "id": "page-landing",
+      "name": "Landing Page",
+      "nameAr": "صفحة هبوط",
+      "description": "Marketing landing page with sections",
+      "descriptionAr": "صفحة هبوط تسويقية مع أقسام",
+      "file": "templates/page-landing.tsx",
+      "type": "page",
+      "preview": "/themes/newscore/previews/page-landing.png"
+    },
+    {
+      "id": "page-contact",
+      "name": "Contact Page",
+      "nameAr": "صفحة اتصل بنا",
+      "description": "Contact page with form and map",
+      "descriptionAr": "صفحة اتصل بنا مع نموذج وخريطة",
+      "file": "templates/page-contact.tsx",
+      "type": "page",
+      "preview": "/themes/newscore/previews/page-contact.png"
+    },
+    {
+      "id": "page-about",
+      "name": "About Page",
+      "nameAr": "صفحة من نحن",
+      "description": "About us page with team section",
+      "descriptionAr": "صفحة من نحن مع قسم الفريق",
+      "file": "templates/page-about.tsx",
+      "type": "page",
+      "preview": "/themes/newscore/previews/page-about.png"
+    },
+    {
+      "id": "search-results",
+      "name": "Search Results",
+      "nameAr": "نتائج البحث",
+      "description": "Search results page",
+      "descriptionAr": "صفحة نتائج البحث",
+      "file": "templates/search.tsx",
+      "type": "search",
+      "isDefault": true,
+      "preview": "/themes/newscore/previews/search.png"
+    },
+    {
+      "id": "error-404",
+      "name": "404 Error Page",
+      "nameAr": "صفحة خطأ 404",
+      "description": "Page not found error page",
+      "descriptionAr": "صفحة خطأ الصفحة غير موجودة",
+      "file": "templates/error-404.tsx",
+      "type": "error",
+      "isDefault": true,
+      "preview": "/themes/newscore/previews/error-404.png"
+    },
+    {
+      "id": "error-500",
+      "name": "500 Error Page",
+      "nameAr": "صفحة خطأ 500",
+      "description": "Server error page",
+      "descriptionAr": "صفحة خطأ الخادم",
+      "file": "templates/error-500.tsx",
+      "type": "error",
+      "preview": "/themes/newscore/previews/error-500.png"
+    }
+  ],
+  
+  "regions": [
+    {
+      "id": "header",
+      "name": "Header",
+      "nameAr": "الترويسة",
+      "description": "Main header region with logo and navigation",
+      "type": "header"
+    },
+    {
+      "id": "top-bar",
+      "name": "Top Bar",
+      "nameAr": "الشريط العلوي",
+      "description": "Top bar with date, weather, and currency ticker",
+      "type": "widget-area"
+    },
+    {
+      "id": "breaking-news",
+      "name": "Breaking News",
+      "nameAr": "الأخبار العاجلة",
+      "description": "Breaking news ticker area",
+      "type": "widget-area"
+    },
+    {
+      "id": "hero",
+      "name": "Hero Section",
+      "nameAr": "القسم الرئيسي",
+      "description": "Main hero section for featured content",
+      "type": "widget-area"
+    },
+    {
+      "id": "sidebar-right",
+      "name": "Right Sidebar",
+      "nameAr": "الشريط الجانبي الأيمن",
+      "description": "Right sidebar for widgets",
+      "type": "sidebar",
+      "maxWidgets": 10
+    },
+    {
+      "id": "sidebar-left",
+      "name": "Left Sidebar",
+      "nameAr": "الشريط الجانبي الأيسر",
+      "description": "Left sidebar for widgets",
+      "type": "sidebar",
+      "maxWidgets": 10
+    },
+    {
+      "id": "content-before",
+      "name": "Before Content",
+      "nameAr": "قبل المحتوى",
+      "description": "Area before main content",
+      "type": "widget-area"
+    },
+    {
+      "id": "content-after",
+      "name": "After Content",
+      "nameAr": "بعد المحتوى",
+      "description": "Area after main content",
+      "type": "widget-area"
+    },
+    {
+      "id": "article-before",
+      "name": "Before Article",
+      "nameAr": "قبل المقال",
+      "description": "Area before article content",
+      "type": "widget-area"
+    },
+    {
+      "id": "article-after",
+      "name": "After Article",
+      "nameAr": "بعد المقال",
+      "description": "Area after article content for related articles, comments, etc.",
+      "type": "widget-area"
+    },
+    {
+      "id": "footer-widgets",
+      "name": "Footer Widgets",
+      "nameAr": "ودجات التذييل",
+      "description": "Footer widget area",
+      "type": "widget-area",
+      "maxWidgets": 4
+    },
+    {
+      "id": "footer",
+      "name": "Footer",
+      "nameAr": "التذييل",
+      "description": "Main footer region",
+      "type": "footer"
+    },
+    {
+      "id": "floating",
+      "name": "Floating Elements",
+      "nameAr": "العناصر العائمة",
+      "description": "Floating elements like back to top, chat widget",
+      "type": "widget-area"
+    }
+  ],
+  
+  "components": [
+    {
+      "id": "top-bar",
+      "name": "Top Bar",
+      "nameAr": "الشريط العلوي",
+      "file": "components/homepage/TopBar.tsx",
+      "category": "header"
+    },
+    {
+      "id": "search-bar",
+      "name": "Search Bar",
+      "nameAr": "شريط البحث",
+      "file": "components/homepage/SearchBar.tsx",
+      "category": "header"
+    },
+    {
+      "id": "breaking-news",
+      "name": "Breaking News",
+      "nameAr": "الأخبار العاجلة",
+      "file": "components/articles/BreakingNews.tsx",
+      "category": "news"
+    },
+    {
+      "id": "hero-section",
+      "name": "Hero Section",
+      "nameAr": "القسم الرئيسي",
+      "file": "components/homepage/HeroSection.tsx",
+      "category": "homepage"
+    },
+    {
+      "id": "video-section",
+      "name": "Video Section",
+      "nameAr": "قسم الفيديو",
+      "file": "components/homepage/VideoSection.tsx",
+      "category": "media"
+    },
+    {
+      "id": "category-section",
+      "name": "Category Section",
+      "nameAr": "قسم التصنيف",
+      "file": "components/homepage/CategorySection.tsx",
+      "category": "homepage"
+    },
+    {
+      "id": "sidebar-widgets",
+      "name": "Sidebar Widgets",
+      "nameAr": "ودجات الشريط الجانبي",
+      "file": "components/homepage/SidebarWidgets.tsx",
+      "category": "widgets"
+    },
+    {
+      "id": "opinion-section",
+      "name": "Opinion Section",
+      "nameAr": "قسم الرأي",
+      "file": "components/homepage/OpinionSection.tsx",
+      "category": "homepage"
+    },
+    {
+      "id": "features-section",
+      "name": "Features Section",
+      "nameAr": "قسم التقارير",
+      "file": "components/homepage/FeaturesSection.tsx",
+      "category": "homepage"
+    },
+    {
+      "id": "photo-gallery",
+      "name": "Photo Gallery",
+      "nameAr": "معرض الصور",
+      "file": "components/homepage/PhotoGallery.tsx",
+      "category": "media"
+    },
+    {
+      "id": "podcast-section",
+      "name": "Podcast Section",
+      "nameAr": "قسم البودكاست",
+      "file": "components/homepage/PodcastSection.tsx",
+      "category": "media"
+    },
+    {
+      "id": "live-section",
+      "name": "Live Section",
+      "nameAr": "قسم البث المباشر",
+      "file": "components/homepage/LiveSection.tsx",
+      "category": "media"
+    },
+    {
+      "id": "partners-section",
+      "name": "Partners Section",
+      "nameAr": "قسم الشركاء",
+      "file": "components/homepage/PartnersSection.tsx",
+      "category": "homepage"
+    },
+    {
+      "id": "social-hub",
+      "name": "Social Hub",
+      "nameAr": "مركز التواصل",
+      "file": "components/homepage/SocialHub.tsx",
+      "category": "social"
+    },
+    {
+      "id": "newsletter-section",
+      "name": "Newsletter Section",
+      "nameAr": "قسم النشرة الإخبارية",
+      "file": "components/homepage/NewsletterSection.tsx",
+      "category": "engagement"
+    },
+    {
+      "id": "apps-section",
+      "name": "Apps Section",
+      "nameAr": "قسم التطبيقات",
+      "file": "components/homepage/AppsSection.tsx",
+      "category": "engagement"
+    },
+    {
+      "id": "floating-elements",
+      "name": "Floating Elements",
+      "nameAr": "العناصر العائمة",
+      "file": "components/homepage/FloatingElements.tsx",
+      "category": "utility"
+    },
+    {
+      "id": "weather-widget",
+      "name": "Weather Widget",
+      "nameAr": "ودجة الطقس",
+      "file": "components/homepage/WeatherWidget.tsx",
+      "category": "widgets"
+    },
+    {
+      "id": "currency-ticker",
+      "name": "Currency Ticker",
+      "nameAr": "شريط العملات",
+      "file": "components/homepage/CurrencyTicker.tsx",
+      "category": "widgets"
+    },
+    {
+      "id": "mega-menu",
+      "name": "Mega Menu",
+      "nameAr": "القائمة الكبيرة",
+      "file": "components/menus/MegaMenu.tsx",
+      "category": "navigation"
+    },
+    {
+      "id": "article-card",
+      "name": "Article Card",
+      "nameAr": "بطاقة المقال",
+      "file": "components/articles/ArticleCard.tsx",
+      "category": "articles"
+    },
+    {
+      "id": "article-grid",
+      "name": "Article Grid",
+      "nameAr": "شبكة المقالات",
+      "file": "components/articles/ArticleGrid.tsx",
+      "category": "articles"
+    },
+    {
+      "id": "article-list",
+      "name": "Article List",
+      "nameAr": "قائمة المقالات",
+      "file": "components/articles/ArticleList.tsx",
+      "category": "articles"
+    },
+    {
+      "id": "featured-article",
+      "name": "Featured Article",
+      "nameAr": "مقال مميز",
+      "file": "components/articles/FeaturedArticle.tsx",
+      "category": "articles"
+    },
+    {
+      "id": "header",
+      "name": "Header",
+      "nameAr": "الترويسة",
+      "file": "components/layout/Header.tsx",
+      "category": "layout"
+    },
+    {
+      "id": "footer",
+      "name": "Footer",
+      "nameAr": "التذييل",
+      "file": "components/layout/Footer.tsx",
+      "category": "layout"
+    },
+    {
+      "id": "language-switcher",
+      "name": "Language Switcher",
+      "nameAr": "مبدل اللغة",
+      "file": "components/layout/LanguageSwitcher.tsx",
+      "category": "utility"
+    }
+  ],
+  
+  "customizer": {
+    "sections": [
+      {
+        "id": "identity",
+        "title": "Site Identity",
+        "titleAr": "هوية الموقع",
+        "description": "Logo, favicon, and site title settings",
+        "descriptionAr": "إعدادات الشعار والأيقونة وعنوان الموقع",
+        "icon": "Building2",
+        "fields": [
+          {
+            "id": "siteName",
+            "type": "text",
+            "label": "Site Name",
+            "labelAr": "اسم الموقع",
+            "default": "NewsCore"
+          },
+          {
+            "id": "siteTagline",
+            "type": "text",
+            "label": "Tagline",
+            "labelAr": "الشعار",
+            "default": "أخبار موثوقة على مدار الساعة"
+          },
+          {
+            "id": "logo",
+            "type": "image",
+            "label": "Logo",
+            "labelAr": "الشعار",
+            "default": "/logo.svg"
+          },
+          {
+            "id": "logoDark",
+            "type": "image",
+            "label": "Logo (Dark Mode)",
+            "labelAr": "الشعار (الوضع الداكن)",
+            "default": "/logo-dark.svg"
+          },
+          {
+            "id": "favicon",
+            "type": "image",
+            "label": "Favicon",
+            "labelAr": "الأيقونة",
+            "default": "/favicon.svg"
+          }
+        ]
+      },
+      {
+        "id": "colors",
+        "title": "Colors",
+        "titleAr": "الألوان",
+        "description": "Customize site colors",
+        "descriptionAr": "تخصيص ألوان الموقع",
+        "icon": "Palette",
+        "fields": [
+          {
+            "id": "primaryColor",
+            "type": "color",
+            "label": "Primary Color",
+            "labelAr": "اللون الأساسي",
+            "description": "Main brand color",
+            "default": "#ed7520"
+          },
+          {
+            "id": "secondaryColor",
+            "type": "color",
+            "label": "Secondary Color",
+            "labelAr": "اللون الثانوي",
+            "default": "#0ea5e9"
+          },
+          {
+            "id": "accentColor",
+            "type": "color",
+            "label": "Accent Color",
+            "labelAr": "لون التمييز",
+            "default": "#f59e0b"
+          },
+          {
+            "id": "backgroundColor",
+            "type": "color",
+            "label": "Background Color",
+            "labelAr": "لون الخلفية",
+            "default": "#ffffff"
+          },
+          {
+            "id": "textColor",
+            "type": "color",
+            "label": "Text Color",
+            "labelAr": "لون النص",
+            "default": "#1f2937"
+          },
+          {
+            "id": "headerBackground",
+            "type": "color",
+            "label": "Header Background",
+            "labelAr": "خلفية الترويسة",
+            "default": "#ffffff"
+          },
+          {
+            "id": "footerBackground",
+            "type": "color",
+            "label": "Footer Background",
+            "labelAr": "خلفية التذييل",
+            "default": "#1f2937"
+          },
+          {
+            "id": "breakingNewsColor",
+            "type": "color",
+            "label": "Breaking News Color",
+            "labelAr": "لون الأخبار العاجلة",
+            "default": "#dc2626"
+          }
+        ]
+      },
+      {
+        "id": "typography",
+        "title": "Typography",
+        "titleAr": "الخطوط",
+        "description": "Font settings",
+        "descriptionAr": "إعدادات الخطوط",
+        "icon": "Type",
+        "fields": [
+          {
+            "id": "fontFamily",
+            "type": "select",
+            "label": "Body Font",
+            "labelAr": "خط النص",
+            "default": "Cairo",
+            "options": [
+              { "value": "Cairo", "label": "Cairo" },
+              { "value": "IBM Plex Sans Arabic", "label": "IBM Plex Sans Arabic" },
+              { "value": "Tajawal", "label": "Tajawal" },
+              { "value": "Almarai", "label": "Almarai" },
+              { "value": "Noto Sans Arabic", "label": "Noto Sans Arabic" },
+              { "value": "Changa", "label": "Changa" }
+            ]
+          },
+          {
+            "id": "headingFont",
+            "type": "select",
+            "label": "Heading Font",
+            "labelAr": "خط العناوين",
+            "default": "Cairo",
+            "options": [
+              { "value": "Cairo", "label": "Cairo" },
+              { "value": "IBM Plex Sans Arabic", "label": "IBM Plex Sans Arabic" },
+              { "value": "Tajawal", "label": "Tajawal" },
+              { "value": "Almarai", "label": "Almarai" }
+            ]
+          },
+          {
+            "id": "fontSize",
+            "type": "select",
+            "label": "Base Font Size",
+            "labelAr": "حجم الخط الأساسي",
+            "default": "16px",
+            "options": [
+              { "value": "14px", "label": "Small (14px)" },
+              { "value": "16px", "label": "Medium (16px)" },
+              { "value": "18px", "label": "Large (18px)" }
+            ]
+          },
+          {
+            "id": "lineHeight",
+            "type": "select",
+            "label": "Line Height",
+            "labelAr": "ارتفاع السطر",
+            "default": "1.7",
+            "options": [
+              { "value": "1.5", "label": "Compact (1.5)" },
+              { "value": "1.7", "label": "Normal (1.7)" },
+              { "value": "1.9", "label": "Relaxed (1.9)" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "layout",
+        "title": "Layout",
+        "titleAr": "التخطيط",
+        "description": "Layout and spacing settings",
+        "descriptionAr": "إعدادات التخطيط والمسافات",
+        "icon": "Layout",
+        "fields": [
+          {
+            "id": "containerWidth",
+            "type": "select",
+            "label": "Container Width",
+            "labelAr": "عرض المحتوى",
+            "default": "1280px",
+            "options": [
+              { "value": "1024px", "label": "Narrow (1024px)" },
+              { "value": "1280px", "label": "Standard (1280px)" },
+              { "value": "1536px", "label": "Wide (1536px)" },
+              { "value": "100%", "label": "Full Width" }
+            ]
+          },
+          {
+            "id": "sidebarPosition",
+            "type": "select",
+            "label": "Sidebar Position",
+            "labelAr": "موقع الشريط الجانبي",
+            "default": "right",
+            "options": [
+              { "value": "right", "label": "Right" },
+              { "value": "left", "label": "Left" },
+              { "value": "none", "label": "No Sidebar" }
+            ]
+          },
+          {
+            "id": "sidebarWidth",
+            "type": "select",
+            "label": "Sidebar Width",
+            "labelAr": "عرض الشريط الجانبي",
+            "default": "320px",
+            "options": [
+              { "value": "280px", "label": "Narrow (280px)" },
+              { "value": "320px", "label": "Standard (320px)" },
+              { "value": "380px", "label": "Wide (380px)" }
+            ]
+          },
+          {
+            "id": "borderRadius",
+            "type": "select",
+            "label": "Border Radius",
+            "labelAr": "استدارة الحواف",
+            "default": "0.5rem",
+            "options": [
+              { "value": "0", "label": "None" },
+              { "value": "0.25rem", "label": "Small" },
+              { "value": "0.5rem", "label": "Medium" },
+              { "value": "1rem", "label": "Large" },
+              { "value": "1.5rem", "label": "Extra Large" }
+            ]
+          },
+          {
+            "id": "cardShadow",
+            "type": "select",
+            "label": "Card Shadow",
+            "labelAr": "ظل البطاقات",
+            "default": "medium",
+            "options": [
+              { "value": "none", "label": "None" },
+              { "value": "small", "label": "Small" },
+              { "value": "medium", "label": "Medium" },
+              { "value": "large", "label": "Large" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "header",
+        "title": "Header",
+        "titleAr": "الترويسة",
+        "description": "Header settings",
+        "descriptionAr": "إعدادات الترويسة",
+        "icon": "PanelTop",
+        "fields": [
+          {
+            "id": "headerStyle",
+            "type": "select",
+            "label": "Header Style",
+            "labelAr": "نمط الترويسة",
+            "default": "default",
+            "options": [
+              { "value": "default", "label": "Default" },
+              { "value": "centered", "label": "Centered" },
+              { "value": "minimal", "label": "Minimal" },
+              { "value": "transparent", "label": "Transparent" }
+            ]
+          },
+          {
+            "id": "stickyHeader",
+            "type": "toggle",
+            "label": "Sticky Header",
+            "labelAr": "ترويسة ثابتة",
+            "default": true
+          },
+          {
+            "id": "showTopBar",
+            "type": "toggle",
+            "label": "Show Top Bar",
+            "labelAr": "إظهار الشريط العلوي",
+            "default": true
+          },
+          {
+            "id": "showSearch",
+            "type": "toggle",
+            "label": "Show Search",
+            "labelAr": "إظهار البحث",
+            "default": true
+          },
+          {
+            "id": "showWeather",
+            "type": "toggle",
+            "label": "Show Weather",
+            "labelAr": "إظهار الطقس",
+            "default": true
+          },
+          {
+            "id": "showCurrency",
+            "type": "toggle",
+            "label": "Show Currency Ticker",
+            "labelAr": "إظهار شريط العملات",
+            "default": true
+          },
+          {
+            "id": "showDate",
+            "type": "toggle",
+            "label": "Show Date",
+            "labelAr": "إظهار التاريخ",
+            "default": true
+          }
+        ]
+      },
+      {
+        "id": "homepage",
+        "title": "Homepage",
+        "titleAr": "الصفحة الرئيسية",
+        "description": "Homepage settings",
+        "descriptionAr": "إعدادات الصفحة الرئيسية",
+        "icon": "Home",
+        "fields": [
+          {
+            "id": "heroLayout",
+            "type": "select",
+            "label": "Hero Layout",
+            "labelAr": "تخطيط البانر الرئيسي",
+            "default": "classic",
+            "options": [
+              { "value": "classic", "label": "Classic (60/40)" },
+              { "value": "grid", "label": "Grid" },
+              { "value": "magazine", "label": "Magazine" },
+              { "value": "slider", "label": "Slider" }
+            ]
+          },
+          {
+            "id": "showBreakingNews",
+            "type": "toggle",
+            "label": "Show Breaking News",
+            "labelAr": "إظهار الأخبار العاجلة",
+            "default": true
+          },
+          {
+            "id": "showVideoSection",
+            "type": "toggle",
+            "label": "Show Video Section",
+            "labelAr": "إظهار قسم الفيديو",
+            "default": true
+          },
+          {
+            "id": "showOpinionSection",
+            "type": "toggle",
+            "label": "Show Opinion Section",
+            "labelAr": "إظهار قسم الرأي",
+            "default": true
+          },
+          {
+            "id": "showFeaturesSection",
+            "type": "toggle",
+            "label": "Show Features Section",
+            "labelAr": "إظهار قسم التقارير",
+            "default": true
+          },
+          {
+            "id": "showPhotoGallery",
+            "type": "toggle",
+            "label": "Show Photo Gallery",
+            "labelAr": "إظهار معرض الصور",
+            "default": true
+          },
+          {
+            "id": "showPodcast",
+            "type": "toggle",
+            "label": "Show Podcast Section",
+            "labelAr": "إظهار قسم البودكاست",
+            "default": true
+          },
+          {
+            "id": "showLive",
+            "type": "toggle",
+            "label": "Show Live Section",
+            "labelAr": "إظهار قسم البث المباشر",
+            "default": true
+          },
+          {
+            "id": "showPartners",
+            "type": "toggle",
+            "label": "Show Partners",
+            "labelAr": "إظهار الشركاء",
+            "default": true
+          },
+          {
+            "id": "showSocialHub",
+            "type": "toggle",
+            "label": "Show Social Hub",
+            "labelAr": "إظهار مركز التواصل",
+            "default": true
+          },
+          {
+            "id": "showNewsletter",
+            "type": "toggle",
+            "label": "Show Newsletter",
+            "labelAr": "إظهار النشرة الإخبارية",
+            "default": true
+          },
+          {
+            "id": "showApps",
+            "type": "toggle",
+            "label": "Show Apps Section",
+            "labelAr": "إظهار قسم التطبيقات",
+            "default": true
+          },
+          {
+            "id": "articlesPerSection",
+            "type": "number",
+            "label": "Articles per Section",
+            "labelAr": "المقالات لكل قسم",
+            "default": 6,
+            "min": 3,
+            "max": 12
+          },
+          {
+            "id": "categorySectionsCount",
+            "type": "number",
+            "label": "Category Sections Count",
+            "labelAr": "عدد أقسام التصنيفات",
+            "default": 4,
+            "min": 2,
+            "max": 8
+          }
+        ]
+      },
+      {
+        "id": "article",
+        "title": "Article Page",
+        "titleAr": "صفحة المقال",
+        "description": "Article page settings",
+        "descriptionAr": "إعدادات صفحة المقال",
+        "icon": "FileText",
+        "fields": [
+          {
+            "id": "showAuthor",
+            "type": "toggle",
+            "label": "Show Author",
+            "labelAr": "إظهار الكاتب",
+            "default": true
+          },
+          {
+            "id": "showDate",
+            "type": "toggle",
+            "label": "Show Date",
+            "labelAr": "إظهار التاريخ",
+            "default": true
+          },
+          {
+            "id": "showReadingTime",
+            "type": "toggle",
+            "label": "Show Reading Time",
+            "labelAr": "إظهار وقت القراءة",
+            "default": true
+          },
+          {
+            "id": "showShareButtons",
+            "type": "toggle",
+            "label": "Show Share Buttons",
+            "labelAr": "إظهار أزرار المشاركة",
+            "default": true
+          },
+          {
+            "id": "showRelatedArticles",
+            "type": "toggle",
+            "label": "Show Related Articles",
+            "labelAr": "إظهار مقالات ذات صلة",
+            "default": true
+          },
+          {
+            "id": "relatedArticlesCount",
+            "type": "number",
+            "label": "Related Articles Count",
+            "labelAr": "عدد المقالات ذات الصلة",
+            "default": 4,
+            "min": 2,
+            "max": 8
+          },
+          {
+            "id": "showTags",
+            "type": "toggle",
+            "label": "Show Tags",
+            "labelAr": "إظهار الوسوم",
+            "default": true
+          },
+          {
+            "id": "showCategories",
+            "type": "toggle",
+            "label": "Show Categories",
+            "labelAr": "إظهار التصنيفات",
+            "default": true
+          },
+          {
+            "id": "showComments",
+            "type": "toggle",
+            "label": "Show Comments",
+            "labelAr": "إظهار التعليقات",
+            "default": true
+          },
+          {
+            "id": "showNextPrev",
+            "type": "toggle",
+            "label": "Show Next/Previous Navigation",
+            "labelAr": "إظهار التنقل للمقال السابق/التالي",
+            "default": true
+          }
+        ]
+      },
+      {
+        "id": "footer",
+        "title": "Footer",
+        "titleAr": "التذييل",
+        "description": "Footer settings",
+        "descriptionAr": "إعدادات التذييل",
+        "icon": "PanelBottom",
+        "fields": [
+          {
+            "id": "footerStyle",
+            "type": "select",
+            "label": "Footer Style",
+            "labelAr": "نمط التذييل",
+            "default": "default",
+            "options": [
+              { "value": "default", "label": "Default" },
+              { "value": "minimal", "label": "Minimal" },
+              { "value": "centered", "label": "Centered" }
+            ]
+          },
+          {
+            "id": "footerColumns",
+            "type": "select",
+            "label": "Footer Columns",
+            "labelAr": "أعمدة التذييل",
+            "default": "4",
+            "options": [
+              { "value": "2", "label": "2 Columns" },
+              { "value": "3", "label": "3 Columns" },
+              { "value": "4", "label": "4 Columns" }
+            ]
+          },
+          {
+            "id": "showFooterLogo",
+            "type": "toggle",
+            "label": "Show Footer Logo",
+            "labelAr": "إظهار شعار التذييل",
+            "default": true
+          },
+          {
+            "id": "showSocialLinks",
+            "type": "toggle",
+            "label": "Show Social Links",
+            "labelAr": "إظهار روابط التواصل",
+            "default": true
+          },
+          {
+            "id": "showFooterNewsletter",
+            "type": "toggle",
+            "label": "Show Newsletter",
+            "labelAr": "إظهار نموذج النشرة",
+            "default": true
+          },
+          {
+            "id": "copyrightText",
+            "type": "text",
+            "label": "Copyright Text",
+            "labelAr": "نص حقوق النشر",
+            "default": "© 2024 NewsCore. جميع الحقوق محفوظة."
+          }
+        ]
+      },
+      {
+        "id": "darkMode",
+        "title": "Dark Mode",
+        "titleAr": "الوضع الداكن",
+        "description": "Dark mode settings",
+        "descriptionAr": "إعدادات الوضع الداكن",
+        "icon": "Moon",
+        "fields": [
+          {
+            "id": "darkModeEnabled",
+            "type": "toggle",
+            "label": "Enable Dark Mode",
+            "labelAr": "تفعيل الوضع الداكن",
+            "default": true
+          },
+          {
+            "id": "darkModeDefault",
+            "type": "toggle",
+            "label": "Dark Mode as Default",
+            "labelAr": "الوضع الداكن كافتراضي",
+            "default": false
+          },
+          {
+            "id": "darkPrimaryColor",
+            "type": "color",
+            "label": "Primary Color (Dark)",
+            "labelAr": "اللون الأساسي (داكن)",
+            "default": "#f59e0b"
+          },
+          {
+            "id": "darkBackgroundColor",
+            "type": "color",
+            "label": "Background Color (Dark)",
+            "labelAr": "لون الخلفية (داكن)",
+            "default": "#111827"
+          },
+          {
+            "id": "darkSurfaceColor",
+            "type": "color",
+            "label": "Surface Color (Dark)",
+            "labelAr": "لون السطح (داكن)",
+            "default": "#1f2937"
+          },
+          {
+            "id": "darkTextColor",
+            "type": "color",
+            "label": "Text Color (Dark)",
+            "labelAr": "لون النص (داكن)",
+            "default": "#f9fafb"
+          }
+        ]
+      },
+      {
+        "id": "social",
+        "title": "Social Media",
+        "titleAr": "التواصل الاجتماعي",
+        "description": "Social media links",
+        "descriptionAr": "روابط التواصل الاجتماعي",
+        "icon": "Share2",
+        "fields": [
+          {
+            "id": "facebookUrl",
+            "type": "text",
+            "label": "Facebook URL",
+            "labelAr": "رابط فيسبوك",
+            "default": ""
+          },
+          {
+            "id": "twitterUrl",
+            "type": "text",
+            "label": "Twitter/X URL",
+            "labelAr": "رابط تويتر/إكس",
+            "default": ""
+          },
+          {
+            "id": "instagramUrl",
+            "type": "text",
+            "label": "Instagram URL",
+            "labelAr": "رابط انستغرام",
+            "default": ""
+          },
+          {
+            "id": "youtubeUrl",
+            "type": "text",
+            "label": "YouTube URL",
+            "labelAr": "رابط يوتيوب",
+            "default": ""
+          },
+          {
+            "id": "linkedinUrl",
+            "type": "text",
+            "label": "LinkedIn URL",
+            "labelAr": "رابط لينكدإن",
+            "default": ""
+          },
+          {
+            "id": "tiktokUrl",
+            "type": "text",
+            "label": "TikTok URL",
+            "labelAr": "رابط تيك توك",
+            "default": ""
+          },
+          {
+            "id": "whatsappNumber",
+            "type": "text",
+            "label": "WhatsApp Number",
+            "labelAr": "رقم واتساب",
+            "default": ""
+          },
+          {
+            "id": "telegramUrl",
+            "type": "text",
+            "label": "Telegram URL",
+            "labelAr": "رابط تيليغرام",
+            "default": ""
+          }
+        ]
+      },
+      {
+        "id": "floatingElements",
+        "title": "Floating Elements",
+        "titleAr": "العناصر العائمة",
+        "description": "Floating elements settings",
+        "descriptionAr": "إعدادات العناصر العائمة",
+        "icon": "Layers",
+        "fields": [
+          {
+            "id": "showBackToTop",
+            "type": "toggle",
+            "label": "Show Back to Top",
+            "labelAr": "إظهار زر العودة للأعلى",
+            "default": true
+          },
+          {
+            "id": "showChatWidget",
+            "type": "toggle",
+            "label": "Show Chat Widget",
+            "labelAr": "إظهار نافذة الدردشة",
+            "default": false
+          },
+          {
+            "id": "showCookieNotice",
+            "type": "toggle",
+            "label": "Show Cookie Notice",
+            "labelAr": "إظهار إشعار الكوكيز",
+            "default": true
+          }
+        ]
+      },
+      {
+        "id": "performance",
+        "title": "Performance",
+        "titleAr": "الأداء",
+        "description": "Performance settings",
+        "descriptionAr": "إعدادات الأداء",
+        "icon": "Zap",
+        "fields": [
+          {
+            "id": "lazyLoadImages",
+            "type": "toggle",
+            "label": "Lazy Load Images",
+            "labelAr": "تحميل الصور الكسول",
+            "default": true
+          },
+          {
+            "id": "enableAnimations",
+            "type": "toggle",
+            "label": "Enable Animations",
+            "labelAr": "تفعيل الرسوم المتحركة",
+            "default": true
+          },
+          {
+            "id": "prefetchLinks",
+            "type": "toggle",
+            "label": "Prefetch Links",
+            "labelAr": "جلب الروابط مسبقاً",
+            "default": true
+          }
+        ]
+      }
+    ]
+  },
+  
+  "dependencies": {
+    "nextjs": "^14.2.0",
+    "react": "^18.3.0",
+    "tailwindcss": "^3.4.0",
+    "next-intl": "^4.5.0",
+    "lucide-react": "^0.555.0",
+    "zustand": "^4.5.0"
+  },
+  
+  "supportedLanguages": ["ar", "en", "fr"],
+  "defaultLanguage": "ar",
+  "direction": "rtl",
+  
+  "minCoreVersion": "1.0.0",
+  "requiredModules": [],
+  
+  "license": "MIT",
+  "homepage": "https://github.com/newscore/newscore-theme",
+  "repository": "https://github.com/newscore/newscore-theme",
+  "bugs": "https://github.com/newscore/newscore-theme/issues"
+}
