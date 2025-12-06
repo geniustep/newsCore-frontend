@@ -164,6 +164,7 @@ export default function NewPagePage() {
     },
     onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ['admin-pages'] });
+      const pageResult = result as unknown as { id: string };
       
       if (formData.template === 'custom' || formData.template === 'blank') {
         // Create a template for the builder
@@ -171,16 +172,16 @@ export default function NewPagePage() {
         
         // Save template to localStorage for builder to pick up
         localStorage.setItem('builder_template', JSON.stringify(pageTemplate));
-        localStorage.setItem('builder_page_id', (result as { id: string }).id);
+        localStorage.setItem('builder_page_id', pageResult.id);
         
         // Set template in store
         setTemplate(pageTemplate);
         
         // Redirect to builder
-        router.push(`${builderPath}?mode=page&pageId=${(result as { id: string }).id}`);
+        router.push(`${builderPath}?mode=page&pageId=${pageResult.id}`);
       } else {
         // Redirect to page edit
-        router.push(`${basePath}/${(result as { id: string }).id}`);
+        router.push(`${basePath}/${pageResult.id}`);
       }
     },
     onError: (error: Error) => {
