@@ -1,6 +1,6 @@
 /**
- * NewsCore - Edit Article Page
- * صفحة تعديل المقالة
+ * NewsCore - Edit Page
+ * صفحة تعديل الصفحة
  */
 
 'use client';
@@ -14,82 +14,64 @@ import {
   ArrowRight,
   Save,
   Eye,
-  Clock,
-  Image as ImageIcon,
-  X,
-  Upload,
-  FolderOpen,
-  Tag,
+  Palette,
+  Globe,
   Trash2,
   Loader2,
   AlertCircle,
   CheckCircle,
-  CloudOff,
   Cloud,
+  CloudOff,
+  Home,
+  Settings,
 } from 'lucide-react';
-import { articlesApi, categoriesApi, tagsApi } from '@/lib/api/admin';
+import { pagesApi } from '@/lib/api/admin';
 import { useAdminAuthStore } from '@/stores/admin-auth';
+import { useBuilderStore } from '@/stores/builder-store';
 import TiptapEditor from '@/components/editor/TiptapEditor';
 import { cn } from '@/lib/utils/cn';
+import type { Template } from '@/lib/template-engine/types';
+import { generateId, DEFAULT_TEMPLATE_SETTINGS } from '@/lib/template-engine/types';
 
-interface Category {
-  id: string;
-  name: string;
-  slug: string;
-}
-
-interface TagItem {
-  id: string;
-  name: string;
-  slug: string;
-}
-
-interface Article {
+interface Page {
   id: string;
   title: string;
   slug: string;
   content: string;
-  excerpt: string;
-  coverImageUrl: string;
   status: string;
-  categories?: Array<{ categoryId: string; category?: Category }>;
-  tags?: Array<{ tagId: string; tag?: TagItem }>;
+  template?: string;
+  language: string;
+  isHomepage?: boolean;
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string;
   createdAt: string;
   updatedAt: string;
-  publishedAt?: string;
 }
 
-// Helper to validate UUID
-const isValidUUID = (str: string) => {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  return uuidRegex.test(str);
-};
-
-export default function EditArticlePage() {
+export default function EditPagePage() {
   const router = useRouter();
   const params = useParams();
   const locale = useLocale();
   const queryClient = useQueryClient();
-  const articleId = params.id as string;
-  const basePath = `/${locale}/admin/content/articles`;
+  const pageId = params.id as string;
+  const basePath = `/${locale}/admin/content/pages`;
+  const builderPath = `/${locale}/admin/appearance/builder`;
+  const { setTemplate } = useBuilderStore();
 
   const [formData, setFormData] = useState({
     title: '',
+    slug: '',
     content: '',
-    excerpt: '',
-    coverImageUrl: '',
     status: 'DRAFT',
-    categoryIds: [] as string[],
-    tagIds: [] as string[],
+    template: 'default',
+    language: locale,
+    isHomepage: false,
     seoTitle: '',
     seoDescription: '',
     seoKeywords: '',
   });
 
-  const [showTagSelect, setShowTagSelect] = useState(false);
   const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [autoSaveStatus, setAutoSaveStatus] = useState<'saved' | 'saving' | 'unsaved' | 'error'>('saved');
   const { isAuthenticated } = useAdminAuthStore();
@@ -98,78 +80,58 @@ export default function EditArticlePage() {
   const autoSaveTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastSavedDataRef = useRef<string>('');
 
-  // Fetch article
-  const { data: article, isLoading: isLoadingArticle, error: articleError } = useQuery({
-    queryKey: ['admin-article', articleId],
+  // Fetch page
+  const { data: page, isLoading: isLoadingPage, error: pageError } = useQuery({
+    queryKey: ['admin-page', pageId],
     queryFn: async () => {
-      const result = await articlesApi.getOne(articleId);
-      return result as unknown as Article;
+      const result = await pagesApi.getOne(pageId);
+      return result as unknown as Page;
     },
-    enabled: isAuthenticated && !!articleId,
+    enabled: isAuthenticated && !!pageId,
   });
 
-  // Fetch categories
-  const { data: categories } = useQuery({
-    queryKey: ['admin-categories'],
-    queryFn: async () => {
-      const result = await categoriesApi.getAll();
-      return result as unknown as Category[];
-    },
-    enabled: isAuthenticated,
-  });
-
-  // Fetch tags
-  const { data: tags } = useQuery({
-    queryKey: ['admin-tags'],
-    queryFn: async () => {
-      const result = await tagsApi.getAll();
-      return result as unknown as TagItem[];
-    },
-    enabled: isAuthenticated,
-  });
-
-  // Update form data when article is loaded
+  // Update form data when page is loaded
   useEffect(() => {
-    if (article) {
+    if (page) {
       const newFormData = {
-        title: article.title || '',
-        content: article.content || '',
-        excerpt: article.excerpt || '',
-        coverImageUrl: article.coverImageUrl || '',
-        status: article.status || 'DRAFT',
-        categoryIds: article.categories?.map(c => c.categoryId).filter(isValidUUID) || [],
-        tagIds: article.tags?.map(t => t.tagId).filter(isValidUUID) || [],
-        seoTitle: article.seoTitle || '',
-        seoDescription: article.seoDescription || '',
-        seoKeywords: article.seoKeywords || '',
+        title: page.title || '',
+        slug: page.slug || '',
+        content: page.content || '',
+        status: page.status || 'DRAFT',
+        template: page.template || 'default',
+        language: page.language || locale,
+        isHomepage: page.isHomepage || false,
+        seoTitle: page.seoTitle || '',
+        seoDescription: page.seoDescription || '',
+        seoKeywords: page.seoKeywords || '',
       };
       setFormData(newFormData);
       lastSavedDataRef.current = JSON.stringify(newFormData);
     }
-  }, [article]);
+  }, [page, locale]);
 
-  // Prepare data for API (filter valid UUIDs only)
+  // Prepare data for API
   const prepareDataForApi = useCallback((data: typeof formData) => {
     return {
       title: data.title,
-      content: data.content,
-      excerpt: data.excerpt || undefined,
-      coverImageUrl: data.coverImageUrl || undefined,
+      slug: data.slug || undefined,
+      content: data.content || undefined,
       status: data.status,
-      categoryIds: data.categoryIds.filter(isValidUUID),
-      tagIds: data.tagIds.filter(isValidUUID),
+      template: data.template || undefined,
+      language: data.language,
+      isHomepage: data.isHomepage,
       seoTitle: data.seoTitle || undefined,
       seoDescription: data.seoDescription || undefined,
       seoKeywords: data.seoKeywords || undefined,
     };
   }, []);
 
-  // Update article mutation
+  // Update page mutation
   const updateMutation = useMutation({
-    mutationFn: (data: typeof formData) => articlesApi.update(articleId, prepareDataForApi(data)),
+    mutationFn: (data: typeof formData) => pagesApi.update(pageId, prepareDataForApi(data)),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-articles'] });
-      queryClient.invalidateQueries({ queryKey: ['admin-article', articleId] });
+      queryClient.invalidateQueries({ queryKey: ['admin-pages'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-page', pageId] });
       lastSavedDataRef.current = JSON.stringify(formData);
       setAutoSaveStatus('saved');
     },
@@ -180,18 +142,18 @@ export default function EditArticlePage() {
     },
   });
 
-  // Delete article mutation
+  // Delete page mutation
   const deleteMutation = useMutation({
-    mutationFn: () => articlesApi.delete(articleId),
+    mutationFn: () => pagesApi.delete(pageId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-articles'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-pages'] });
       router.push(basePath);
     },
   });
 
   // Auto-save function
   const performAutoSave = useCallback(() => {
-    if (!formData.title) return; // Don't auto-save if no title
+    if (!formData.title) return;
     
     const currentData = JSON.stringify(formData);
     if (currentData !== lastSavedDataRef.current) {
@@ -208,12 +170,10 @@ export default function EditArticlePage() {
     if (hasUnsavedChanges && formData.title) {
       setAutoSaveStatus('unsaved');
       
-      // Clear existing timer
       if (autoSaveTimerRef.current) {
         clearTimeout(autoSaveTimerRef.current);
       }
       
-      // Set new auto-save timer (3 seconds after last change)
       autoSaveTimerRef.current = setTimeout(() => {
         performAutoSave();
       }, 3000);
@@ -227,7 +187,6 @@ export default function EditArticlePage() {
   }, [formData, performAutoSave]);
 
   const handleSubmit = (status?: string) => {
-    // Clear auto-save timer
     if (autoSaveTimerRef.current) {
       clearTimeout(autoSaveTimerRef.current);
     }
@@ -243,39 +202,84 @@ export default function EditArticlePage() {
   };
 
   const handleDelete = () => {
-    if (confirm('هل أنت متأكد من حذف هذه المقالة؟ لا يمكن التراجع عن هذا الإجراء.')) {
+    if (confirm('هل أنت متأكد من حذف هذه الصفحة؟ لا يمكن التراجع عن هذا الإجراء.')) {
       deleteMutation.mutate();
     }
   };
 
-  const toggleCategory = (categoryId: string) => {
-    if (!isValidUUID(categoryId)) return;
-    setFormData({
-      ...formData,
-      categoryIds: formData.categoryIds.includes(categoryId)
-        ? formData.categoryIds.filter(id => id !== categoryId)
-        : [...formData.categoryIds, categoryId],
-    });
+  const handleOpenBuilder = () => {
+    // Create a template for the builder based on page content
+    const pageTemplate: Template = {
+      id: `page-${pageId}`,
+      name: formData.title || 'Page',
+      nameAr: formData.title || 'صفحة',
+      description: '',
+      descriptionAr: '',
+      type: 'page',
+      version: '1.0.0',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      isDefault: false,
+      isActive: true,
+      preview: '',
+      
+      layout: { type: 'full-width' },
+      regions: {
+        header: { enabled: true },
+        breakingNews: { enabled: false },
+        sidebar: { enabled: false },
+        footer: { enabled: true },
+      },
+      settings: DEFAULT_TEMPLATE_SETTINGS,
+      sections: [
+        {
+          id: generateId('section'),
+          name: 'Main Content',
+          nameAr: 'المحتوى الرئيسي',
+          order: 0,
+          container: 'normal',
+          grid: {
+            columns: { desktop: 12, tablet: 12, mobile: 12 },
+            gap: { desktop: 'lg', tablet: 'md', mobile: 'md' },
+          },
+          padding: {
+            desktop: { top: 'xl', bottom: 'xl', left: 'md', right: 'md' },
+          },
+          margin: {
+            desktop: { top: 'none', bottom: 'none' },
+          },
+          blocks: [],
+        },
+      ],
+    };
+    
+    localStorage.setItem('builder_template', JSON.stringify(pageTemplate));
+    localStorage.setItem('builder_page_id', pageId);
+    setTemplate(pageTemplate);
+    router.push(`${builderPath}?mode=page&pageId=${pageId}`);
   };
 
-  const toggleTag = (tagId: string) => {
-    if (!isValidUUID(tagId)) return;
-    setFormData({
-      ...formData,
-      tagIds: formData.tagIds.includes(tagId)
-        ? formData.tagIds.filter(id => id !== tagId)
-        : [...formData.tagIds, tagId],
-    });
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
   };
 
-  const categoriesList = Array.isArray(categories) ? categories : [];
-  const tagsList = Array.isArray(tags) ? tags : [];
+  const handleTitleChange = (title: string) => {
+    setFormData({
+      ...formData,
+      title,
+      slug: formData.slug || generateSlug(title),
+    });
+  };
 
   const statusOptions = [
     { value: 'DRAFT', label: 'مسودة', color: 'bg-gray-100 text-gray-700' },
-    { value: 'PENDING_REVIEW', label: 'قيد المراجعة', color: 'bg-yellow-100 text-yellow-700' },
     { value: 'PUBLISHED', label: 'منشور', color: 'bg-green-100 text-green-700' },
-    { value: 'SCHEDULED', label: 'مجدول', color: 'bg-blue-100 text-blue-700' },
+    { value: 'ARCHIVED', label: 'مؤرشف', color: 'bg-red-100 text-red-700' },
   ];
 
   // Auto-save status indicator
@@ -299,33 +303,33 @@ export default function EditArticlePage() {
   };
 
   // Loading state
-  if (isLoadingArticle) {
+  if (isLoadingPage) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-10 h-10 text-primary animate-spin mx-auto mb-4" />
-          <p className="text-gray-500 dark:text-gray-400">جاري تحميل المقالة...</p>
+          <p className="text-gray-500 dark:text-gray-400">جاري تحميل الصفحة...</p>
         </div>
       </div>
     );
   }
 
   // Error state
-  if (articleError) {
+  if (pageError) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-4">
           <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">خطأ في تحميل المقالة</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">خطأ في تحميل الصفحة</h2>
           <p className="text-gray-500 dark:text-gray-400 mb-6">
-            {articleError instanceof Error ? articleError.message : 'حدث خطأ غير متوقع'}
+            {pageError instanceof Error ? pageError.message : 'حدث خطأ غير متوقع'}
           </p>
           <Link
             href={basePath}
             className="px-6 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary/90 inline-flex items-center gap-2"
           >
             <ArrowRight className="w-5 h-5" />
-            العودة للمقالات
+            العودة للصفحات
           </Link>
         </div>
       </div>
@@ -346,10 +350,18 @@ export default function EditArticlePage() {
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">تعديل المقالة</h1>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-xl font-bold text-gray-900 dark:text-white">تعديل الصفحة</h1>
+                  {formData.isHomepage && (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-primary/10 text-primary rounded-full text-xs">
+                      <Home className="w-3 h-3" />
+                      الصفحة الرئيسية
+                    </span>
+                  )}
+                </div>
                 <div className="flex items-center gap-3 mt-1">
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    آخر تحديث: {article?.updatedAt ? new Date(article.updatedAt).toLocaleDateString('ar-SA') : '-'}
+                    آخر تحديث: {page?.updatedAt ? new Date(page.updatedAt).toLocaleDateString('ar-SA') : '-'}
                   </p>
                   <AutoSaveIndicator />
                 </div>
@@ -357,7 +369,6 @@ export default function EditArticlePage() {
             </div>
 
             <div className="flex items-center gap-3">
-              {/* Save Message */}
               {saveMessage && (
                 <div className={cn(
                   'flex items-center gap-2 px-4 py-2 rounded-xl text-sm',
@@ -368,6 +379,13 @@ export default function EditArticlePage() {
                 </div>
               )}
 
+              <button
+                onClick={handleOpenBuilder}
+                className="px-4 py-2 border border-purple-200 text-purple-600 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/20 flex items-center gap-2"
+              >
+                <Palette className="w-4 h-4" />
+                Builder
+              </button>
               <button
                 onClick={handleDelete}
                 disabled={deleteMutation.isPending}
@@ -381,11 +399,7 @@ export default function EditArticlePage() {
                 disabled={updateMutation.isPending}
                 className="px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
               >
-                {updateMutation.isPending ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Save className="w-4 h-4" />
-                )}
+                {updateMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 حفظ
               </button>
               {formData.status !== 'PUBLISHED' && (
@@ -413,32 +427,29 @@ export default function EditArticlePage() {
               <input
                 type="text"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                placeholder="عنوان المقالة"
+                onChange={(e) => handleTitleChange(e.target.value)}
+                placeholder="عنوان الصفحة"
                 className="w-full text-3xl font-bold bg-transparent border-0 focus:ring-0 text-gray-900 dark:text-white placeholder-gray-400"
               />
+              <div className="mt-4 flex items-center gap-2">
+                <span className="text-sm text-gray-500">الرابط:</span>
+                <span className="text-sm text-gray-400">/page/</span>
+                <input
+                  type="text"
+                  value={formData.slug}
+                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                  className="flex-1 text-sm bg-gray-50 dark:bg-gray-700 border-0 rounded-lg px-3 py-1.5 text-gray-700 dark:text-gray-300"
+                  dir="ltr"
+                />
+              </div>
             </div>
 
-            {/* Content Editor with Tiptap */}
+            {/* Content Editor */}
             <TiptapEditor
               content={formData.content}
               onChange={(content) => setFormData({ ...formData, content })}
-              placeholder="اكتب محتوى المقالة هنا..."
+              placeholder="اكتب محتوى الصفحة هنا..."
             />
-
-            {/* Excerpt */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                المقتطف
-              </label>
-              <textarea
-                value={formData.excerpt}
-                onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                placeholder="وصف مختصر للمقالة..."
-                rows={3}
-                className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
-              />
-            </div>
           </div>
 
           {/* Sidebar */}
@@ -446,124 +457,53 @@ export default function EditArticlePage() {
             {/* Status */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
               <h3 className="font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                <Clock className="w-5 h-5" />
-                الحالة
+                <Settings className="w-5 h-5" />
+                الإعدادات
               </h3>
-              <div className="space-y-2">
-                {statusOptions.map((option) => (
-                  <label key={option.value} className="flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="status"
-                      value={option.value}
-                      checked={formData.status === option.value}
-                      onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                      className="text-primary focus:ring-primary"
-                    />
-                    <span className={cn('px-2 py-1 rounded-full text-xs font-medium', option.color)}>
-                      {option.label}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Featured Image */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                <ImageIcon className="w-5 h-5" />
-                الصورة البارزة
-              </h3>
-              {formData.coverImageUrl ? (
-                <div className="relative">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={formData.coverImageUrl} alt="" className="w-full rounded-xl" />
-                  <button
-                    onClick={() => setFormData({ ...formData, coverImageUrl: '' })}
-                    className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              ) : (
-                <label className="block border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl p-8 text-center cursor-pointer hover:border-primary transition-colors">
-                  <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                  <p className="text-sm text-gray-500">اضغط لرفع صورة</p>
-                  <input type="file" className="hidden" accept="image/*" />
-                </label>
-              )}
-              <input
-                type="url"
-                value={formData.coverImageUrl}
-                onChange={(e) => setFormData({ ...formData, coverImageUrl: e.target.value })}
-                placeholder="أو أدخل رابط الصورة"
-                className="w-full mt-4 px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
-              />
-            </div>
-
-            {/* Categories */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                <FolderOpen className="w-5 h-5" />
-                التصنيفات
-              </h3>
-              <div className="space-y-2 max-h-48 overflow-y-auto">
-                {categoriesList.map((category) => (
-                  <label key={category.id} className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.categoryIds.includes(category.id)}
-                      onChange={() => toggleCategory(category.id)}
-                      className="rounded border-gray-300 text-primary focus:ring-primary"
-                    />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{category.name}</span>
-                  </label>
-                ))}
-              </div>
-              {categoriesList.length === 0 && (
-                <p className="text-sm text-gray-500 text-center py-4">لا توجد تصنيفات</p>
-              )}
-            </div>
-
-            {/* Tags */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                <Tag className="w-5 h-5" />
-                الوسوم
-              </h3>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {formData.tagIds.map((tagId) => {
-                  const tag = tagsList.find(t => t.id === tagId);
-                  return tag ? (
-                    <span key={tagId} className="inline-flex items-center gap-1 px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
-                      {tag.name}
-                      <button onClick={() => toggleTag(tagId)} className="hover:text-red-500">
-                        <X className="w-3 h-3" />
-                      </button>
-                    </span>
-                  ) : null;
-                })}
-              </div>
-              <div className="relative">
-                <button
-                  onClick={() => setShowTagSelect(!showTagSelect)}
-                  className="w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-xl text-right text-sm text-gray-500 hover:border-primary"
-                >
-                  + إضافة وسم
-                </button>
-                {showTagSelect && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl z-10 max-h-48 overflow-y-auto">
-                    {tagsList.filter(t => !formData.tagIds.includes(t.id)).map((tag) => (
-                      <button
-                        key={tag.id}
-                        onClick={() => { toggleTag(tag.id); setShowTagSelect(false); }}
-                        className="w-full px-4 py-2 text-right text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-                      >
-                        {tag.name}
-                      </button>
+              <div className="space-y-4">
+                {/* Status */}
+                <div>
+                  <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">الحالة</label>
+                  <div className="space-y-2">
+                    {statusOptions.map((option) => (
+                      <label key={option.value} className="flex items-center gap-3 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="status"
+                          value={option.value}
+                          checked={formData.status === option.value}
+                          onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                          className="text-primary focus:ring-primary"
+                        />
+                        <span className={cn('px-2 py-1 rounded-full text-xs font-medium', option.color)}>
+                          {option.label}
+                        </span>
+                      </label>
                     ))}
                   </div>
-                )}
+                </div>
+
+                {/* Language */}
+                <div>
+                  <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">اللغة</label>
+                  <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <Globe className="w-4 h-4 text-gray-400" />
+                    <span className="text-sm">{formData.language === 'ar' ? 'العربية' : formData.language === 'en' ? 'English' : formData.language}</span>
+                  </div>
+                </div>
+
+                {/* Homepage toggle */}
+                <div>
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.isHomepage}
+                      onChange={(e) => setFormData({ ...formData, isHomepage: e.target.checked })}
+                      className="rounded border-gray-300 text-primary focus:ring-primary"
+                    />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">تعيين كصفحة رئيسية</span>
+                  </label>
+                </div>
               </div>
             </div>
 
@@ -586,7 +526,7 @@ export default function EditArticlePage() {
                   <textarea
                     value={formData.seoDescription}
                     onChange={(e) => setFormData({ ...formData, seoDescription: e.target.value })}
-                    placeholder={formData.excerpt || 'وصف الصفحة'}
+                    placeholder="وصف الصفحة"
                     rows={2}
                     className="w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
                   />
@@ -609,3 +549,4 @@ export default function EditArticlePage() {
     </div>
   );
 }
+
