@@ -12,7 +12,7 @@ export function SuppressZustandWarnings() {
     const originalWarn = console.warn;
 
     // Override console.warn to filter out zustand deprecation warnings
-    console.warn = (...args: any[]) => {
+    console.warn = (...args: unknown[]) => {
       const message = args[0]?.toString() || '';
       
       // Suppress zustand default export deprecation warnings

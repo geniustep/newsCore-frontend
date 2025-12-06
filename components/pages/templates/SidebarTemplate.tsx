@@ -2,6 +2,7 @@
 
 import { Page } from '@/lib/api';
 import { Calendar, ChevronLeft } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface TemplateProps {
@@ -83,11 +84,13 @@ export default function SidebarTemplate({ page, locale }: TemplateProps) {
         <article className="lg:col-span-3 order-1 lg:order-2">
           {/* Featured Image */}
           {page.featuredImageUrl && (
-            <div className="mb-8 rounded-2xl overflow-hidden shadow-lg">
-              <img
+            <div className="mb-8 rounded-2xl overflow-hidden shadow-lg relative w-full h-[350px]">
+              <Image
                 src={page.featuredImageUrl}
                 alt={page.featuredImageAlt || page.title}
-                className="w-full h-[350px] object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 75vw"
               />
             </div>
           )}
