@@ -155,7 +155,7 @@ export default function AnalyticsPage() {
     queryFn: async () => {
       try {
         const result = await analyticsApi.getTopArticles({ period, limit: 10 });
-        return result as { title: string; views: number; slug: string }[];
+        return result as unknown as { title: string; views: number; slug: string }[];
       } catch {
         return [
           { title: 'أهم أخبار اليوم في المنطقة العربية', views: 2543, slug: 'top-news-today' },
