@@ -3,6 +3,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { Cairo } from 'next/font/google';
 import { locales, localeConfig, Locale } from '@/i18n/config';
 import { ThemeProvider } from '@/components/providers';
+import { SuppressZustandWarnings } from '@/components/suppress-warnings';
 import { getThemeSettings } from '@/lib/theme/getThemeSettings';
 import '@/styles/globals.css';
 
@@ -79,6 +80,7 @@ export default async function LocaleLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className={`${cairo.variable} font-cairo antialiased`}>
+        <SuppressZustandWarnings />
         <ThemeProvider initialTheme={themeSettings}>
           <NextIntlClientProvider messages={messages}>
             {children}
