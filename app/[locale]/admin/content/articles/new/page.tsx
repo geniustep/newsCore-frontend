@@ -264,7 +264,7 @@ export default function NewArticlePage() {
   const AutoSaveIndicator = () => {
     if (autoSaveStatus === 'idle') return null;
     
-    const statusConfig = {
+    const statusConfig: Record<string, { icon: typeof Cloud; text: string; color: string; animate?: boolean }> = {
       idle: { icon: Cloud, text: '', color: 'text-gray-400' },
       saved: { icon: Cloud, text: 'تم الحفظ التلقائي', color: 'text-green-600' },
       saving: { icon: Loader2, text: 'جاري الحفظ...', color: 'text-blue-600', animate: true },

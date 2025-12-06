@@ -284,7 +284,7 @@ export default function EditPagePage() {
 
   // Auto-save status indicator
   const AutoSaveIndicator = () => {
-    const statusConfig = {
+    const statusConfig: Record<string, { icon: typeof Cloud; text: string; color: string; animate?: boolean }> = {
       saved: { icon: Cloud, text: 'تم الحفظ', color: 'text-green-600' },
       saving: { icon: Loader2, text: 'جاري الحفظ...', color: 'text-blue-600', animate: true },
       unsaved: { icon: CloudOff, text: 'تغييرات غير محفوظة', color: 'text-yellow-600' },
