@@ -4,20 +4,17 @@
  */
 
 'use client';
-
-import { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ArticleGridProps } from '../index';
 import { cn } from '@/lib/utils/cn';
 
 export default function Grid3({
-  variant,
   config,
   data,
   className,
 }: ArticleGridProps) {
-  const { display = {}, image = {}, text = {}, card = {} } = config;
+  const { display = {} } = config;
   const articles = data?.articles || [];
 
   if (!articles.length) {

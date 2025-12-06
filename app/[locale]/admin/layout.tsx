@@ -28,7 +28,6 @@ import {
   Moon,
   Sun,
   AlertTriangle,
-  Clock,
   BarChart3,
   Puzzle,
   Languages,
@@ -71,7 +70,7 @@ interface NavItem {
 // NAVIGATION CONFIG
 // ═══════════════════════════════════════════════════════════════════════════════
 
-const getNavigation = (basePath: string): NavGroup[] => [
+const getNavigation = (): NavGroup[] => [
   {
     id: 'main',
     label: 'Main',
@@ -149,8 +148,6 @@ function NavGroupComponent({
     }
     return pathname.startsWith(fullPath);
   };
-
-  const hasActiveItem = group.items.some(item => isActive(item.href));
 
   return (
     <div className="mb-2">

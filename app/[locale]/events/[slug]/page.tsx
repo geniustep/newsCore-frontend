@@ -9,7 +9,6 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { TemplateRenderer } from '@/components/template-engine';
 import { getTemplateById, getTemplateForPage } from '@/lib/template-engine/api';
-import type { Template } from '@/lib/template-engine/types';
 
 export const dynamic = 'force-dynamic';
 

@@ -8,8 +8,6 @@
 import { useState } from 'react';
 import { 
   LayoutGrid, 
-  List, 
-  Image, 
   Maximize, 
   Zap, 
   FolderTree, 
@@ -24,7 +22,7 @@ import {
   Search,
   GripVertical,
 } from 'lucide-react';
-import { BLOCK_REGISTRY, getBlockCategories, getBlocksByCategory } from '@/lib/template-engine/registry';
+import { getBlockCategories, getBlocksByCategory } from '@/lib/template-engine/registry';
 import type { BlockType, BlockCategory } from '@/lib/template-engine/types';
 import { useBuilderStore } from '@/stores/builder-store';
 import { cn } from '@/lib/utils/cn';
@@ -53,7 +51,7 @@ const CATEGORY_ICONS: Record<BlockCategory, React.ReactNode> = {
 export default function BuilderSidebar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['articles', 'hero']));
-  const { startDrag, selectedElement } = useBuilderStore();
+  const { startDrag } = useBuilderStore();
 
   const categories = getBlockCategories();
 

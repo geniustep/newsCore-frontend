@@ -505,7 +505,7 @@ export interface BlockConfig {
   visibility?: VisibilityConfig;
   
   // إعدادات إضافية خاصة بالنوع
-  custom?: Record<string, any>;
+  custom?: Record<string, unknown>;
 }
 
 /**
@@ -924,7 +924,7 @@ export interface BuilderState {
   
   // السحب والإفلات
   isDragging: boolean;
-  draggedItem: { type: 'block' | 'section'; data: any } | null;
+  draggedItem: { type: 'block' | 'section'; data: unknown } | null;
   dropTarget: { sectionId?: string; index: number } | null;
   
   // العرض
@@ -957,7 +957,7 @@ export interface BuilderState {
  */
 export interface TemplateApiResponse {
   template: Template;
-  resolvedData?: Record<string, any>;  // البيانات المحللة للـ blocks
+  resolvedData?: Record<string, unknown>;  // البيانات المحللة للـ blocks
 }
 
 /**
@@ -1005,7 +1005,7 @@ export function generateId(prefix: string = ''): UniqueId {
 /**
  * التحقق من أن القيمة responsive
  */
-export function isResponsiveValue<T>(value: any): value is ResponsiveValue<T> {
+export function isResponsiveValue<T>(value: unknown): value is ResponsiveValue<T> {
   return value && typeof value === 'object' && 'desktop' in value;
 }
 

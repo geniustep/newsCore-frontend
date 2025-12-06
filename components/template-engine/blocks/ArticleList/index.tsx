@@ -21,7 +21,7 @@ export interface ArticleListProps {
   variant: string;
   config: Partial<BlockConfig>;
   data?: FetchResult;
-  pageData?: Record<string, any>;
+  pageData?: Record<string, unknown>;
   className?: string;
 }
 
@@ -33,7 +33,6 @@ export default function ArticleList({
   variant,
   config,
   data,
-  pageData,
   className,
 }: ArticleListProps) {
   const articles = useMemo(() => {
@@ -42,8 +41,6 @@ export default function ArticleList({
     }
     return getMockArticles(6);
   }, [data]);
-
-  const { display = {}, image = {}, text = {}, card = {}, custom = {} } = config;
 
   if (!articles.length) {
     return (
@@ -75,11 +72,10 @@ export default function ArticleList({
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function StandardList({ articles, config, className, variant }: { articles: Article[]; config: Partial<BlockConfig>; className?: string; variant: string }) {
-  const { display = {}, image = {}, text = {}, card = {}, custom = {} } = config;
+  const { display = {}, custom = {} } = config;
   
   const isCompact = variant === 'list-2';
   const isCardStyle = variant === 'list-6';
-  const showDivider = custom.showDivider !== false && !isCardStyle;
   const imageWidth = custom.imageWidth || { desktop: '200px', tablet: '150px', mobile: '100px' };
 
   return (
@@ -246,8 +242,7 @@ function NumberedList({ articles, config, className }: { articles: Article[]; co
 // FEATURED FIRST LIST (list-4)
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function FeaturedFirstList({ articles, config, className }: { articles: Article[]; config: Partial<BlockConfig>; className?: string }) {
-  const { display = {} } = config;
+function FeaturedFirstList({ articles, className }: { articles: Article[]; config: Partial<BlockConfig>; className?: string }) {
   const featuredArticle = articles[0];
   const listArticles = articles.slice(1);
 

@@ -8,7 +8,6 @@ import {
   Tag,
   Eye,
   TrendingUp,
-  Clock,
   Users,
   BarChart3,
 } from 'lucide-react';
@@ -38,9 +37,9 @@ export default function DashboardPage() {
     queryFn: () => adminApi.getArticles({ limit: 5, sortBy: 'createdAt', sortOrder: 'desc' }),
   });
 
-  const articlesResponse = (articlesData as any)?.data || articlesData;
-  const categoriesResponse = (categoriesData as any)?.data || categoriesData;
-  const tagsResponse = (tagsData as any)?.data || tagsData;
+  const articlesResponse = (articlesData as { data?: unknown } | undefined)?.data || articlesData;
+  const categoriesResponse = (categoriesData as { data?: unknown[] } | undefined)?.data || categoriesData;
+  const tagsResponse = (tagsData as { data?: Array<{ id: string; name: string; usageCount: number }> } | undefined)?.data || tagsData;
 
   const stats = [
     {
@@ -140,8 +139,10 @@ export default function DashboardPage() {
           </div>
           <div className="divide-y divide-gray-200 dark:divide-gray-700">
             {(() => {
-              const recent = (recentArticles as any)?.data?.data || (recentArticles as any)?.data || [];
-              return recent.length > 0 ? recent.map((article: any) => {
+              type ArticleType = { id: string; title: string; status: string; author?: { displayName?: string } };
+              const recentData = recentArticles as { data?: { data?: ArticleType[] } | ArticleType[] } | undefined;
+              const recent: ArticleType[] = (recentData?.data as { data?: ArticleType[] })?.data || (recentData?.data as ArticleType[]) || [];
+              return recent.length > 0 ? recent.map((article) => {
                 const status = getStatusBadge(article.status);
                 return (
                   <div
@@ -185,10 +186,11 @@ export default function DashboardPage() {
           </div>
           <div className="p-6">
             {(() => {
-              const tags = tagsResponse?.data || tagsResponse || [];
+              type TagType = { id: string; name: string; usageCount: number };
+              const tags: TagType[] = (tagsResponse as { data?: TagType[] })?.data || (tagsResponse as TagType[]) || [];
               return tags.length > 0 ? (
               <div className="flex flex-wrap gap-2">
-                {tags.map((tag: any) => (
+                {tags.map((tag) => (
                   <span
                     key={tag.id}
                     className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer"

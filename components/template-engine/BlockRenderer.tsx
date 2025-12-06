@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils/cn';
 interface BlockRendererProps {
   block: Block;
   data?: FetchResult;
-  pageData?: Record<string, any>;
+  pageData?: Record<string, unknown>;
   className?: string;
   isPreview?: boolean;
 }
@@ -28,7 +28,7 @@ interface BlockRendererProps {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // تحميل ديناميكي للـ Block components
-const BLOCK_COMPONENTS: Partial<Record<BlockType, React.LazyExoticComponent<any>>> = {
+const BLOCK_COMPONENTS: Partial<Record<BlockType, React.LazyExoticComponent<React.ComponentType<{ variant: string; config: Partial<BlockConfig>; data?: FetchResult; pageData?: Record<string, unknown>; className?: string }>>>> = {
   'article-grid': lazy(() => import('./blocks/ArticleGrid')),
   'article-list': lazy(() => import('./blocks/ArticleList')),
   'article-slider': lazy(() => import('./blocks/ArticleSlider')),
@@ -166,7 +166,7 @@ export function BlockRenderer({
   isPreview = false,
 }: BlockRendererProps) {
   // الحصول على معلومات الـ Block
-  const blockMeta = getBlockMeta(block.type);
+  getBlockMeta(block.type);
   const variant = getVariant(block.type, block.variant);
   
   // دمج الإعدادات الافتراضية مع إعدادات الـ Block
@@ -191,7 +191,7 @@ export function BlockRenderer({
     variant: string;
     config: Partial<BlockConfig>;
     data?: FetchResult;
-    pageData?: Record<string, any>;
+    pageData?: Record<string, unknown>;
     className?: string;
   }>;
 
@@ -234,9 +234,9 @@ function deepMerge<T extends object>(target: T, source: Partial<T>): T {
         targetValue !== null &&
         !Array.isArray(targetValue)
       ) {
-        (result as any)[key] = deepMerge(targetValue as object, sourceValue as object);
+        (result as Record<string, unknown>)[key] = deepMerge(targetValue as object, sourceValue as object);
       } else if (sourceValue !== undefined) {
-        (result as any)[key] = sourceValue;
+        (result as Record<string, unknown>)[key] = sourceValue;
       }
     }
   }

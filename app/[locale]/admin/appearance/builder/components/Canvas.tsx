@@ -240,7 +240,6 @@ interface SectionItemProps {
 
 function SectionItem({
   section,
-  index,
   isSelected,
   isHovered,
   showOutlines,

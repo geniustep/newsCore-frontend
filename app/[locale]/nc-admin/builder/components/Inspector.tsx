@@ -153,7 +153,7 @@ function SectionInspector({ section, onUpdate, onClose, expandedGroups, toggleGr
             label="نوع الخلفية"
             value={section.background?.type || 'none'}
             options={[{ value: 'none', label: 'بدون' }, { value: 'color', label: 'لون' }]}
-            onChange={(value) => onUpdate({ background: { ...section.background, type: value as any } })}
+            onChange={(value) => onUpdate({ background: { ...section.background, type: value as 'none' | 'color' | 'gradient' | 'image' | 'pattern' } })}
           />
           {section.background?.type === 'color' && (
             <div className="flex gap-2">
@@ -178,7 +178,7 @@ interface BlockInspectorProps {
   toggleGroup: (groupId: string) => void;
 }
 
-function BlockInspector({ block, sectionId, activeTab, setActiveTab, onUpdate, onClose, expandedGroups, toggleGroup }: BlockInspectorProps) {
+function BlockInspector({ block, activeTab, setActiveTab, onUpdate, onClose, expandedGroups, toggleGroup }: BlockInspectorProps) {
   const meta = getBlockMeta(block.type);
   const variants = getBlockVariants(block.type);
 
@@ -234,7 +234,7 @@ function BlockInspector({ block, sectionId, activeTab, setActiveTab, onUpdate, o
               label="النوع"
               value={block.dataSource.mode}
               options={[{ value: 'latest', label: 'آخر المقالات' }, { value: 'category', label: 'من قسم' }, { value: 'trending', label: 'الأكثر قراءة' }, { value: 'featured', label: 'المميزة' }]}
-              onChange={(value) => onUpdate({ dataSource: { ...block.dataSource!, mode: value as any } })}
+              onChange={(value) => onUpdate({ dataSource: { ...block.dataSource!, mode: value as 'latest' | 'category' | 'trending' | 'featured' | 'manual' | 'related' | 'author' } })}
             />
             <NumberField label="عدد المقالات" value={block.dataSource.limit} min={1} max={20} onChange={(value) => onUpdate({ dataSource: { ...block.dataSource!, limit: value } })} />
           </FieldGroup>
@@ -247,7 +247,7 @@ function BlockInspector({ block, sectionId, activeTab, setActiveTab, onUpdate, o
                 label="نسبة العرض"
                 value={block.config.image?.aspectRatio || '16:9'}
                 options={[{ value: '16:9', label: '16:9' }, { value: '4:3', label: '4:3' }, { value: '1:1', label: '1:1' }]}
-                onChange={(value) => onUpdate({ config: { ...block.config, image: { ...block.config.image, aspectRatio: value as any } } })}
+                onChange={(value) => onUpdate({ config: { ...block.config, image: { ...block.config.image, aspectRatio: value as '16:9' | '4:3' | '1:1' | '3:2' | '2:3' | '21:9' | 'auto' } } })}
               />
             </FieldGroup>
 
@@ -256,7 +256,7 @@ function BlockInspector({ block, sectionId, activeTab, setActiveTab, onUpdate, o
                 label="النمط"
                 value={block.config.card?.style || 'elevated'}
                 options={[{ value: 'flat', label: 'مسطح' }, { value: 'elevated', label: 'مرتفع' }, { value: 'outlined', label: 'محدد' }]}
-                onChange={(value) => onUpdate({ config: { ...block.config, card: { ...block.config.card, style: value as any } } })}
+                onChange={(value) => onUpdate({ config: { ...block.config, card: { ...block.config.card, style: value as 'flat' | 'elevated' | 'outlined' | 'glass' } } })}
               />
             </FieldGroup>
           </>
@@ -284,7 +284,7 @@ interface FieldGroupProps {
   children: React.ReactNode;
 }
 
-function FieldGroup({ id, title, icon, expanded, onToggle, children }: FieldGroupProps) {
+function FieldGroup({ title, icon, expanded, onToggle, children }: FieldGroupProps) {
   return (
     <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
       <button onClick={onToggle} className="w-full flex items-center gap-2 px-3 py-2.5 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">

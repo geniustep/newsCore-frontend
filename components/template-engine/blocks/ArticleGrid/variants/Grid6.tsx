@@ -4,8 +4,6 @@
  */
 
 'use client';
-
-import { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ArticleGridProps } from '../index';
@@ -13,21 +11,15 @@ import { ArticleCard } from '../index';
 import { cn } from '@/lib/utils/cn';
 
 export default function Grid6({
-  variant,
   config,
   data,
   className,
 }: ArticleGridProps) {
-  const { display = {}, image = {}, text = {}, card = {}, custom = {} } = config;
   const articles = data?.articles || [];
 
   // تقسيم المقالات
   const featuredArticle = articles[0];
   const gridArticles = articles.slice(1);
-
-  // إعدادات المقال المميز
-  const featuredConfig = custom.featuredConfig || {};
-  const featuredSpan = custom.featuredSpan || { desktop: 2, tablet: 2, mobile: 1 };
 
   if (!articles.length) {
     return (

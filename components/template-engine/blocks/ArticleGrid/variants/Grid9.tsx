@@ -17,7 +17,7 @@ export default function Grid9({
   data,
   className,
 }: ArticleGridProps) {
-  const { display = {}, image = {}, text = {}, card = {}, custom = {}, grid = {} } = config;
+  const { display = {}, card = {}, custom = {}, grid = {} } = config;
   const articles = data?.articles || [];
 
   // عرض الصورة
@@ -32,9 +32,6 @@ export default function Grid9({
       mobile: typeof cols === 'object' && 'mobile' in cols ? cols.mobile : 1,
     };
   }, [grid.columns]);
-
-  // هل يظهر الفاصل
-  const showDivider = custom.showDivider !== false;
 
   if (!articles.length) {
     return (

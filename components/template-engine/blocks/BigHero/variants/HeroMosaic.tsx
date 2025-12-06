@@ -5,7 +5,6 @@
 
 'use client';
 
-import { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { BigHeroProps } from '../index';
@@ -17,7 +16,7 @@ export default function HeroMosaic({
   data,
   className,
 }: BigHeroProps) {
-  const { display = {}, custom = {} } = config;
+  const { custom = {} } = config;
   const articles = data?.articles || [];
 
   const isBento = variant === 'hero-bento';

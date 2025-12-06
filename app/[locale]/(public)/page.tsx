@@ -8,17 +8,12 @@ import { Metadata } from 'next';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { TemplateRenderer } from '@/components/template-engine';
-import { getTemplateForPage, getTemplateById } from '@/lib/template-engine/api';
-import type { Template } from '@/lib/template-engine/types';
+import { getTemplateForPage } from '@/lib/template-engine/api';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'الصفحة الرئيسية | NewsCore',
     description: 'أحدث الأخبار والتحليلات',
@@ -31,7 +26,7 @@ export default async function HomePage({
   params: { locale: string };
 }) {
   setRequestLocale(locale);
-  const t = await getTranslations();
+  await getTranslations();
 
   // جلب القالب المخصص للصفحة الرئيسية
   // يمكن أن يأتي من:

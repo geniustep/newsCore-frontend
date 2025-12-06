@@ -21,7 +21,7 @@ export interface ArticleSliderProps {
   variant: string;
   config: Partial<BlockConfig>;
   data?: FetchResult;
-  pageData?: Record<string, any>;
+  pageData?: Record<string, unknown>;
   className?: string;
 }
 
@@ -33,7 +33,6 @@ export default function ArticleSlider({
   variant,
   config,
   data,
-  pageData,
   className,
 }: ArticleSliderProps) {
   const articles = useMemo(() => {
@@ -43,10 +42,10 @@ export default function ArticleSlider({
     return getMockArticles(6);
   }, [data]);
 
-  const { display = {}, image = {}, text = {}, card = {}, custom = {} } = config;
+  const { custom = {} } = config;
 
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(custom.autoplay !== false);
+  const [isPlaying] = useState(custom.autoplay !== false);
   const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -161,12 +160,11 @@ function FullWidthSlider({
   goToSlide,
   nextSlide,
   prevSlide,
-  isHovered,
   setIsHovered,
   variant,
   className,
 }: SliderComponentProps) {
-  const { display = {}, custom = {} } = config;
+  const { custom = {} } = config;
   const isFade = variant === 'slider-2' || custom.transition === 'fade';
 
   return (
@@ -301,10 +299,8 @@ function CardSlider({
   articles,
   config,
   currentSlide,
-  setCurrentSlide,
   nextSlide,
   prevSlide,
-  isHovered,
   setIsHovered,
   variant,
   className,
@@ -413,11 +409,10 @@ function ThumbnailSlider({
   goToSlide,
   nextSlide,
   prevSlide,
-  isHovered,
   setIsHovered,
   className,
 }: SliderComponentProps) {
-  const { display = {}, custom = {} } = config;
+  const { custom = {} } = config;
 
   return (
     <div 

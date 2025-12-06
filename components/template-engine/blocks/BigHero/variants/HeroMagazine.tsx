@@ -5,11 +5,9 @@
 
 'use client';
 
-import { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { BigHeroProps } from '../index';
-import { HeroArticle } from '../index';
 import { cn } from '@/lib/utils/cn';
 
 export default function HeroMagazine({
@@ -18,7 +16,7 @@ export default function HeroMagazine({
   data,
   className,
 }: BigHeroProps) {
-  const { display = {}, custom = {} } = config;
+  const { custom = {} } = config;
   const articles = data?.articles || [];
 
   // تقسيم المقالات

@@ -9,7 +9,6 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   Settings,
-  Globe,
   Search,
   Share2,
   Mail,
@@ -17,7 +16,6 @@ import {
   Save,
   Check,
   Image,
-  Palette,
   Bell,
   Shield,
   Database,

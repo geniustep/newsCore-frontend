@@ -26,7 +26,6 @@ import {
   Eye,
   Check,
   X,
-  Filter,
   Grid3X3,
   List,
 } from 'lucide-react';

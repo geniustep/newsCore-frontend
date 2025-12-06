@@ -17,7 +17,7 @@ export default function Grid12({
   data,
   className,
 }: ArticleGridProps) {
-  const { display = {}, image = {}, text = {}, card = {}, custom = {}, grid = {} } = config;
+  const { display = {}, image = {}, custom = {}, grid = {} } = config;
   const articles = data?.articles || [];
 
   // حساب الأعمدة

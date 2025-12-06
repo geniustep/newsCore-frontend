@@ -8,7 +8,7 @@
 import { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import type { BlockConfig, ResponsiveValue } from '@/lib/template-engine/types';
+import type { BlockConfig } from '@/lib/template-engine/types';
 import type { FetchResult, Article } from '@/lib/template-engine/data-source';
 import { getMockArticles } from '@/lib/template-engine/data-source';
 import { cn } from '@/lib/utils/cn';
@@ -29,7 +29,7 @@ export interface ArticleGridProps {
   variant: string;
   config: Partial<BlockConfig>;
   data?: FetchResult;
-  pageData?: Record<string, any>;
+  pageData?: Record<string, unknown>;
   className?: string;
 }
 

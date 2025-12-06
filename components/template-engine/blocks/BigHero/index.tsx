@@ -27,7 +27,7 @@ export interface BigHeroProps {
   variant: string;
   config: Partial<BlockConfig>;
   data?: FetchResult;
-  pageData?: Record<string, any>;
+  pageData?: Record<string, unknown>;
   className?: string;
 }
 

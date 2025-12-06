@@ -7,12 +7,6 @@ import type {
   BlockType, 
   BlockConfig, 
   DataSource,
-  ImagePosition,
-  ImageAspectRatio,
-  TextSize,
-  SpacingSize,
-  BorderRadius,
-  ShadowSize,
 } from '../types';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -56,7 +50,7 @@ export interface FieldDefinition {
   descriptionAr?: string;
   placeholder?: string;
   placeholderAr?: string;
-  defaultValue?: any;
+  defaultValue?: unknown;
   required?: boolean;
   
   // للأرقام
@@ -77,7 +71,7 @@ export interface FieldDefinition {
   showIf?: {
     field: string;
     operator: 'equals' | 'not_equals' | 'contains' | 'not_empty';
-    value?: any;
+    value?: unknown;
   };
   
   // التحقق

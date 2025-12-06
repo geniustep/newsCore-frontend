@@ -4,15 +4,11 @@
  */
 
 import type { 
-  TemplateType, 
-  LayoutType,
   Template,
   Section,
   Block,
-  ContainerType,
-  SectionHeaderStyle,
 } from '../types';
-import type { FieldDefinition, FieldGroup, SelectOption } from './block.schema';
+import type { FieldGroup, SelectOption } from './block.schema';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TEMPLATE TYPE OPTIONS

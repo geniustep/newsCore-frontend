@@ -3,7 +3,6 @@
  * صفحة معاينة القالب
  */
 
-import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { Metadata } from 'next';
 import Header from '@/components/layout/Header';
@@ -19,7 +18,7 @@ interface PreviewPageProps {
   };
 }
 
-export async function generateMetadata({ params }: PreviewPageProps): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `معاينة القالب | NewsCore`,
     description: 'معاينة القالب قبل النشر',

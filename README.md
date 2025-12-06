@@ -1,244 +1,403 @@
-# 📰 NewsCore Frontend
-
 <div align="center">
 
-![NewsCore Frontend](https://img.shields.io/badge/NewsCore-Frontend-blue?style=for-the-badge&logo=next.js&logoColor=white)
+# 🎨 NewsCore Frontend
 
-[![Next.js](https://img.shields.io/badge/Next.js-14-000000?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+### واجهة المستخدم لنظام إدارة المحتوى الإخباري
 
-**واجهة موقع إخباري احترافية قابلة للتخصيص مع دعم كامل للقوالب الديناميكية**
+[![Next.js](https://img.shields.io/badge/Next.js_14-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![React Query](https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)](https://tanstack.com/query)
 
 </div>
 
 ---
 
-## 🚀 البداية السريعة
+## 📋 جدول المحتويات
 
-### المتطلبات
-- Node.js 20.x أو أحدث
-- npm أو yarn
-
-### التثبيت
-
-```bash
-# تثبيت الـ Dependencies
-npm install
-
-# تشغيل السيرفر المحلي
-npm run dev
-```
-
-افتح المتصفح على [http://localhost:3000](http://localhost:3000)
-
-### البناء للإنتاج
-
-```bash
-npm run build
-npm start
-```
+- [نظرة عامة](#-نظرة-عامة)
+- [المميزات](#-المميزات)
+- [هيكل المشروع](#-هيكل-المشروع)
+- [التثبيت](#-التثبيت)
+- [التطوير](#-التطوير)
+- [لوحة الإدارة](#-لوحة-الإدارة)
+- [نظام القوالب](#-نظام-القوالب)
+- [تعدد اللغات](#-تعدد-اللغات)
+- [النشر](#-النشر)
 
 ---
 
-## 🏗️ البنية التقنية
+## 🌟 نظرة عامة
 
-- **Framework**: Next.js 14+ (App Router)
-- **Language**: TypeScript
-- **Styling**: TailwindCSS
-- **State Management**: Zustand + React Query
-- **i18n**: next-intl
-- **HTTP Client**: Axios
+واجهة NewsCore الأمامية مبنية بـ **Next.js 14** مع **App Router** لتوفير تجربة مستخدم سلسة وأداء فائق. تدعم الواجهة تعدد اللغات مع دعم كامل للـ RTL.
 
 ---
 
-## ✨ الميزات
+## ✨ المميزات
 
-### 🆕 النظام المتقدم (v2.0)
+### 🎯 للمستخدمين
+- ✅ تصميم متجاوب يعمل على جميع الأجهزة
+- ✅ وضع ليلي/نهاري
+- ✅ دعم كامل للعربية والـ RTL
+- ✅ سرعة تحميل فائقة
+- ✅ تحسين SEO متقدم
 
-#### 🎨 نظام القوالب الديناميكي (Theme System)
-- **ThemeProvider** لإدارة إعدادات القالب
-- **ThemeLoader** لتحميل القوالب ديناميكياً
-- **CSS Variables** لتطبيق الألوان والخطوط
-- دعم **الوضع الداكن** مع حفظ التفضيل
-- **Templates** متعددة لكل نوع صفحة
-- **Regions** لتوزيع الودجات
+### 🛠️ للمطورين
+- ✅ TypeScript للأمان والإنتاجية
+- ✅ Tailwind CSS للتصميم السريع
+- ✅ نظام قوالب قابل للتوسع
+- ✅ باني صفحات مرئي (Drag & Drop)
+- ✅ React Query لإدارة البيانات
+- ✅ Zustand لإدارة الحالة
 
-#### 🧩 دعم الوحدات (Modules)
-- تحميل مكونات الوحدات ديناميكياً
-- عرض ودجات الوحدات في المناطق المخصصة
-- دعم hooks من الوحدات
-
-#### 🌍 نظام الترجمة المحسّن
-- تحميل الترجمات من API
-- دعم **Namespaces** متعددة
-- **Fallback** للغة الافتراضية
-- **Caching** للترجمات
-
-### 🚨 الأخبار العاجلة
-- مكون `BreakingNews` مع دعم API
-- تحديث تلقائي كل 30 ثانية
-- دعم عرض متعدد الأخبار مع التنقل
-- تكامل كامل مع Backend API
-
-### 📊 التحليلات
-- API clients جاهزة للتحليلات
-- دعم جميع endpoints (Overview, Pageviews, Top Articles, Traffic Sources, Realtime)
-
-### 🔄 سير العمل
-- API clients جاهزة لسير العمل التحريري
-- دعم جميع عمليات Workflow
+### 🎛️ لوحة الإدارة
+- ✅ واجهة حديثة وسهلة الاستخدام
+- ✅ إدارة المقالات والتصنيفات
+- ✅ باني الصفحات المرئي
+- ✅ إدارة القوالب والسمات
+- ✅ إحصائيات ولوحة معلومات
 
 ---
 
-## 📁 بنية المشروع
+## 📁 هيكل المشروع
 
 ```
 NewsCore-frontend/
-├── 📂 app/
-│   └── 📂 [locale]/           # صفحات متعددة اللغات
-│       ├── layout.tsx         # Root Layout مع ThemeProvider
-│       ├── page.tsx           # الصفحة الرئيسية
-│       ├── 📂 article/        # صفحات المقالات
-│       └── 📂 category/       # صفحات التصنيفات
-├── 📂 components/
-│   ├── 📂 layout/             # Header, Footer
-│   ├── 📂 menus/              # MenuRenderer, MegaMenu
-│   └── 📂 widgets/            # مكونات الودجات
-├── 📂 core/                   # 🆕 النظام الأساسي
-│   ├── ThemeProvider.tsx      # مزود القالب
-│   └── ThemeLoader.ts         # محمّل القوالب
-├── 📂 themes/                 # 🆕 القوالب
-│   └── 📂 default/
-│       ├── theme.json         # manifest القالب
-│       ├── 📂 templates/      # قوالب الصفحات
-│       └── 📂 components/     # مكونات القالب
-├── 📂 lib/
-│   └── 📂 api/               # API clients
-├── 📂 i18n/
-│   └── config.ts             # إعدادات الترجمة
-└── 📄 middleware.ts          # Middleware للترجمة
+├── 📁 app/                      # صفحات Next.js (App Router)
+│   └── [locale]/                # دعم تعدد اللغات
+│       ├── admin/               # 🆕 لوحة الإدارة الجديدة
+│       │   ├── layout.tsx       # تخطيط الإدارة
+│       │   ├── page.tsx         # لوحة المعلومات
+│       │   ├── login/           # تسجيل الدخول
+│       │   ├── content/         # إدارة المحتوى
+│       │   │   ├── articles/    # المقالات
+│       │   │   └── categories/  # التصنيفات
+│       │   ├── appearance/      # المظهر
+│       │   │   ├── builder/     # باني الصفحات
+│       │   │   ├── templates/   # القوالب
+│       │   │   └── menus/       # القوائم
+│       │   └── system/          # النظام
+│       │       └── settings/    # الإعدادات
+│       ├── article/             # صفحات المقالات
+│       ├── category/            # صفحات التصنيفات
+│       └── page.tsx             # الصفحة الرئيسية
+│
+├── 📁 components/               # المكونات
+│   ├── template-engine/         # محرك القوالب
+│   │   ├── blocks/              # البلوكات (ArticleGrid, BigHero, etc.)
+│   │   ├── BlockRenderer.tsx    # عارض البلوكات
+│   │   └── SectionRenderer.tsx  # عارض الأقسام
+│   ├── layout/                  # مكونات التخطيط
+│   ├── ui/                      # مكونات الواجهة
+│   └── providers/               # موفرو السياق
+│
+├── 📁 lib/                      # المكتبات
+│   ├── api/                     # عملاء API
+│   │   ├── admin.ts             # API الإدارة
+│   │   └── client.ts            # العميل الأساسي
+│   ├── template-engine/         # محرك القوالب
+│   │   ├── types.ts             # الأنواع
+│   │   ├── registry.ts          # سجل البلوكات
+│   │   └── data-source.ts       # مصادر البيانات
+│   └── utils/                   # الأدوات المساعدة
+│
+├── 📁 i18n/                     # الترجمة
+│   ├── dictionaries/            # ملفات الترجمة
+│   │   ├── ar.json              # العربية
+│   │   ├── en.json              # الإنجليزية
+│   │   └── fr.json              # الفرنسية
+│   └── request.ts               # إعدادات next-intl
+│
+├── 📁 stores/                   # إدارة الحالة (Zustand)
+│   ├── admin-auth.ts            # حالة المصادقة
+│   └── builder-store.ts         # حالة الباني
+│
+├── 📁 themes/                   # السمات
+│   └── newscore/                # السمة الافتراضية
+│       ├── components/          # مكونات السمة
+│       └── templates/           # قوالب السمة
+│
+├── 📁 styles/                   # الأنماط
+│   └── globals.css              # الأنماط العامة
+│
+├── 📄 next.config.mjs           # إعدادات Next.js
+├── 📄 tailwind.config.ts        # إعدادات Tailwind
+└── 📄 middleware.ts             # Middleware للغات
 ```
 
 ---
 
-## 🌍 اللغات المدعومة
+## 🚀 التثبيت
 
-| اللغة | الكود | الاتجاه |
-|-------|-------|---------|
-| العربية | `ar` | RTL |
-| English | `en` | LTR |
-| Français | `fr` | LTR |
+### المتطلبات
+- Node.js 18.x أو أحدث
+- npm أو yarn أو pnpm
+
+### الخطوات
+
+```bash
+# 1. الانتقال لمجلد Frontend
+cd NewsCore-frontend
+
+# 2. تثبيت الاعتماديات
+npm install
+
+# 3. إنشاء ملف البيئة
+cp .env.example .env.local
+
+# 4. تعديل الإعدادات
+nano .env.local
+```
+
+### متغيرات البيئة
+
+```env
+# API Backend
+NEXT_PUBLIC_API_URL=/api/v1
+
+# الموقع
+NEXT_PUBLIC_SITE_NAME=أخبار اليوم
+NEXT_PUBLIC_SITE_URL=https://yoursite.com
+NEXT_PUBLIC_DEFAULT_LOCALE=ar
+
+# اختياري
+USE_LOCAL_TEMPLATES=true
+```
 
 ---
 
-## 🎨 استخدام نظام القوالب
+## 💻 التطوير
 
-### ThemeProvider
+### تشغيل خادم التطوير
 
-```tsx
-import { ThemeProvider, useTheme } from '@/core/ThemeProvider';
+```bash
+npm run dev
+```
 
-// في layout.tsx
-export default function Layout({ children }) {
+الموقع متاح على: http://localhost:3000
+
+### الأوامر المتاحة
+
+| الأمر | الوصف |
+|-------|-------|
+| `npm run dev` | تشغيل خادم التطوير |
+| `npm run build` | بناء الإنتاج |
+| `npm run start` | تشغيل خادم الإنتاج |
+| `npm run lint` | فحص الكود |
+| `npm run type-check` | فحص الأنواع |
+
+---
+
+## 🎛️ لوحة الإدارة
+
+### الوصول
+- **الرابط**: `/ar/admin` أو `/en/admin`
+- **البريد**: `admin@example.com`
+- **كلمة المرور**: `admin123`
+
+### الأقسام الرئيسية
+
+```
+📊 لوحة المعلومات     → /admin
+├── 📝 المحتوى
+│   ├── المقالات      → /admin/content/articles
+│   ├── الصفحات       → /admin/content/pages
+│   ├── التصنيفات     → /admin/content/categories
+│   ├── الوسوم        → /admin/content/tags
+│   └── الوسائط       → /admin/content/media
+├── 🎨 المظهر
+│   ├── باني الصفحات  → /admin/appearance/builder
+│   ├── القوالب       → /admin/appearance/templates
+│   ├── القوائم       → /admin/appearance/menus
+│   └── السمات        → /admin/appearance/themes
+└── ⚙️ النظام
+    ├── المستخدمين    → /admin/system/users
+    ├── الإعدادات     → /admin/system/settings
+    └── التحليلات     → /admin/system/analytics
+```
+
+---
+
+## 🧩 نظام القوالب
+
+### البلوكات المتاحة
+
+| البلوك | الوصف | المتغيرات |
+|--------|-------|-----------|
+| `ArticleGrid` | شبكة مقالات | grid-1 إلى grid-6 |
+| `BigHero` | بطل كبير | hero-classic, hero-magazine |
+| `ArticleList` | قائمة مقالات | list-1 إلى list-4 |
+| `ArticleSlider` | سلايدر | slider-1 إلى slider-3 |
+
+### إنشاء بلوك جديد
+
+```typescript
+// components/template-engine/blocks/MyBlock.tsx
+import { BlockProps } from '@/lib/template-engine/types';
+
+export default function MyBlock({ variant, config, data }: BlockProps) {
   return (
-    <ThemeProvider initialTheme={themeSettings}>
-      {children}
-    </ThemeProvider>
-  );
-}
-
-// في أي مكون
-function MyComponent() {
-  const { theme, isDarkMode, toggleDarkMode } = useTheme();
-  
-  return (
-    <div style={{ color: theme.primaryColor }}>
-      <button onClick={toggleDarkMode}>
-        {isDarkMode ? '☀️' : '🌙'}
-      </button>
+    <div className="my-block">
+      {data?.articles.map(article => (
+        <article key={article.id}>
+          <h2>{article.title}</h2>
+        </article>
+      ))}
     </div>
   );
 }
 ```
 
-### تحميل القالب
+### تسجيل البلوك
 
-```tsx
-import { themeLoader } from '@/core/ThemeLoader';
+```typescript
+// lib/template-engine/registry.ts
+registerBlock('my-block', {
+  name: 'My Block',
+  nameAr: 'بلوك مخصص',
+  variants: [
+    { id: 'default', name: 'Default', nameAr: 'افتراضي' }
+  ]
+});
+```
 
-// جلب القالب النشط
-const theme = await themeLoader.loadActiveTheme();
+---
 
-// جلب template معين
-const template = themeLoader.getTemplate('article', 'article-full');
+## 🌍 تعدد اللغات
 
-// التحقق من ميزة
-if (themeLoader.supportsFeature('dark-mode')) {
-  // ...
+### اللغات المدعومة
+- 🇸🇦 العربية (ar) - RTL
+- 🇬🇧 الإنجليزية (en) - LTR
+- 🇫🇷 الفرنسية (fr) - LTR
+
+### إضافة ترجمة
+
+```json
+// i18n/dictionaries/ar.json
+{
+  "admin": {
+    "title": "لوحة الإدارة",
+    "nav": {
+      "dashboard": "لوحة المعلومات",
+      "articles": "المقالات"
+    }
+  }
+}
+```
+
+### استخدام الترجمة
+
+```typescript
+import { useTranslations } from 'next-intl';
+
+export default function MyComponent() {
+  const t = useTranslations('admin');
+  
+  return <h1>{t('title')}</h1>;
 }
 ```
 
 ---
 
-## 🔌 API Clients
+## 📦 النشر
 
-### Breaking News
+### Vercel (موصى به)
 
-```typescript
-import { breakingNewsApi } from '@/lib/api/breaking-news';
+```bash
+# تثبيت Vercel CLI
+npm i -g vercel
 
-// جلب الأخبار النشطة
-const news = await breakingNewsApi.getActive();
-
-// استخدام في المكون
-<BreakingNews useApi={true} />
+# النشر
+vercel
 ```
 
-### Themes 🆕
+### Docker
 
-```typescript
-// جلب إعدادات القالب النشط
-const response = await fetch('/api/v1/themes/active');
-const theme = await response.json();
+```dockerfile
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM node:18-alpine AS runner
+WORKDIR /app
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+EXPOSE 3000
+CMD ["node", "server.js"]
 ```
 
-### Translations 🆕
+### متغيرات الإنتاج
 
-```typescript
-// جلب ترجمات namespace معين
-const response = await fetch('/api/v1/i18n/translations/common/ar');
-const translations = await response.json();
-```
-
-### Widgets 🆕
-
-```typescript
-// جلب ودجات منطقة معينة
-const response = await fetch('/api/v1/widgets/region/sidebar-right?isActive=true');
-const widgets = await response.json();
+```env
+NEXT_PUBLIC_API_URL=https://api.yoursite.com/api/v1
+NEXT_PUBLIC_SITE_URL=https://yoursite.com
+NODE_ENV=production
 ```
 
 ---
 
-## 🔗 الروابط
+## 🔧 التخصيص
 
-- [NewsCore Backend](https://github.com/geniustep/NewsCore)
-- [NewsCore Admin](https://github.com/geniustep/newsCore-admin)
-- [API Docs](https://admin.sahara2797.com/api/docs)
-- [Advanced System Docs](../docs/ADVANCED_SYSTEM.md)
+### تغيير الألوان
+
+```css
+/* styles/globals.css */
+:root {
+  --color-primary: #e91e8c;
+  --color-secondary: #1e3a5f;
+}
+```
+
+### تخصيص Tailwind
+
+```typescript
+// tailwind.config.ts
+export default {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#e91e8c',
+        secondary: '#1e3a5f',
+      },
+    },
+  },
+};
+```
 
 ---
 
-## 📝 الترخيص
+## 📚 التوثيق الإضافي
 
-MIT License
+- [دليل تطوير السمات](./docs/THEME_DEVELOPMENT_GUIDE.md)
+- [مكونات الصفحة الرئيسية](./HOMEPAGE_COMPONENTS.md)
+- [توثيق API](../docs/API.md)
+
+---
+
+## 🤝 المساهمة
+
+نرحب بمساهماتكم! يرجى:
+
+1. Fork المشروع
+2. إنشاء فرع للميزة (`git checkout -b feature/AmazingFeature`)
+3. Commit التغييرات (`git commit -m 'Add AmazingFeature'`)
+4. Push للفرع (`git push origin feature/AmazingFeature`)
+5. فتح Pull Request
+
+---
+
+## 📄 الترخيص
+
+MIT License - راجع ملف [LICENSE](../LICENSE) للتفاصيل.
 
 ---
 
 <div align="center">
 
-**صُنع بـ ❤️ للمجتمع العربي**
+صنع بـ ❤️ بواسطة فريق NewsCore
 
 </div>

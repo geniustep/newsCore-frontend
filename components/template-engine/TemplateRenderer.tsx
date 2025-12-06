@@ -4,7 +4,7 @@
  */
 
 import { Suspense } from 'react';
-import type { Template, Block, Section } from '@/lib/template-engine/types';
+import type { Template, Block } from '@/lib/template-engine/types';
 import { SectionRenderer } from './SectionRenderer';
 import { prefetchTemplateData } from '@/lib/template-engine/data-source';
 import { cn } from '@/lib/utils/cn';
@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils/cn';
 
 interface TemplateRendererProps {
   template: Template;
-  pageData?: Record<string, any>;
+  pageData?: Record<string, unknown>;
   className?: string;
 }
 
@@ -65,13 +65,14 @@ const layoutStyles = {
   'centered': 'max-w-4xl mx-auto',
 };
 
-const containerStyles = {
-  full: 'w-full',
-  wide: 'max-w-[1536px] mx-auto',
-  normal: 'max-w-7xl mx-auto',
-  narrow: 'max-w-5xl mx-auto',
-  custom: '',
-};
+// Container styles for future use
+// const containerStyles = {
+//   full: 'w-full',
+//   wide: 'max-w-[1536px] mx-auto',
+//   normal: 'max-w-7xl mx-auto',
+//   narrow: 'max-w-5xl mx-auto',
+//   custom: '',
+// };
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN COMPONENT
@@ -227,7 +228,7 @@ function WidgetSkeleton() {
   );
 }
 
-function BreakingNewsRegion({ blocks }: { blocks: Block[] }) {
+function BreakingNewsRegion() {
   // سيتم تنفيذه مع BlockRenderer
   return (
     <div className="breaking-news-region bg-red-600 text-white">

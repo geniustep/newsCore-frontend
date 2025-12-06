@@ -213,7 +213,7 @@ const SAMPLE_TEMPLATE: Template = {
 export default function BuilderPage() {
   const searchParams = useSearchParams();
   const templateId = searchParams.get('template');
-  const { template, setTemplate, previewMode } = useBuilderStore();
+  const { setTemplate, previewMode } = useBuilderStore();
 
   useEffect(() => {
     const currentTemplate = useBuilderStore.getState().template;
@@ -269,7 +269,7 @@ export default function BuilderPage() {
           if (state.selectedElement.type === 'section') {
             state.deleteSection(state.selectedElement.id);
           } else if (state.selectedElement.type === 'block') {
-            const sectionId = (state.selectedElement as any).sectionId;
+            const sectionId = (state.selectedElement as { sectionId: string }).sectionId;
             state.deleteBlock(sectionId, state.selectedElement.id);
           }
         }

@@ -6,17 +6,16 @@
 'use client';
 
 import { useMemo } from 'react';
-import type { ArticleGridProps, ArticleCardProps } from '../index';
+import type { ArticleGridProps } from '../index';
 import { ArticleCard } from '../index';
 import { cn } from '@/lib/utils/cn';
 
 export default function Grid1({
-  variant,
   config,
   data,
   className,
 }: ArticleGridProps) {
-  const { grid = {}, card = {} } = config;
+  const { grid = {} } = config;
   const articles = data?.articles || [];
 
   // حساب الأعمدة
@@ -47,9 +46,9 @@ export default function Grid1({
     }
     
     return {
-      desktop: gapMap[(gap as any).desktop as keyof typeof gapMap] || '1.5rem',
-      tablet: gapMap[(gap as any).tablet as keyof typeof gapMap] || '1rem',
-      mobile: gapMap[(gap as any).mobile as keyof typeof gapMap] || '1rem',
+      desktop: gapMap[(gap as { desktop?: string }).desktop as keyof typeof gapMap] || '1.5rem',
+      tablet: gapMap[(gap as { tablet?: string }).tablet as keyof typeof gapMap] || '1rem',
+      mobile: gapMap[(gap as { mobile?: string }).mobile as keyof typeof gapMap] || '1rem',
     };
   }, [grid.gap]);
 

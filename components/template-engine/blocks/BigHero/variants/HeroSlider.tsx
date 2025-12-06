@@ -17,11 +17,11 @@ export default function HeroSlider({
   data,
   className,
 }: BigHeroProps) {
-  const { display = {}, custom = {} } = config;
+  const { custom = {} } = config;
   const articles = data?.articles || [];
 
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(custom.autoplay !== false);
+  const [isPlaying] = useState(custom.autoplay !== false);
   const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 

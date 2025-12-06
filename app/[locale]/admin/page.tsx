@@ -15,7 +15,6 @@ import {
   Eye,
   TrendingUp,
   Users,
-  BarChart3,
   ArrowUpRight,
   ArrowDownRight,
   Clock,
@@ -117,7 +116,7 @@ function QuickAction({
   );
 }
 
-function RecentArticleRow({ article, locale }: { article: any; locale: string }) {
+function RecentArticleRow({ article, locale }: { article: { id: string; title: string; status: string; coverImageUrl?: string; author?: { displayName?: string }; createdAt: string }; locale: string }) {
   const getStatusStyles = (status: string) => {
     const styles: Record<string, { bg: string; text: string; label: string }> = {
       PUBLISHED: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-400', label: 'منشور' },
@@ -179,28 +178,28 @@ export default function AdminDashboard() {
 
   const { data: articlesData } = useQuery({
     queryKey: ['admin-articles-stats'],
-    queryFn: async () => adminApi.getArticles({ limit: 1 }) as unknown as { meta?: { total: number }; data?: any[] },
+    queryFn: async () => adminApi.getArticles({ limit: 1 }) as unknown as { meta?: { total: number }; data?: unknown[] },
   });
 
   const { data: categoriesData } = useQuery({
     queryKey: ['admin-categories'],
-    queryFn: async () => adminApi.getCategories() as unknown as { data?: any[] },
+    queryFn: async () => adminApi.getCategories() as unknown as { data?: unknown[] },
   });
 
   const { data: tagsData } = useQuery({
     queryKey: ['admin-tags-popular'],
-    queryFn: async () => adminApi.getPopularTags(10) as unknown as { data?: any[] },
+    queryFn: async () => adminApi.getPopularTags(10) as unknown as { data?: Array<{ id: string; name: string; usageCount: number }> },
   });
 
   const { data: recentArticles } = useQuery({
     queryKey: ['admin-recent-articles'],
-    queryFn: async () => adminApi.getArticles({ limit: 5, sortBy: 'createdAt', sortOrder: 'desc' }) as unknown as { data?: any[] },
+    queryFn: async () => adminApi.getArticles({ limit: 5, sortBy: 'createdAt', sortOrder: 'desc' }) as unknown as { data?: Array<{ id: string; title: string; status: string; coverImageUrl?: string; author?: { displayName?: string }; createdAt: string }> },
   });
 
   const stats = [
     {
       title: t('stats.articles'),
-      value: (articlesData as any)?.meta?.total || 0,
+      value: (articlesData as { meta?: { total: number } })?.meta?.total || 0,
       icon: FileText,
       color: 'bg-blue-500',
       change: '+12%',
@@ -325,7 +324,7 @@ export default function AdminDashboard() {
           
           <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-700">
             {(recentArticles?.data?.length ?? 0) > 0 ? (
-              recentArticles?.data?.map((article: any) => (
+              recentArticles?.data?.map((article) => (
                 <RecentArticleRow key={article.id} article={article} locale={locale} />
               ))
             ) : (
@@ -362,7 +361,7 @@ export default function AdminDashboard() {
         
         {(tagsData?.data?.length ?? 0) > 0 ? (
           <div className="flex flex-wrap gap-2">
-            {tagsData?.data?.map((tag: any) => (
+            {tagsData?.data?.map((tag) => (
               <Link
                 key={tag.id}
                 href={`${basePath}/content/tags/${tag.id}`}

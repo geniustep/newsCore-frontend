@@ -5,10 +5,11 @@
 
 'use client';
 
-import { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import type { BigHeroProps, HeroArticleProps } from '../index';
+import type { BigHeroProps } from '../index';
+import type { BlockConfig } from '@/lib/template-engine/types';
+import type { Article } from '@/lib/template-engine/data-source';
 import { HeroArticle } from '../index';
 import { cn } from '@/lib/utils/cn';
 
@@ -27,8 +28,6 @@ export default function HeroClassic({
 
   // إعدادات النمط
   const isNewspaper = variant === 'hero-newspaper';
-  const mainWidth = custom.mainWidth || '60%';
-  const sidebarWidth = custom.sidebarWidth || '40%';
 
   if (!articles.length) {
     return (
@@ -126,7 +125,7 @@ export default function HeroClassic({
 
         {/* الشريط الجانبي */}
         <div className="lg:col-span-2 grid grid-cols-2 lg:grid-cols-1 gap-4">
-          {sidebarArticles.map((article, index) => (
+          {sidebarArticles.map((article) => (
             <article
               key={article.id}
               className={cn(
@@ -182,7 +181,7 @@ export default function HeroClassic({
 }
 
 // مكون مقال جانبي للـ Newspaper
-function SideArticle({ article, config }: { article: any; config: any }) {
+function SideArticle({ article }: { article: Article; config: Partial<BlockConfig> }) {
   return (
     <article className="group pb-4 border-b border-gray-200 dark:border-gray-700 last:border-0 last:pb-0">
       <Link href={`/article/${article.slug}`}>

@@ -51,8 +51,8 @@ export default function LoginPage() {
         );
         router.push(`/${locale}/nc-admin`);
       }
-    } catch (err: any) {
-      setError(err.message || t('error'));
+    } catch (err: unknown) {
+      setError((err as Error).message || t('error'));
     } finally {
       setIsLoading(false);
     }

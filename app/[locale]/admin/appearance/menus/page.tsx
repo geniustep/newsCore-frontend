@@ -14,12 +14,10 @@ import {
   ChevronDown,
   Edit,
   Trash2,
-  MoreVertical,
   Link as LinkIcon,
   FolderOpen,
   FileText,
   Tag,
-  ExternalLink,
   Eye,
   EyeOff,
   Save,
@@ -110,7 +108,6 @@ function MenuItemRow({
   onToggle: (id: string) => void;
 }) {
   const [expanded, setExpanded] = useState(true);
-  const [showMenu, setShowMenu] = useState(false);
   const hasChildren = item.children && item.children.length > 0;
 
   const typeIcons = {

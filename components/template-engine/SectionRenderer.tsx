@@ -6,7 +6,7 @@
 'use client';
 
 import { Suspense, useMemo } from 'react';
-import type { Section, Block, SpacingSize, ResponsiveValue, Breakpoint } from '@/lib/template-engine/types';
+import type { Section, SpacingSize, ResponsiveValue, Breakpoint } from '@/lib/template-engine/types';
 import { BlockRenderer } from './BlockRenderer';
 import { cn } from '@/lib/utils/cn';
 import type { FetchResult } from '@/lib/template-engine/data-source';
@@ -19,7 +19,7 @@ interface SectionRendererProps {
   section: Section;
   index: number;
   prefetchedData?: Map<string, FetchResult>;
-  pageData?: Record<string, any>;
+  pageData?: Record<string, unknown>;
   className?: string;
 }
 
@@ -37,15 +37,16 @@ const spacingMap: Record<SpacingSize, string> = {
   '2xl': '3rem',
 };
 
-const spacingClasses: Record<SpacingSize, { padding: string; margin: string; gap: string }> = {
-  none: { padding: 'p-0', margin: 'm-0', gap: 'gap-0' },
-  xs: { padding: 'p-1', margin: 'm-1', gap: 'gap-1' },
-  sm: { padding: 'p-2', margin: 'm-2', gap: 'gap-2' },
-  md: { padding: 'p-4', margin: 'm-4', gap: 'gap-4' },
-  lg: { padding: 'p-6', margin: 'm-6', gap: 'gap-6' },
-  xl: { padding: 'p-8', margin: 'm-8', gap: 'gap-8' },
-  '2xl': { padding: 'p-12', margin: 'm-12', gap: 'gap-12' },
-};
+// Spacing classes for future use
+// const spacingClasses: Record<SpacingSize, { padding: string; margin: string; gap: string }> = {
+//   none: { padding: 'p-0', margin: 'm-0', gap: 'gap-0' },
+//   xs: { padding: 'p-1', margin: 'm-1', gap: 'gap-1' },
+//   sm: { padding: 'p-2', margin: 'm-2', gap: 'gap-2' },
+//   md: { padding: 'p-4', margin: 'm-4', gap: 'gap-4' },
+//   lg: { padding: 'p-6', margin: 'm-6', gap: 'gap-6' },
+//   xl: { padding: 'p-8', margin: 'm-8', gap: 'gap-8' },
+//   '2xl': { padding: 'p-12', margin: 'm-12', gap: 'gap-12' },
+// };
 
 function getResponsiveValue<T>(value: T | ResponsiveValue<T>, breakpoint: Breakpoint): T {
   if (typeof value !== 'object' || value === null || !('desktop' in value)) {
@@ -103,7 +104,7 @@ function SectionHeader({ header }: SectionHeaderProps) {
     )}>
       <h2 
         className={cn(headerStyles[header.style])}
-        style={header.accentColor ? { '--tw-border-opacity': 1, borderColor: header.accentColor } as any : undefined}
+        style={header.accentColor ? { '--tw-border-opacity': 1, borderColor: header.accentColor } as React.CSSProperties : undefined}
       >
         {header.icon && (
           <span className="inline-block mr-2">{header.icon}</span>

@@ -12,12 +12,11 @@ import type { ArticleGridProps } from '../index';
 import { cn } from '@/lib/utils/cn';
 
 export default function Grid2({
-  variant,
   config,
   data,
   className,
 }: ArticleGridProps) {
-  const { grid = {}, display = {}, image = {}, text = {}, card = {} } = config;
+  const { grid = {}, display = {} } = config;
   const articles = data?.articles || [];
 
   // حساب الأعمدة

@@ -351,7 +351,7 @@ function CategoryModal({
 
 export default function CategoriesPage() {
   const t = useTranslations('admin');
-  const locale = useLocale();
+  useLocale();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [showModal, setShowModal] = useState(false);
