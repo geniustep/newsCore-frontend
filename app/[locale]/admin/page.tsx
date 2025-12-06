@@ -5,6 +5,7 @@
 
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -176,30 +177,38 @@ export default function AdminDashboard() {
   const t = useTranslations('admin');
   const locale = useLocale();
   const basePath = `/${locale}/admin`;
-  const { isAuthenticated } = useAdminAuthStore();
+  const { isAuthenticated, token } = useAdminAuthStore();
+  const [mounted, setMounted] = useState(false);
+  
+  // Only enable queries after component mounts and we have a valid token
+  const canFetch = mounted && isAuthenticated && !!token;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const { data: articlesData } = useQuery({
     queryKey: ['admin-articles-stats'],
     queryFn: async () => adminApi.getArticles({ limit: 1 }) as unknown as { meta?: { total: number }; data?: unknown[] },
-    enabled: isAuthenticated,
+    enabled: canFetch,
   });
 
   const { data: categoriesData } = useQuery({
     queryKey: ['admin-categories'],
     queryFn: async () => adminApi.getCategories() as unknown as { data?: unknown[] },
-    enabled: isAuthenticated,
+    enabled: canFetch,
   });
 
   const { data: tagsData } = useQuery({
     queryKey: ['admin-tags-popular'],
     queryFn: async () => adminApi.getPopularTags(10) as unknown as { data?: Array<{ id: string; name: string; usageCount: number }> },
-    enabled: isAuthenticated,
+    enabled: canFetch,
   });
 
   const { data: recentArticles } = useQuery({
     queryKey: ['admin-recent-articles'],
     queryFn: async () => adminApi.getArticles({ limit: 5, sortBy: 'createdAt', sortOrder: 'desc' }) as unknown as { data?: Array<{ id: string; title: string; status: string; coverImageUrl?: string; author?: { displayName?: string }; createdAt: string }> },
-    enabled: isAuthenticated,
+    enabled: canFetch,
   });
 
   const stats = [
