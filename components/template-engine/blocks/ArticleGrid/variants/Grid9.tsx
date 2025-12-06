@@ -22,6 +22,7 @@ export default function Grid9({
 
   // عرض الصورة
   const imageWidth = custom.imageWidth || { desktop: '200px', tablet: '150px', mobile: '100px' };
+  const showDivider = custom.showDivider !== false;
 
   // حساب الأعمدة
   const gridCols = useMemo(() => {

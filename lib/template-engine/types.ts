@@ -505,7 +505,8 @@ export interface BlockConfig {
   visibility?: VisibilityConfig;
   
   // إعدادات إضافية خاصة بالنوع
-  custom?: Record<string, unknown>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  custom?: Record<string, any>;
 }
 
 /**
@@ -1006,7 +1007,7 @@ export function generateId(prefix: string = ''): UniqueId {
  * التحقق من أن القيمة responsive
  */
 export function isResponsiveValue<T>(value: unknown): value is ResponsiveValue<T> {
-  return value && typeof value === 'object' && 'desktop' in value;
+  return Boolean(value && typeof value === 'object' && 'desktop' in value);
 }
 
 /**

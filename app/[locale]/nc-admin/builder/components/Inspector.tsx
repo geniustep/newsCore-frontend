@@ -247,7 +247,7 @@ function BlockInspector({ block, activeTab, setActiveTab, onUpdate, onClose, exp
                 label="نسبة العرض"
                 value={block.config.image?.aspectRatio || '16:9'}
                 options={[{ value: '16:9', label: '16:9' }, { value: '4:3', label: '4:3' }, { value: '1:1', label: '1:1' }]}
-                onChange={(value) => onUpdate({ config: { ...block.config, image: { ...block.config.image, aspectRatio: value as '16:9' | '4:3' | '1:1' | '3:2' | '2:3' | '21:9' | 'auto' } } })}
+                onChange={(value) => onUpdate({ config: { ...block.config, image: { ...block.config.image, aspectRatio: value as '16:9' | '4:3' | '1:1' | '3:2' | '3:4' | '21:9' | '9:16' | 'auto' | 'original' } } })}
               />
             </FieldGroup>
 

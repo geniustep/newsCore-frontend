@@ -109,7 +109,7 @@ export async function TemplateRenderer({
       {/* Breaking News */}
       {settings.showBreakingNews && regions.breakingNews?.enabled && (
         <Suspense fallback={<BreakingNewsSkeleton />}>
-          <BreakingNewsRegion blocks={regions.breakingNews.blocks || []} />
+          <BreakingNewsRegion />
         </Suspense>
       )}
 

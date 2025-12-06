@@ -245,7 +245,7 @@ export default function AdminLayout({
 
   const basePath = `/${locale}/admin`;
   const isRTL = locale === 'ar';
-  const navigation = getNavigation(basePath);
+  const navigation = getNavigation();
   
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {

@@ -164,7 +164,7 @@ function FullWidthSlider({
   variant,
   className,
 }: SliderComponentProps) {
-  const { custom = {} } = config;
+  const { display = {}, custom = {} } = config;
   const isFade = variant === 'slider-2' || custom.transition === 'fade';
 
   return (

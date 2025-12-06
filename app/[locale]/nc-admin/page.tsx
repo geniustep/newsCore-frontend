@@ -37,9 +37,9 @@ export default function DashboardPage() {
     queryFn: () => adminApi.getArticles({ limit: 5, sortBy: 'createdAt', sortOrder: 'desc' }),
   });
 
-  const articlesResponse = (articlesData as { data?: unknown } | undefined)?.data || articlesData;
-  const categoriesResponse = (categoriesData as { data?: unknown[] } | undefined)?.data || categoriesData;
-  const tagsResponse = (tagsData as { data?: Array<{ id: string; name: string; usageCount: number }> } | undefined)?.data || tagsData;
+  const articlesResponse = articlesData as { meta?: { total: number }; data?: unknown[] } | undefined;
+  const categoriesResponse = categoriesData as { data?: unknown[] } | unknown[] | undefined;
+  const tagsResponse = tagsData as { data?: Array<{ id: string; name: string; usageCount: number }> } | Array<{ id: string; name: string; usageCount: number }> | undefined;
 
   const stats = [
     {
@@ -51,14 +51,14 @@ export default function DashboardPage() {
     },
     {
       name: t('stats.categories'),
-      value: categoriesResponse?.data?.length || categoriesResponse?.length || 0,
+      value: Array.isArray(categoriesResponse) ? categoriesResponse.length : (categoriesResponse as { data?: unknown[] } | undefined)?.data?.length || 0,
       icon: FolderOpen,
       color: 'bg-green-500',
       bgColor: 'bg-green-50 dark:bg-green-900/20',
     },
     {
       name: t('stats.tags'),
-      value: tagsResponse?.data?.length || tagsResponse?.length || 0,
+      value: Array.isArray(tagsResponse) ? tagsResponse.length : (tagsResponse as { data?: unknown[] } | undefined)?.data?.length || 0,
       icon: Tag,
       color: 'bg-purple-500',
       bgColor: 'bg-purple-50 dark:bg-purple-900/20',
