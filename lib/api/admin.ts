@@ -28,6 +28,21 @@ const createAdminApiClient = (): AxiosInstance => {
 
   // Track if we're currently refreshing to prevent multiple refresh attempts
   let isRefreshing = false;
+  let failedQueue: Array<{
+    resolve: (value?: any) => void;
+    reject: (error?: any) => void;
+  }> = [];
+
+  const processQueue = (error: any, token: string | null = null) => {
+    failedQueue.forEach((prom) => {
+      if (error) {
+        prom.reject(error);
+      } else {
+        prom.resolve(token);
+      }
+    });
+    failedQueue = [];
+  };
 
   // Response interceptor to handle errors
   api.interceptors.response.use(
@@ -35,33 +50,75 @@ const createAdminApiClient = (): AxiosInstance => {
     async (error: AxiosError) => {
       const originalRequest = error.config;
       
+      // Handle 401 Unauthorized - Token expired
       if (error.response?.status === 401 && originalRequest && !isRefreshing) {
+        if (originalRequest.url?.includes('/auth/refresh')) {
+          // If refresh token request itself failed, logout immediately
+          useAdminAuthStore.getState().logout();
+          return Promise.reject(new Error('Session expired. Please login again.'));
+        }
+
         isRefreshing = true;
         
         // Try to refresh token
         const refreshToken = useAdminAuthStore.getState().refreshToken;
         if (refreshToken) {
-          try {
-            const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
-              refreshToken,
-            });
-            const { accessToken, refreshToken: newRefreshToken } = response.data?.data || response.data;
-            useAdminAuthStore.getState().setTokens(accessToken, newRefreshToken);
-            isRefreshing = false;
+          return new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
 
-            // Retry the original request
-            originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-            return axios(originalRequest);
-          } catch {
-            isRefreshing = false;
-            useAdminAuthStore.getState().logout();
-            // Don't throw error for refresh failures - just logout silently
-            return Promise.reject(new Error('Session expired. Please login again.'));
-          }
+            axios.post(`${API_BASE_URL}/auth/refresh`, {
+              refreshToken,
+            })
+              .then((response) => {
+                const { accessToken, refreshToken: newRefreshToken } = response.data?.data || response.data;
+                useAdminAuthStore.getState().setTokens(accessToken, newRefreshToken);
+                
+                // Update original request with new token
+                originalRequest.headers = originalRequest.headers || {};
+                originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+                
+                // Retry the original request
+                axios(originalRequest)
+                  .then((res) => {
+                    isRefreshing = false;
+                    processQueue(null, res);
+                    resolve(res);
+                  })
+                  .catch((err) => {
+                    isRefreshing = false;
+                    processQueue(err);
+                    reject(err);
+                  });
+              })
+              .catch((refreshError) => {
+                // Refresh token failed (400 or other error)
+                isRefreshing = false;
+                useAdminAuthStore.getState().logout();
+                processQueue(refreshError);
+                reject(new Error('Session expired. Please login again.'));
+              });
+          });
         } else {
+          // No refresh token available
           isRefreshing = false;
           useAdminAuthStore.getState().logout();
+          return Promise.reject(new Error('Session expired. Please login again.'));
         }
+      }
+
+      // Handle 400 Bad Request on refresh endpoint
+      if (error.response?.status === 400 && originalRequest?.url?.includes('/auth/refresh')) {
+        useAdminAuthStore.getState().logout();
+        return Promise.reject(new Error('Invalid refresh token. Please login again.'));
+      }
+
+      // Handle 404 Not Found - Don't show error for missing resources
+      if (error.response?.status === 404) {
+        // Silently handle 404s - they're expected for missing resources
+        const message = (error.response?.data as any)?.error?.message || 
+                       (error.response?.data as any)?.message ||
+                       'Resource not found';
+        return Promise.reject(new Error(message));
       }
 
       const message = (error.response?.data as any)?.error?.message || 

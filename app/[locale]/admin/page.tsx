@@ -134,6 +134,7 @@ function RecentArticleRow({ article, locale }: { article: { id: string; title: s
   return (
     <Link
       href={`/${locale}/admin/content/articles/${article.id}`}
+      prefetch={false}
       className="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-colors group"
     >
       <div className="w-16 h-16 rounded-xl bg-gray-100 dark:bg-gray-700 overflow-hidden flex-shrink-0">
