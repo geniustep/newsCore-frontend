@@ -41,8 +41,8 @@ interface Article {
   title: string;
   slug: string;
   status: string;
-  author: { displayName: string; avatarUrl?: string };
-  categories: { category: { name: string; slug: string } }[];
+  author?: { displayName: string; avatarUrl?: string } | null;
+  categories?: Array<{ category?: { name: string; slug: string } | null }> | null;
   coverImageUrl?: string;
   publishedAt?: string;
   createdAt: string;
@@ -116,7 +116,7 @@ function ArticleRow({ article, locale, onDelete }: { article: Article; locale: s
             {article.author?.avatarUrl ? (
               <Image 
                 src={article.author.avatarUrl} 
-                alt={article.author?.displayName || ''} 
+                alt={article.author?.displayName || 'Author'} 
                 fill
                 className="object-cover rounded-full"
                 sizes="32px"
@@ -127,15 +127,15 @@ function ArticleRow({ article, locale, onDelete }: { article: Article; locale: s
             )}
           </div>
           <span className="text-sm text-gray-700 dark:text-gray-300">
-            {article.author?.displayName}
+            {article.author?.displayName || 'غير معروف'}
           </span>
         </div>
       </td>
       <td className="px-4 py-4">
-        {article.categories?.[0] && (
+        {article.categories?.[0]?.category?.name && (
           <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-xs">
             <FolderOpen className="w-3 h-3" />
-            {article.categories[0].category.name}
+            {article.categories[0]?.category?.name}
           </span>
         )}
       </td>
@@ -215,7 +215,21 @@ export default function ArticlesPage() {
           search: searchQuery || undefined,
           status: statusFilter !== 'all' ? statusFilter : undefined,
         });
-        return result as unknown as { data: Article[]; meta: { total: number; page: number; totalPages: number } };
+        
+        // Normalize the data structure to ensure all fields are properly typed
+        const normalizedData = {
+          data: (result?.data || []).map((article: unknown) => {
+            const art = article as Article;
+            return {
+              ...art,
+              author: art.author || null,
+              categories: art.categories || [],
+            };
+          }),
+          meta: result?.meta || { total: 0, page: 1, totalPages: 1 },
+        };
+        
+        return normalizedData as { data: Article[]; meta: { total: number; page: number; totalPages: number } };
       } catch (err: unknown) {
         console.error('Error fetching articles:', err);
         throw err;
