@@ -7,6 +7,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -80,9 +81,16 @@ function ArticleRow({ article, locale, onDelete }: { article: Article; locale: s
     <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
       <td className="px-4 py-4">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-12 rounded-lg bg-gray-100 dark:bg-gray-700 overflow-hidden flex-shrink-0">
+          <div className="w-16 h-12 rounded-lg bg-gray-100 dark:bg-gray-700 overflow-hidden flex-shrink-0 relative">
             {article.coverImageUrl ? (
-              <img src={article.coverImageUrl} alt="" className="w-full h-full object-cover" />
+              <Image 
+                src={article.coverImageUrl} 
+                alt={article.title || ''} 
+                fill
+                className="object-cover"
+                sizes="64px"
+                unoptimized
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <FileText className="w-5 h-5 text-gray-400" />
@@ -104,9 +112,16 @@ function ArticleRow({ article, locale, onDelete }: { article: Article; locale: s
       </td>
       <td className="px-4 py-4">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center relative overflow-hidden">
             {article.author?.avatarUrl ? (
-              <img src={article.author.avatarUrl} alt="" className="w-8 h-8 rounded-full" />
+              <Image 
+                src={article.author.avatarUrl} 
+                alt={article.author?.displayName || ''} 
+                fill
+                className="object-cover rounded-full"
+                sizes="32px"
+                unoptimized
+              />
             ) : (
               <User className="w-4 h-4 text-gray-500" />
             )}
@@ -201,7 +216,7 @@ export default function ArticlesPage() {
           status: statusFilter !== 'all' ? statusFilter : undefined,
         });
         return result as unknown as { data: Article[]; meta: { total: number; page: number; totalPages: number } };
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error('Error fetching articles:', err);
         throw err;
       }
