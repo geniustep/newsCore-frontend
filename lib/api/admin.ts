@@ -26,11 +26,18 @@ const createAdminApiClient = (): AxiosInstance => {
     return config;
   });
 
+  // Track if we're currently refreshing to prevent multiple refresh attempts
+  let isRefreshing = false;
+
   // Response interceptor to handle errors
   api.interceptors.response.use(
     (response) => response.data?.data ?? response.data,
     async (error: AxiosError) => {
-      if (error.response?.status === 401) {
+      const originalRequest = error.config;
+      
+      if (error.response?.status === 401 && originalRequest && !isRefreshing) {
+        isRefreshing = true;
+        
         // Try to refresh token
         const refreshToken = useAdminAuthStore.getState().refreshToken;
         if (refreshToken) {
@@ -38,23 +45,28 @@ const createAdminApiClient = (): AxiosInstance => {
             const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
               refreshToken,
             });
-            const { accessToken, refreshToken: newRefreshToken } = response.data;
+            const { accessToken, refreshToken: newRefreshToken } = response.data?.data || response.data;
             useAdminAuthStore.getState().setTokens(accessToken, newRefreshToken);
+            isRefreshing = false;
 
             // Retry the original request
-            if (error.config) {
-              error.config.headers.Authorization = `Bearer ${accessToken}`;
-              return axios(error.config);
-            }
+            originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+            return axios(originalRequest);
           } catch {
+            isRefreshing = false;
             useAdminAuthStore.getState().logout();
+            // Don't throw error for refresh failures - just logout silently
+            return Promise.reject(new Error('Session expired. Please login again.'));
           }
         } else {
+          isRefreshing = false;
           useAdminAuthStore.getState().logout();
         }
       }
 
-      const message = (error.response?.data as any)?.error?.message || 'حدث خطأ غير متوقع';
+      const message = (error.response?.data as any)?.error?.message || 
+                     (error.response?.data as any)?.message ||
+                     'حدث خطأ غير متوقع';
       return Promise.reject(new Error(message));
     }
   );

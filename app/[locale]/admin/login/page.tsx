@@ -5,11 +5,12 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { Eye, EyeOff, Newspaper, Lock, Mail, ArrowRight } from 'lucide-react';
 import { useAdminAuthStore } from '@/stores/admin-auth';
+import { authApi } from '@/lib/api/admin';
 import { cn } from '@/lib/utils/cn';
 
 export default function AdminLoginPage() {
@@ -24,6 +25,11 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
+  
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,26 +37,39 @@ export default function AdminLoginPage() {
     setError(false);
     
     try {
-      // Demo login - في الإنتاج يجب استبدال هذا بـ API حقيقي
-      if (email === 'admin@example.com' && password === 'admin123') {
-        storeLogin(
-          { 
-            id: '1', 
-            email, 
-            firstName: 'Admin', 
-            lastName: 'User', 
-            displayName: 'مدير النظام', 
-            avatarUrl: null, 
-            roles: ['admin'] 
-          },
-          'demo-token',
-          'demo-refresh-token'
-        );
-        router.push(`/${locale}/admin`);
-      } else {
-        setError(true);
-      }
-    } catch {
+      // Call the real API
+      const response = await authApi.login(email, password) as {
+        user: {
+          id: string;
+          email: string;
+          firstName: string;
+          lastName: string;
+          displayName?: string;
+          avatarUrl?: string | null;
+          roles: string[];
+        };
+        accessToken: string;
+        refreshToken: string;
+      };
+      
+      const { user, accessToken, refreshToken } = response;
+      
+      storeLogin(
+        { 
+          id: user.id, 
+          email: user.email, 
+          firstName: user.firstName, 
+          lastName: user.lastName, 
+          displayName: user.displayName || `${user.firstName} ${user.lastName}`, 
+          avatarUrl: user.avatarUrl || null, 
+          roles: user.roles || ['user'] 
+        },
+        accessToken,
+        refreshToken
+      );
+      router.push(`/${locale}/admin`);
+    } catch (err) {
+      console.error('Login error:', err);
       setError(true);
     } finally {
       setLoading(false);
@@ -251,7 +270,7 @@ export default function AdminLoginPage() {
 
           {/* Footer */}
           <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-8">
-            © {new Date().getFullYear()} NewsCore. جميع الحقوق محفوظة.
+            © {currentYear || ''} NewsCore. جميع الحقوق محفوظة.
           </p>
         </div>
       </div>

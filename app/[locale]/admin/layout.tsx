@@ -266,8 +266,19 @@ export default function AdminLayout({
   }, []);
 
   useEffect(() => {
-    if (mounted && !isAuthenticated && !pathname.includes('/login')) {
-      router.push(`/${locale}/admin/login`);
+    if (mounted && !pathname.includes('/login')) {
+      // Check if user is not authenticated
+      if (!isAuthenticated) {
+        router.push(`/${locale}/admin/login`);
+        return;
+      }
+      
+      // Verify token validity by checking if it exists
+      const token = useAdminAuthStore.getState().token;
+      if (!token) {
+        useAdminAuthStore.getState().logout();
+        router.push(`/${locale}/admin/login`);
+      }
     }
   }, [mounted, isAuthenticated, router, locale, pathname]);
 
