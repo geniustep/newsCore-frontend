@@ -2,6 +2,7 @@
 
 import { Page } from '@/lib/api';
 import { Calendar, Share2, Printer } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface TemplateProps {
@@ -52,11 +53,13 @@ export default function DefaultTemplate({ page, locale }: TemplateProps) {
 
       {/* Featured Image */}
       {page.featuredImageUrl && (
-        <div className="mb-8 rounded-2xl overflow-hidden shadow-lg">
-          <img
+        <div className="mb-8 rounded-2xl overflow-hidden shadow-lg relative w-full h-[400px]">
+          <Image
             src={page.featuredImageUrl}
             alt={page.featuredImageAlt || page.title}
-            className="w-full h-[400px] object-cover"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 896px"
           />
         </div>
       )}

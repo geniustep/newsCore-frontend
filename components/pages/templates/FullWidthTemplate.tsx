@@ -2,6 +2,7 @@
 
 import { Page } from '@/lib/api';
 import { Calendar } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface TemplateProps {
@@ -24,10 +25,13 @@ export default function FullWidthTemplate({ page, locale }: TemplateProps) {
       {/* Hero Section */}
       {page.featuredImageUrl && (
         <div className="relative h-[60vh] min-h-[400px]">
-          <img
+          <Image
             src={page.featuredImageUrl}
             alt={page.featuredImageAlt || page.title}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">

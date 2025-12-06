@@ -12,6 +12,7 @@ import {
   Clock,
   Users
 } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface TemplateProps {
@@ -158,12 +159,15 @@ export default function LandingTemplate({ page }: TemplateProps) {
             </div>
             
             {page.featuredImageUrl && (
-              <div className="relative">
+              <div className="relative aspect-video">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-purple-500/20 rounded-3xl blur-3xl" />
-                <img
+                <Image
                   src={page.featuredImageUrl}
                   alt={page.featuredImageAlt || page.title}
-                  className="relative rounded-3xl shadow-2xl"
+                  fill
+                  className="relative rounded-3xl shadow-2xl object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
                 />
               </div>
             )}
@@ -240,11 +244,15 @@ export default function LandingTemplate({ page }: TemplateProps) {
                   &ldquo;{testimonial.content}&rdquo;
                 </p>
                 <div className="flex items-center gap-4">
-                  <img
-                    src={testimonial.avatar}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full"
-                  />
+                  <div className="relative w-12 h-12">
+                    <Image
+                      src={testimonial.avatar}
+                      alt={testimonial.name}
+                      fill
+                      className="rounded-full object-cover"
+                      sizes="48px"
+                    />
+                  </div>
                   <div>
                     <div className="font-bold text-gray-900 dark:text-white">
                       {testimonial.name}
