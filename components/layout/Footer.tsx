@@ -11,7 +11,7 @@ import type { Menu as MenuType } from '@/lib/api/menus';
 export default function Footer() {
   const t = useTranslations();
   const locale = useLocale();
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
   const [footerMenus, setFooterMenus] = useState<{
     footer1?: MenuType;
     footer2?: MenuType;
@@ -21,6 +21,9 @@ export default function Footer() {
 
   useEffect(() => {
     let isMounted = true;
+    
+    // Set current year on client side to avoid hydration mismatch
+    setCurrentYear(new Date().getFullYear());
     
     const loadFooterMenus = async () => {
       try {
@@ -153,7 +156,7 @@ export default function Footer() {
       <div className="border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
           <p>
-            © {currentYear} {t('site.name')}. {t('footer.copyright')}
+            © {currentYear ?? ''} {t('site.name')}. {t('footer.copyright')}
           </p>
           <div className="flex gap-4">
             <a
