@@ -1,14 +1,14 @@
 'use client';
 
-import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
 import Underline from '@tiptap/extension-underline';
-import TextStyle from '@tiptap/extension-text-style';
-import Color from '@tiptap/extension-color';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { Color } from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
 import Youtube from '@tiptap/extension-youtube';
 import { useState, useCallback, useEffect } from 'react';
@@ -487,41 +487,6 @@ export default function TiptapEditor({
           </ToolbarButton>
         </div>
       </div>
-
-      {/* Bubble Menu */}
-      {editor && (
-        <BubbleMenu
-          editor={editor}
-          tippyOptions={{ duration: 100 }}
-          className="bg-gray-900 rounded-xl shadow-xl px-2 py-1 flex items-center gap-0.5"
-        >
-          <button
-            onClick={() => editor.chain().focus().toggleBold().run()}
-            className={cn('p-1.5 rounded text-white/80 hover:text-white hover:bg-white/10', editor.isActive('bold') && 'bg-white/20')}
-          >
-            <Bold className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={cn('p-1.5 rounded text-white/80 hover:text-white hover:bg-white/10', editor.isActive('italic') && 'bg-white/20')}
-          >
-            <Italic className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleUnderline().run()}
-            className={cn('p-1.5 rounded text-white/80 hover:text-white hover:bg-white/10', editor.isActive('underline') && 'bg-white/20')}
-          >
-            <UnderlineIcon className="w-4 h-4" />
-          </button>
-          <div className="w-px h-4 bg-white/20 mx-1" />
-          <button
-            onClick={() => setShowLinkModal(true)}
-            className={cn('p-1.5 rounded text-white/80 hover:text-white hover:bg-white/10', editor.isActive('link') && 'bg-white/20')}
-          >
-            <LinkIcon className="w-4 h-4" />
-          </button>
-        </BubbleMenu>
-      )}
 
       {/* Editor Content */}
       <EditorContent editor={editor} />
