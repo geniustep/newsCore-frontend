@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
@@ -24,6 +24,8 @@ import {
   Loader2,
   AlertCircle,
   CheckCircle,
+  CloudOff,
+  Cloud,
 } from 'lucide-react';
 import { articlesApi, categoriesApi, tagsApi } from '@/lib/api/admin';
 import { useAdminAuthStore } from '@/stores/admin-auth';
@@ -52,15 +54,19 @@ interface Article {
   status: string;
   categories?: Array<{ categoryId: string; category?: Category }>;
   tags?: Array<{ tagId: string; tag?: TagItem }>;
-  seo?: {
-    title?: string;
-    description?: string;
-    keywords?: string;
-  };
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string;
   createdAt: string;
   updatedAt: string;
   publishedAt?: string;
 }
+
+// Helper to validate UUID
+const isValidUUID = (str: string) => {
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(str);
+};
 
 export default function EditArticlePage() {
   const router = useRouter();
@@ -72,23 +78,26 @@ export default function EditArticlePage() {
 
   const [formData, setFormData] = useState({
     title: '',
-    slug: '',
     content: '',
     excerpt: '',
     coverImageUrl: '',
     status: 'DRAFT',
     categoryIds: [] as string[],
     tagIds: [] as string[],
-    seo: {
-      title: '',
-      description: '',
-      keywords: '',
-    },
+    seoTitle: '',
+    seoDescription: '',
+    seoKeywords: '',
   });
 
   const [showTagSelect, setShowTagSelect] = useState(false);
   const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [autoSaveStatus, setAutoSaveStatus] = useState<'saved' | 'saving' | 'unsaved' | 'error'>('saved');
+  const [hasChanges, setHasChanges] = useState(false);
   const { isAuthenticated } = useAdminAuthStore();
+  
+  // Refs for auto-save
+  const autoSaveTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const lastSavedDataRef = useRef<string>('');
 
   // Fetch article
   const { data: article, isLoading: isLoadingArticle, error: articleError } = useQuery({
@@ -123,34 +132,51 @@ export default function EditArticlePage() {
   // Update form data when article is loaded
   useEffect(() => {
     if (article) {
-      setFormData({
+      const newFormData = {
         title: article.title || '',
-        slug: article.slug || '',
         content: article.content || '',
         excerpt: article.excerpt || '',
         coverImageUrl: article.coverImageUrl || '',
         status: article.status || 'DRAFT',
-        categoryIds: article.categories?.map(c => c.categoryId) || [],
-        tagIds: article.tags?.map(t => t.tagId) || [],
-        seo: {
-          title: article.seo?.title || '',
-          description: article.seo?.description || '',
-          keywords: article.seo?.keywords || '',
-        },
-      });
+        categoryIds: article.categories?.map(c => c.categoryId).filter(isValidUUID) || [],
+        tagIds: article.tags?.map(t => t.tagId).filter(isValidUUID) || [],
+        seoTitle: article.seoTitle || '',
+        seoDescription: article.seoDescription || '',
+        seoKeywords: article.seoKeywords || '',
+      };
+      setFormData(newFormData);
+      lastSavedDataRef.current = JSON.stringify(newFormData);
     }
   }, [article]);
 
+  // Prepare data for API (filter valid UUIDs only)
+  const prepareDataForApi = useCallback((data: typeof formData) => {
+    return {
+      title: data.title,
+      content: data.content,
+      excerpt: data.excerpt || undefined,
+      coverImageUrl: data.coverImageUrl || undefined,
+      status: data.status,
+      categoryIds: data.categoryIds.filter(isValidUUID),
+      tagIds: data.tagIds.filter(isValidUUID),
+      seoTitle: data.seoTitle || undefined,
+      seoDescription: data.seoDescription || undefined,
+      seoKeywords: data.seoKeywords || undefined,
+    };
+  }, []);
+
   // Update article mutation
   const updateMutation = useMutation({
-    mutationFn: (data: typeof formData) => articlesApi.update(articleId, data),
+    mutationFn: (data: typeof formData) => articlesApi.update(articleId, prepareDataForApi(data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-articles'] });
       queryClient.invalidateQueries({ queryKey: ['admin-article', articleId] });
-      setSaveMessage({ type: 'success', text: 'تم حفظ التغييرات بنجاح' });
-      setTimeout(() => setSaveMessage(null), 3000);
+      lastSavedDataRef.current = JSON.stringify(formData);
+      setHasChanges(false);
+      setAutoSaveStatus('saved');
     },
     onError: (error: Error) => {
+      setAutoSaveStatus('error');
       setSaveMessage({ type: 'error', text: error.message || 'فشل في حفظ التغييرات' });
       setTimeout(() => setSaveMessage(null), 5000);
     },
@@ -165,9 +191,58 @@ export default function EditArticlePage() {
     },
   });
 
+  // Auto-save function
+  const performAutoSave = useCallback(() => {
+    if (!formData.title) return; // Don't auto-save if no title
+    
+    const currentData = JSON.stringify(formData);
+    if (currentData !== lastSavedDataRef.current) {
+      setAutoSaveStatus('saving');
+      updateMutation.mutate(formData);
+    }
+  }, [formData, updateMutation]);
+
+  // Track changes and trigger auto-save
+  useEffect(() => {
+    const currentData = JSON.stringify(formData);
+    const hasUnsavedChanges = currentData !== lastSavedDataRef.current;
+    setHasChanges(hasUnsavedChanges);
+    
+    if (hasUnsavedChanges && formData.title) {
+      setAutoSaveStatus('unsaved');
+      
+      // Clear existing timer
+      if (autoSaveTimerRef.current) {
+        clearTimeout(autoSaveTimerRef.current);
+      }
+      
+      // Set new auto-save timer (3 seconds after last change)
+      autoSaveTimerRef.current = setTimeout(() => {
+        performAutoSave();
+      }, 3000);
+    }
+    
+    return () => {
+      if (autoSaveTimerRef.current) {
+        clearTimeout(autoSaveTimerRef.current);
+      }
+    };
+  }, [formData, performAutoSave]);
+
   const handleSubmit = (status?: string) => {
+    // Clear auto-save timer
+    if (autoSaveTimerRef.current) {
+      clearTimeout(autoSaveTimerRef.current);
+    }
+    
     const dataToSubmit = status ? { ...formData, status } : formData;
-    updateMutation.mutate(dataToSubmit);
+    setAutoSaveStatus('saving');
+    updateMutation.mutate(dataToSubmit, {
+      onSuccess: () => {
+        setSaveMessage({ type: 'success', text: 'تم حفظ التغييرات بنجاح' });
+        setTimeout(() => setSaveMessage(null), 3000);
+      }
+    });
   };
 
   const handleDelete = () => {
@@ -176,24 +251,8 @@ export default function EditArticlePage() {
     }
   };
 
-  const generateSlug = (title: string) => {
-    return title
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim();
-  };
-
-  const handleTitleChange = (title: string) => {
-    setFormData({
-      ...formData,
-      title,
-      slug: formData.slug || generateSlug(title),
-    });
-  };
-
   const toggleCategory = (categoryId: string) => {
+    if (!isValidUUID(categoryId)) return;
     setFormData({
       ...formData,
       categoryIds: formData.categoryIds.includes(categoryId)
@@ -203,6 +262,7 @@ export default function EditArticlePage() {
   };
 
   const toggleTag = (tagId: string) => {
+    if (!isValidUUID(tagId)) return;
     setFormData({
       ...formData,
       tagIds: formData.tagIds.includes(tagId)
@@ -220,6 +280,26 @@ export default function EditArticlePage() {
     { value: 'PUBLISHED', label: 'منشور', color: 'bg-green-100 text-green-700' },
     { value: 'SCHEDULED', label: 'مجدول', color: 'bg-blue-100 text-blue-700' },
   ];
+
+  // Auto-save status indicator
+  const AutoSaveIndicator = () => {
+    const statusConfig = {
+      saved: { icon: Cloud, text: 'تم الحفظ', color: 'text-green-600' },
+      saving: { icon: Loader2, text: 'جاري الحفظ...', color: 'text-blue-600', animate: true },
+      unsaved: { icon: CloudOff, text: 'تغييرات غير محفوظة', color: 'text-yellow-600' },
+      error: { icon: AlertCircle, text: 'خطأ في الحفظ', color: 'text-red-600' },
+    };
+    
+    const config = statusConfig[autoSaveStatus];
+    const Icon = config.icon;
+    
+    return (
+      <div className={cn('flex items-center gap-1.5 text-sm', config.color)}>
+        <Icon className={cn('w-4 h-4', config.animate && 'animate-spin')} />
+        <span>{config.text}</span>
+      </div>
+    );
+  };
 
   // Loading state
   if (isLoadingArticle) {
@@ -270,9 +350,12 @@ export default function EditArticlePage() {
               </Link>
               <div>
                 <h1 className="text-xl font-bold text-gray-900 dark:text-white">تعديل المقالة</h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  آخر تحديث: {article?.updatedAt ? new Date(article.updatedAt).toLocaleDateString('ar-SA') : '-'}
-                </p>
+                <div className="flex items-center gap-3 mt-1">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    آخر تحديث: {article?.updatedAt ? new Date(article.updatedAt).toLocaleDateString('ar-SA') : '-'}
+                  </p>
+                  <AutoSaveIndicator />
+                </div>
               </div>
             </div>
 
@@ -333,19 +416,10 @@ export default function EditArticlePage() {
               <input
                 type="text"
                 value={formData.title}
-                onChange={(e) => handleTitleChange(e.target.value)}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 placeholder="عنوان المقالة"
                 className="w-full text-3xl font-bold bg-transparent border-0 focus:ring-0 text-gray-900 dark:text-white placeholder-gray-400"
               />
-              <div className="mt-4 flex items-center gap-2">
-                <span className="text-sm text-gray-500">الرابط:</span>
-                <input
-                  type="text"
-                  value={formData.slug}
-                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                  className="flex-1 text-sm bg-gray-50 dark:bg-gray-700 border-0 rounded-lg px-3 py-1.5 text-gray-700 dark:text-gray-300"
-                />
-              </div>
             </div>
 
             {/* Content Editor with Tiptap */}
@@ -405,6 +479,7 @@ export default function EditArticlePage() {
               </h3>
               {formData.coverImageUrl ? (
                 <div className="relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={formData.coverImageUrl} alt="" className="w-full rounded-xl" />
                   <button
                     onClick={() => setFormData({ ...formData, coverImageUrl: '' })}
@@ -503,8 +578,8 @@ export default function EditArticlePage() {
                   <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">عنوان SEO</label>
                   <input
                     type="text"
-                    value={formData.seo.title}
-                    onChange={(e) => setFormData({ ...formData, seo: { ...formData.seo, title: e.target.value } })}
+                    value={formData.seoTitle}
+                    onChange={(e) => setFormData({ ...formData, seoTitle: e.target.value })}
                     placeholder={formData.title || 'عنوان الصفحة'}
                     className="w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
                   />
@@ -512,8 +587,8 @@ export default function EditArticlePage() {
                 <div>
                   <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">وصف SEO</label>
                   <textarea
-                    value={formData.seo.description}
-                    onChange={(e) => setFormData({ ...formData, seo: { ...formData.seo, description: e.target.value } })}
+                    value={formData.seoDescription}
+                    onChange={(e) => setFormData({ ...formData, seoDescription: e.target.value })}
                     placeholder={formData.excerpt || 'وصف الصفحة'}
                     rows={2}
                     className="w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
@@ -523,8 +598,8 @@ export default function EditArticlePage() {
                   <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">الكلمات المفتاحية</label>
                   <input
                     type="text"
-                    value={formData.seo.keywords}
-                    onChange={(e) => setFormData({ ...formData, seo: { ...formData.seo, keywords: e.target.value } })}
+                    value={formData.seoKeywords}
+                    onChange={(e) => setFormData({ ...formData, seoKeywords: e.target.value })}
                     placeholder="كلمة1, كلمة2, كلمة3"
                     className="w-full px-4 py-2 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
                   />
@@ -537,4 +612,3 @@ export default function EditArticlePage() {
     </div>
   );
 }
-
