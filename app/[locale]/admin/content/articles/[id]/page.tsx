@@ -1,15 +1,15 @@
 /**
- * NewsCore - New Article Page
- * صفحة إنشاء مقالة جديدة
+ * NewsCore - Edit Article Page
+ * صفحة تعديل المقالة
  */
 
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   ArrowRight,
   Save,
@@ -20,10 +20,15 @@ import {
   Upload,
   FolderOpen,
   Tag,
+  Trash2,
+  Loader2,
+  AlertCircle,
+  CheckCircle,
 } from 'lucide-react';
 import { articlesApi, categoriesApi, tagsApi } from '@/lib/api/admin';
 import { useAdminAuthStore } from '@/stores/admin-auth';
 import TiptapEditor from '@/components/editor/TiptapEditor';
+import { cn } from '@/lib/utils/cn';
 
 interface Category {
   id: string;
@@ -37,9 +42,32 @@ interface TagItem {
   slug: string;
 }
 
-export default function NewArticlePage() {
+interface Article {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt: string;
+  coverImageUrl: string;
+  status: string;
+  categories?: Array<{ categoryId: string; category?: Category }>;
+  tags?: Array<{ tagId: string; tag?: TagItem }>;
+  seo?: {
+    title?: string;
+    description?: string;
+    keywords?: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+  publishedAt?: string;
+}
+
+export default function EditArticlePage() {
   const router = useRouter();
+  const params = useParams();
   const locale = useLocale();
+  const queryClient = useQueryClient();
+  const articleId = params.id as string;
   const basePath = `/${locale}/admin/content/articles`;
 
   const [formData, setFormData] = useState({
@@ -59,7 +87,18 @@ export default function NewArticlePage() {
   });
 
   const [showTagSelect, setShowTagSelect] = useState(false);
+  const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const { isAuthenticated } = useAdminAuthStore();
+
+  // Fetch article
+  const { data: article, isLoading: isLoadingArticle, error: articleError } = useQuery({
+    queryKey: ['admin-article', articleId],
+    queryFn: async () => {
+      const result = await articlesApi.getOne(articleId);
+      return result as unknown as Article;
+    },
+    enabled: isAuthenticated && !!articleId,
+  });
 
   // Fetch categories
   const { data: categories } = useQuery({
@@ -81,16 +120,60 @@ export default function NewArticlePage() {
     enabled: isAuthenticated,
   });
 
-  // Create article mutation
-  const createMutation = useMutation({
-    mutationFn: (data: typeof formData) => articlesApi.create(data),
+  // Update form data when article is loaded
+  useEffect(() => {
+    if (article) {
+      setFormData({
+        title: article.title || '',
+        slug: article.slug || '',
+        content: article.content || '',
+        excerpt: article.excerpt || '',
+        coverImageUrl: article.coverImageUrl || '',
+        status: article.status || 'DRAFT',
+        categoryIds: article.categories?.map(c => c.categoryId) || [],
+        tagIds: article.tags?.map(t => t.tagId) || [],
+        seo: {
+          title: article.seo?.title || '',
+          description: article.seo?.description || '',
+          keywords: article.seo?.keywords || '',
+        },
+      });
+    }
+  }, [article]);
+
+  // Update article mutation
+  const updateMutation = useMutation({
+    mutationFn: (data: typeof formData) => articlesApi.update(articleId, data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-articles'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-article', articleId] });
+      setSaveMessage({ type: 'success', text: 'تم حفظ التغييرات بنجاح' });
+      setTimeout(() => setSaveMessage(null), 3000);
+    },
+    onError: (error: Error) => {
+      setSaveMessage({ type: 'error', text: error.message || 'فشل في حفظ التغييرات' });
+      setTimeout(() => setSaveMessage(null), 5000);
+    },
+  });
+
+  // Delete article mutation
+  const deleteMutation = useMutation({
+    mutationFn: () => articlesApi.delete(articleId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-articles'] });
       router.push(basePath);
     },
   });
 
-  const handleSubmit = (status: string = 'DRAFT') => {
-    createMutation.mutate({ ...formData, status });
+  const handleSubmit = (status?: string) => {
+    const dataToSubmit = status ? { ...formData, status } : formData;
+    updateMutation.mutate(dataToSubmit);
+  };
+
+  const handleDelete = () => {
+    if (confirm('هل أنت متأكد من حذف هذه المقالة؟ لا يمكن التراجع عن هذا الإجراء.')) {
+      deleteMutation.mutate();
+    }
   };
 
   const generateSlug = (title: string) => {
@@ -131,6 +214,47 @@ export default function NewArticlePage() {
   const categoriesList = Array.isArray(categories) ? categories : [];
   const tagsList = Array.isArray(tags) ? tags : [];
 
+  const statusOptions = [
+    { value: 'DRAFT', label: 'مسودة', color: 'bg-gray-100 text-gray-700' },
+    { value: 'PENDING_REVIEW', label: 'قيد المراجعة', color: 'bg-yellow-100 text-yellow-700' },
+    { value: 'PUBLISHED', label: 'منشور', color: 'bg-green-100 text-green-700' },
+    { value: 'SCHEDULED', label: 'مجدول', color: 'bg-blue-100 text-blue-700' },
+  ];
+
+  // Loading state
+  if (isLoadingArticle) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-10 h-10 text-primary animate-spin mx-auto mb-4" />
+          <p className="text-gray-500 dark:text-gray-400">جاري تحميل المقالة...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (articleError) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-4">
+          <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">خطأ في تحميل المقالة</h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-6">
+            {articleError instanceof Error ? articleError.message : 'حدث خطأ غير متوقع'}
+          </p>
+          <Link
+            href={basePath}
+            className="px-6 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary/90 inline-flex items-center gap-2"
+          >
+            <ArrowRight className="w-5 h-5" />
+            العودة للمقالات
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
@@ -145,36 +269,55 @@ export default function NewArticlePage() {
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">مقالة جديدة</h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">إنشاء مقالة جديدة</p>
+                <h1 className="text-xl font-bold text-gray-900 dark:text-white">تعديل المقالة</h1>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  آخر تحديث: {article?.updatedAt ? new Date(article.updatedAt).toLocaleDateString('ar-SA') : '-'}
+                </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
+              {/* Save Message */}
+              {saveMessage && (
+                <div className={cn(
+                  'flex items-center gap-2 px-4 py-2 rounded-xl text-sm',
+                  saveMessage.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                )}>
+                  {saveMessage.type === 'success' ? <CheckCircle className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
+                  {saveMessage.text}
+                </div>
+              )}
+
               <button
-                onClick={() => handleSubmit('DRAFT')}
-                disabled={createMutation.isPending}
+                onClick={handleDelete}
+                disabled={deleteMutation.isPending}
+                className="px-4 py-2 border border-red-200 text-red-600 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2"
+              >
+                <Trash2 className="w-4 h-4" />
+                حذف
+              </button>
+              <button
+                onClick={() => handleSubmit()}
+                disabled={updateMutation.isPending}
                 className="px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
               >
-                <Save className="w-4 h-4" />
-                حفظ كمسودة
+                {updateMutation.isPending ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Save className="w-4 h-4" />
+                )}
+                حفظ
               </button>
-              <button
-                onClick={() => handleSubmit('PENDING_REVIEW')}
-                disabled={createMutation.isPending}
-                className="px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
-              >
-                <Clock className="w-4 h-4" />
-                إرسال للمراجعة
-              </button>
-              <button
-                onClick={() => handleSubmit('PUBLISHED')}
-                disabled={createMutation.isPending}
-                className="px-5 py-2 bg-primary text-white rounded-xl font-medium hover:bg-primary/90 flex items-center gap-2 shadow-lg shadow-primary/20"
-              >
-                <Eye className="w-4 h-4" />
-                نشر
-              </button>
+              {formData.status !== 'PUBLISHED' && (
+                <button
+                  onClick={() => handleSubmit('PUBLISHED')}
+                  disabled={updateMutation.isPending}
+                  className="px-5 py-2 bg-primary text-white rounded-xl font-medium hover:bg-primary/90 flex items-center gap-2 shadow-lg shadow-primary/20"
+                >
+                  <Eye className="w-4 h-4" />
+                  نشر
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -229,6 +372,31 @@ export default function NewArticlePage() {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* Status */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                <Clock className="w-5 h-5" />
+                الحالة
+              </h3>
+              <div className="space-y-2">
+                {statusOptions.map((option) => (
+                  <label key={option.value} className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="status"
+                      value={option.value}
+                      checked={formData.status === option.value}
+                      onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                      className="text-primary focus:ring-primary"
+                    />
+                    <span className={cn('px-2 py-1 rounded-full text-xs font-medium', option.color)}>
+                      {option.label}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
             {/* Featured Image */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
               <h3 className="font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
