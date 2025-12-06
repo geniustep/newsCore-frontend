@@ -229,6 +229,9 @@ export default function NewPagePage() {
     }
   };
 
+  // Preview URL based on slug
+  const previewUrl = formData.slug ? `/${locale}/page/${formData.slug}` : null;
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
@@ -250,16 +253,18 @@ export default function NewPagePage() {
               </div>
             </div>
 
-            {/* Save Message */}
-            {saveMessage && (
-              <div className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-xl text-sm',
-                saveMessage.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-              )}>
-                {saveMessage.type === 'success' ? <CheckCircle className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
-                {saveMessage.text}
-              </div>
-            )}
+            <div className="flex items-center gap-3">
+              {/* Save Message */}
+              {saveMessage && (
+                <div className={cn(
+                  'flex items-center gap-2 px-4 py-2 rounded-xl text-sm',
+                  saveMessage.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                )}>
+                  {saveMessage.type === 'success' ? <CheckCircle className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
+                  {saveMessage.text}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

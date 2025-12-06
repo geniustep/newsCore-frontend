@@ -379,6 +379,18 @@ export default function EditPagePage() {
                 </div>
               )}
 
+              {/* Preview Button */}
+              {page?.slug && (
+                <a
+                  href={`/${locale}/page/${page.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 border border-blue-200 text-blue-600 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center gap-2"
+                >
+                  <Eye className="w-4 h-4" />
+                  معاينة
+                </a>
+              )}
               <button
                 onClick={handleOpenBuilder}
                 className="px-4 py-2 border border-purple-200 text-purple-600 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/20 flex items-center gap-2"

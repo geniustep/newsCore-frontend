@@ -109,11 +109,12 @@ function PageRow({ page, locale, onDelete }: { page: Page; locale: string; onDel
           
           {showMenu && (
             <>
-              <div className="fixed inset-0 z-10" onClick={() => setShowMenu(false)} />
-              <div className="absolute left-0 top-full mt-1 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-1 z-20 min-w-40">
+              <div className="fixed inset-0 z-40" onClick={() => setShowMenu(false)} />
+              <div className="absolute left-0 bottom-full mb-1 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50 min-w-48">
                 <Link
                   href={`${basePath}/${page.id}`}
-                  className="w-full px-4 py-2 text-right text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
+                  className="block w-full px-4 py-2.5 text-right text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3"
+                  onClick={() => setShowMenu(false)}
                 >
                   <Edit className="w-4 h-4" />
                   تعديل
@@ -121,19 +122,23 @@ function PageRow({ page, locale, onDelete }: { page: Page; locale: string; onDel
                 <Link
                   href={`/${locale}/page/${page.slug}`}
                   target="_blank"
-                  className="w-full px-4 py-2 text-right text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2"
+                  className="block w-full px-4 py-2.5 text-right text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3"
+                  onClick={() => setShowMenu(false)}
                 >
                   <Eye className="w-4 h-4" />
                   معاينة
                 </Link>
-                <button className="w-full px-4 py-2 text-right text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
+                <button 
+                  className="block w-full px-4 py-2.5 text-right text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3"
+                  onClick={() => setShowMenu(false)}
+                >
                   <Copy className="w-4 h-4" />
                   نسخ
                 </button>
-                <hr className="my-1 border-gray-200 dark:border-gray-700" />
+                <hr className="my-2 border-gray-200 dark:border-gray-700" />
                 <button
                   onClick={() => { onDelete(page.id); setShowMenu(false); }}
-                  className="w-full px-4 py-2 text-right text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2"
+                  className="block w-full px-4 py-2.5 text-right text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-3"
                 >
                   <Trash2 className="w-4 h-4" />
                   حذف

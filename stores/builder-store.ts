@@ -482,7 +482,22 @@ export const useBuilderStore = create<BuilderStore>()(
           set((state) => { state.isSaving = true; });
           
           try {
-            // حفظ في localStorage للتطوير
+            // Check if we're in page mode
+            const pageId = localStorage.getItem('builder_page_id');
+            
+            if (pageId) {
+              // Save to API for pages
+              const { pagesApi } = await import('@/lib/api/admin');
+              const templateContent = JSON.stringify(template);
+              
+              await pagesApi.update(pageId, {
+                content: templateContent,
+              });
+              
+              console.log('✅ Page template saved to API:', pageId);
+            }
+            
+            // Also save in localStorage for templates
             const savedTemplates = JSON.parse(localStorage.getItem('newscore_templates') || '{}');
             savedTemplates[template.id] = {
               ...template,
