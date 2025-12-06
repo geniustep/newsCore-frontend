@@ -48,11 +48,14 @@ export default function AdminLoginPage() {
           avatarUrl?: string | null;
           roles: string[];
         };
-        accessToken: string;
-        refreshToken: string;
+        tokens: {
+          accessToken: string;
+          refreshToken: string;
+          expiresIn: number;
+        };
       };
       
-      const { user, accessToken, refreshToken } = response;
+      const { user, tokens } = response;
       
       storeLogin(
         { 
@@ -64,8 +67,8 @@ export default function AdminLoginPage() {
           avatarUrl: user.avatarUrl || null, 
           roles: user.roles || ['user'] 
         },
-        accessToken,
-        refreshToken
+        tokens.accessToken,
+        tokens.refreshToken
       );
       router.push(`/${locale}/admin`);
     } catch (err) {
