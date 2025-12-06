@@ -52,7 +52,8 @@
     "trending": "Tendances",
     "latest": "Dernières Nouvelles",
     "popular": "Les Plus Lus",
-    "more": "Plus"
+    "more": "Plus",
+    "backToHome": "Retour à l'accueil"
   },
   "footer": {
     "about": "À propos",

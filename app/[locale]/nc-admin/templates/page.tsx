@@ -145,6 +145,7 @@ const INITIAL_TEMPLATES: Template[] = [
 
 function TemplateCard({ template, onEdit, onDuplicate, onDelete, onSetDefault, locale }: TemplateCardProps) {
   const [showMenu, setShowMenu] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const typeConfig = TEMPLATE_TYPES.find(t => t.type === template.type);
   const TypeIcon = typeConfig?.icon || FileText;
 
@@ -152,11 +153,13 @@ function TemplateCard({ template, onEdit, onDuplicate, onDelete, onSetDefault, l
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow">
       {/* Preview */}
       <div className="aspect-video bg-gray-100 dark:bg-gray-700 relative">
-        {template.preview ? (
+        {template.preview && !imageError ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img 
             src={template.preview} 
             alt={template.nameAr}
             className="w-full h-full object-cover"
+            onError={() => setImageError(true)}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">

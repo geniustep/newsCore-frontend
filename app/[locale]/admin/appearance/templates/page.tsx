@@ -149,15 +149,22 @@ const INITIAL_TEMPLATES: Template[] = [
 
 function TemplateCard({ template, onEdit, onDuplicate, onDelete, onSetDefault, locale, viewMode }: TemplateCardProps) {
   const [showMenu, setShowMenu] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const typeConfig = TEMPLATE_TYPES.find(t => t.type === template.type);
   const TypeIcon = typeConfig?.icon || FileText;
 
   if (viewMode === 'list') {
     return (
       <div className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 hover:shadow-md transition-all">
-        <div className="w-24 h-16 rounded-lg bg-gray-100 dark:bg-gray-700 overflow-hidden flex-shrink-0">
-          {template.preview ? (
-            <img src={template.preview} alt={template.nameAr} className="w-full h-full object-cover" />
+        <div className="w-24 h-16 rounded-lg bg-gray-100 dark:bg-gray-700 overflow-hidden flex-shrink-0 relative">
+          {template.preview && !imageError ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img 
+              src={template.preview} 
+              alt={template.nameAr} 
+              className="w-full h-full object-cover"
+              onError={() => setImageError(true)}
+            />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
               <TypeIcon className="w-8 h-8 text-gray-300 dark:text-gray-600" />
@@ -246,11 +253,13 @@ function TemplateCard({ template, onEdit, onDuplicate, onDelete, onSetDefault, l
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all group">
       {/* Preview */}
       <div className="aspect-video bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
-        {template.preview ? (
+        {template.preview && !imageError ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img 
             src={template.preview} 
             alt={template.nameAr}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            onError={() => setImageError(true)}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
