@@ -128,12 +128,23 @@ function DeviceChart({ data }: { data: { device: string; percentage: number }[] 
 export default function AnalyticsPage() {
   const [period, setPeriod] = useState<'today' | 'week' | 'month' | 'year'>('week');
 
-  const { data: overview, isLoading } = useQuery({
+  interface OverviewData {
+    pageviews: number;
+    pageviewsChange: number;
+    visitors: number;
+    visitorsChange: number;
+    avgDuration: string;
+    durationChange: number;
+    bounceRate: number;
+    bounceRateChange: number;
+  }
+
+  const { data: overview, isLoading } = useQuery<OverviewData>({
     queryKey: ['admin-analytics-overview', period],
     queryFn: async () => {
       try {
         const result = await analyticsApi.getOverview({ period });
-        return result;
+        return result as unknown as OverviewData;
       } catch {
         // Return mock data if API fails
         return {
