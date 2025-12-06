@@ -151,15 +151,12 @@ export default function NewPagePage() {
   // Create page mutation
   const createMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
-      // For now, we'll create a basic page and then redirect to builder
-      const pageData: Record<string, unknown> = {
+      // API requires only title, status, and content (as string)
+      const pageData = {
         title: data.title || data.titleAr,
         status: 'DRAFT',
+        content: '', // API requires content to be a string
       };
-      
-      // Only add optional fields if they have values
-      if (data.slug) pageData.slug = data.slug;
-      if (data.language) pageData.language = data.language;
       
       return pagesApi.create(pageData);
     },
