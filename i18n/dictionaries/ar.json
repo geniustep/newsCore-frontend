@@ -1,7 +1,22 @@
 {
   "site": {
     "name": "أخبار اليوم",
-    "description": "موقعك الإخباري الأول"
+    "description": "موقعك الإخباري الأول",
+    "tagline": "موقعك الإخباري الأول للأخبار العربية"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "register": "حساب جديد",
+    "logout": "تسجيل الخروج",
+    "subscribe": "اشترك",
+    "profile": "الملف الشخصي",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "rememberMe": "تذكرني",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة"
   },
   "nav": {
     "home": "الرئيسية",
@@ -100,5 +115,238 @@
     "health": "صحة",
     "world": "دولي",
     "local": "محلي"
+  },
+  "admin": {
+    "title": "لوحة التحكم",
+    "welcome": "مرحباً بك في لوحة إدارة NewsCore",
+    "logout": "تسجيل الخروج",
+    "darkMode": "الوضع الليلي",
+    "lightMode": "الوضع النهاري",
+    "viewSite": "عرض الموقع",
+    "search": "بحث في لوحة التحكم...",
+    "notifications": "الإشعارات",
+    "help": "المساعدة",
+    "nav": {
+      "dashboard": "لوحة التحكم",
+      "articles": "المقالات",
+      "pages": "الصفحات",
+      "categories": "التصنيفات",
+      "tags": "الوسوم",
+      "media": "الوسائط",
+      "breakingNews": "الأخبار العاجلة",
+      "scheduledPosts": "المجدولة",
+      "analytics": "التحليلات",
+      "menus": "القوائم",
+      "builder": "باني الصفحات",
+      "templates": "القوالب",
+      "themes": "السمات",
+      "modules": "الوحدات",
+      "translations": "الترجمات",
+      "users": "المستخدمين",
+      "settings": "الإعدادات"
+    },
+    "groups": {
+      "main": "الرئيسية",
+      "content": "المحتوى",
+      "appearance": "المظهر",
+      "system": "النظام"
+    },
+    "stats": {
+      "articles": "المقالات",
+      "categories": "التصنيفات",
+      "tags": "الوسوم",
+      "views": "المشاهدات",
+      "users": "المستخدمين",
+      "comments": "التعليقات"
+    },
+    "dashboard": {
+      "recentArticles": "آخر المقالات",
+      "popularTags": "الوسوم الشائعة",
+      "noArticles": "لا توجد مقالات بعد",
+      "noTags": "لا توجد وسوم بعد",
+      "quickActions": "إجراءات سريعة",
+      "status": {
+        "published": "منشور",
+        "draft": "مسودة",
+        "pending": "قيد المراجعة",
+        "scheduled": "مجدول"
+      }
+    },
+    "articles": {
+      "title": "إدارة المقالات",
+      "new": "مقالة جديدة",
+      "edit": "تعديل المقالة",
+      "delete": "حذف المقالة",
+      "publish": "نشر",
+      "unpublish": "إلغاء النشر",
+      "schedule": "جدولة النشر",
+      "duplicate": "نسخ المقالة",
+      "preview": "معاينة",
+      "fields": {
+        "title": "العنوان",
+        "slug": "الرابط",
+        "content": "المحتوى",
+        "excerpt": "المقتطف",
+        "category": "التصنيف",
+        "tags": "الوسوم",
+        "author": "الكاتب",
+        "status": "الحالة",
+        "publishDate": "تاريخ النشر",
+        "featuredImage": "الصورة الرئيسية"
+      }
+    },
+    "pages": {
+      "title": "إدارة الصفحات",
+      "new": "صفحة جديدة",
+      "edit": "تعديل الصفحة",
+      "delete": "حذف الصفحة"
+    },
+    "categories": {
+      "title": "إدارة التصنيفات",
+      "new": "تصنيف جديد",
+      "edit": "تعديل التصنيف",
+      "delete": "حذف التصنيف",
+      "fields": {
+        "name": "الاسم",
+        "slug": "الرابط",
+        "description": "الوصف",
+        "parent": "التصنيف الأب",
+        "color": "اللون",
+        "icon": "الأيقونة"
+      }
+    },
+    "tags": {
+      "title": "إدارة الوسوم",
+      "new": "وسم جديد",
+      "edit": "تعديل الوسم",
+      "delete": "حذف الوسم"
+    },
+    "media": {
+      "title": "مكتبة الوسائط",
+      "upload": "رفع ملف",
+      "delete": "حذف",
+      "select": "اختيار",
+      "noFiles": "لا توجد ملفات",
+      "uploadHint": "اسحب الملفات هنا أو انقر للرفع"
+    },
+    "users": {
+      "title": "إدارة المستخدمين",
+      "new": "مستخدم جديد",
+      "edit": "تعديل المستخدم",
+      "delete": "حذف المستخدم",
+      "roles": {
+        "admin": "مدير",
+        "editor": "محرر",
+        "author": "كاتب",
+        "contributor": "مساهم"
+      }
+    },
+    "settings": {
+      "title": "الإعدادات",
+      "general": "عام",
+      "seo": "تحسين محركات البحث",
+      "social": "التواصل الاجتماعي",
+      "email": "البريد الإلكتروني",
+      "api": "API",
+      "save": "حفظ الإعدادات",
+      "saved": "تم حفظ الإعدادات"
+    },
+    "builder": {
+      "title": "باني الصفحات",
+      "save": "حفظ",
+      "preview": "معاينة",
+      "undo": "تراجع",
+      "redo": "إعادة",
+      "addSection": "إضافة قسم",
+      "addBlock": "إضافة عنصر",
+      "deleteSection": "حذف القسم",
+      "deleteBlock": "حذف العنصر",
+      "sectionSettings": "إعدادات القسم",
+      "blockSettings": "إعدادات العنصر",
+      "layout": "التخطيط",
+      "style": "التنسيق",
+      "data": "البيانات"
+    },
+    "templates": {
+      "title": "إدارة القوالب",
+      "new": "قالب جديد",
+      "edit": "تعديل القالب",
+      "delete": "حذف القالب",
+      "duplicate": "نسخ القالب",
+      "setDefault": "تعيين كافتراضي",
+      "types": {
+        "home": "الرئيسية",
+        "category": "قسم",
+        "article": "مقال",
+        "tag": "وسم",
+        "author": "كاتب",
+        "search": "بحث",
+        "page": "صفحة",
+        "error": "خطأ",
+        "archive": "أرشيف",
+        "custom": "مخصص"
+      }
+    },
+    "themes": {
+      "title": "إدارة السمات",
+      "active": "السمة النشطة",
+      "activate": "تفعيل",
+      "customize": "تخصيص",
+      "install": "تثبيت سمة"
+    },
+    "modules": {
+      "title": "إدارة الوحدات",
+      "enabled": "مفعّل",
+      "disabled": "معطّل",
+      "enable": "تفعيل",
+      "disable": "تعطيل",
+      "configure": "إعدادات"
+    },
+    "translations": {
+      "title": "إدارة الترجمات",
+      "languages": "اللغات",
+      "keys": "مفاتيح الترجمة",
+      "addLanguage": "إضافة لغة",
+      "export": "تصدير",
+      "import": "استيراد"
+    },
+    "analytics": {
+      "title": "التحليلات",
+      "overview": "نظرة عامة",
+      "pageViews": "مشاهدات الصفحات",
+      "visitors": "الزوار",
+      "topArticles": "أكثر المقالات قراءة",
+      "sources": "مصادر الزيارات"
+    },
+    "common": {
+      "save": "حفظ",
+      "cancel": "إلغاء",
+      "delete": "حذف",
+      "edit": "تعديل",
+      "add": "إضافة",
+      "search": "بحث",
+      "filter": "تصفية",
+      "sort": "ترتيب",
+      "actions": "الإجراءات",
+      "confirmDelete": "هل أنت متأكد من الحذف؟",
+      "noResults": "لا توجد نتائج",
+      "loading": "جاري التحميل...",
+      "success": "تمت العملية بنجاح",
+      "error": "حدث خطأ",
+      "viewAll": "عرض الكل",
+      "back": "رجوع",
+      "next": "التالي",
+      "previous": "السابق"
+    },
+    "login": {
+      "title": "تسجيل الدخول",
+      "subtitle": "أدخل بياناتك للوصول إلى لوحة التحكم",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "rememberMe": "تذكرني",
+      "submit": "دخول",
+      "forgotPassword": "نسيت كلمة المرور؟",
+      "error": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
+    }
   }
 }

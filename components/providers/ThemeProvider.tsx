@@ -1,48 +1,9 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { type ThemeSettings, defaultTheme } from '@/lib/theme/getThemeSettings';
 
-export interface ThemeSettings {
-  logoAr: string;
-  logoEn: string;
-  logoFr: string;
-  favicon: string;
-  primaryColor: string;
-  secondaryColor: string;
-  accentColor: string;
-  backgroundColor: string;
-  textColor: string;
-  fontFamily: string;
-  fontSize: string;
-  headingFont: string;
-  borderRadius: string;
-  spacing: string;
-  darkModeEnabled: boolean;
-  darkPrimaryColor: string;
-  darkBackgroundColor: string;
-  darkTextColor: string;
-}
-
-const defaultTheme: ThemeSettings = {
-  logoAr: '',
-  logoEn: '',
-  logoFr: '',
-  favicon: '',
-  primaryColor: '#ed7520',
-  secondaryColor: '#0ea5e9',
-  accentColor: '#f59e0b',
-  backgroundColor: '#ffffff',
-  textColor: '#1f2937',
-  fontFamily: 'IBM Plex Sans Arabic',
-  fontSize: '16px',
-  headingFont: 'IBM Plex Sans Arabic',
-  borderRadius: '0.5rem',
-  spacing: 'normal',
-  darkModeEnabled: false,
-  darkPrimaryColor: '#f59e0b',
-  darkBackgroundColor: '#111827',
-  darkTextColor: '#f9fafb',
-};
+export type { ThemeSettings };
 
 interface ThemeContextType {
   theme: ThemeSettings;
@@ -186,31 +147,6 @@ export function ThemeProvider({ children, initialTheme }: ThemeProviderProps) {
   );
 }
 
-// Server component to fetch theme
-export async function getThemeSettings(): Promise<ThemeSettings> {
-  // During build time, return default theme to avoid API calls
-  if (process.env.NODE_ENV === 'production' && typeof window === 'undefined') {
-    // Check if we're in build phase
-    const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
-    if (isBuildTime) {
-      return defaultTheme;
-    }
-  }
-  
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.sahara2797.com/api/v1';
-    const response = await fetch(`${apiUrl}/settings/public/theme`, {
-      cache: 'no-store', // Don't cache during SSR to always get fresh data
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      return data.data || data;
-    }
-  } catch (error) {
-    console.error('Failed to fetch theme settings:', error);
-  }
-  
-  return defaultTheme;
-}
+// Re-export getThemeSettings from lib for backwards compatibility
+// Note: This export is handled by the index.ts file now
 

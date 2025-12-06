@@ -1,7 +1,22 @@
 {
   "site": {
     "name": "News Today",
-    "description": "Your First News Source"
+    "description": "Your First News Source",
+    "tagline": "Your First Source for News"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "subscribe": "Subscribe",
+    "profile": "Profile",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember Me",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "firstName": "First Name",
+    "lastName": "Last Name"
   },
   "nav": {
     "home": "Home",
@@ -100,5 +115,238 @@
     "health": "Health",
     "world": "World",
     "local": "Local"
+  },
+  "admin": {
+    "title": "Dashboard",
+    "welcome": "Welcome to NewsCore Admin Panel",
+    "logout": "Logout",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "viewSite": "View Site",
+    "search": "Search admin panel...",
+    "notifications": "Notifications",
+    "help": "Help",
+    "nav": {
+      "dashboard": "Dashboard",
+      "articles": "Articles",
+      "pages": "Pages",
+      "categories": "Categories",
+      "tags": "Tags",
+      "media": "Media",
+      "breakingNews": "Breaking News",
+      "scheduledPosts": "Scheduled",
+      "analytics": "Analytics",
+      "menus": "Menus",
+      "builder": "Page Builder",
+      "templates": "Templates",
+      "themes": "Themes",
+      "modules": "Modules",
+      "translations": "Translations",
+      "users": "Users",
+      "settings": "Settings"
+    },
+    "groups": {
+      "main": "Main",
+      "content": "Content",
+      "appearance": "Appearance",
+      "system": "System"
+    },
+    "stats": {
+      "articles": "Articles",
+      "categories": "Categories",
+      "tags": "Tags",
+      "views": "Views",
+      "users": "Users",
+      "comments": "Comments"
+    },
+    "dashboard": {
+      "recentArticles": "Recent Articles",
+      "popularTags": "Popular Tags",
+      "noArticles": "No articles yet",
+      "noTags": "No tags yet",
+      "quickActions": "Quick Actions",
+      "status": {
+        "published": "Published",
+        "draft": "Draft",
+        "pending": "Pending Review",
+        "scheduled": "Scheduled"
+      }
+    },
+    "articles": {
+      "title": "Manage Articles",
+      "new": "New Article",
+      "edit": "Edit Article",
+      "delete": "Delete Article",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "schedule": "Schedule",
+      "duplicate": "Duplicate Article",
+      "preview": "Preview",
+      "fields": {
+        "title": "Title",
+        "slug": "Slug",
+        "content": "Content",
+        "excerpt": "Excerpt",
+        "category": "Category",
+        "tags": "Tags",
+        "author": "Author",
+        "status": "Status",
+        "publishDate": "Publish Date",
+        "featuredImage": "Featured Image"
+      }
+    },
+    "pages": {
+      "title": "Manage Pages",
+      "new": "New Page",
+      "edit": "Edit Page",
+      "delete": "Delete Page"
+    },
+    "categories": {
+      "title": "Manage Categories",
+      "new": "New Category",
+      "edit": "Edit Category",
+      "delete": "Delete Category",
+      "fields": {
+        "name": "Name",
+        "slug": "Slug",
+        "description": "Description",
+        "parent": "Parent Category",
+        "color": "Color",
+        "icon": "Icon"
+      }
+    },
+    "tags": {
+      "title": "Manage Tags",
+      "new": "New Tag",
+      "edit": "Edit Tag",
+      "delete": "Delete Tag"
+    },
+    "media": {
+      "title": "Media Library",
+      "upload": "Upload File",
+      "delete": "Delete",
+      "select": "Select",
+      "noFiles": "No files",
+      "uploadHint": "Drag files here or click to upload"
+    },
+    "users": {
+      "title": "Manage Users",
+      "new": "New User",
+      "edit": "Edit User",
+      "delete": "Delete User",
+      "roles": {
+        "admin": "Admin",
+        "editor": "Editor",
+        "author": "Author",
+        "contributor": "Contributor"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "general": "General",
+      "seo": "SEO",
+      "social": "Social Media",
+      "email": "Email",
+      "api": "API",
+      "save": "Save Settings",
+      "saved": "Settings Saved"
+    },
+    "builder": {
+      "title": "Page Builder",
+      "save": "Save",
+      "preview": "Preview",
+      "undo": "Undo",
+      "redo": "Redo",
+      "addSection": "Add Section",
+      "addBlock": "Add Block",
+      "deleteSection": "Delete Section",
+      "deleteBlock": "Delete Block",
+      "sectionSettings": "Section Settings",
+      "blockSettings": "Block Settings",
+      "layout": "Layout",
+      "style": "Style",
+      "data": "Data"
+    },
+    "templates": {
+      "title": "Manage Templates",
+      "new": "New Template",
+      "edit": "Edit Template",
+      "delete": "Delete Template",
+      "duplicate": "Duplicate Template",
+      "setDefault": "Set as Default",
+      "types": {
+        "home": "Home",
+        "category": "Category",
+        "article": "Article",
+        "tag": "Tag",
+        "author": "Author",
+        "search": "Search",
+        "page": "Page",
+        "error": "Error",
+        "archive": "Archive",
+        "custom": "Custom"
+      }
+    },
+    "themes": {
+      "title": "Manage Themes",
+      "active": "Active Theme",
+      "activate": "Activate",
+      "customize": "Customize",
+      "install": "Install Theme"
+    },
+    "modules": {
+      "title": "Manage Modules",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "enable": "Enable",
+      "disable": "Disable",
+      "configure": "Configure"
+    },
+    "translations": {
+      "title": "Manage Translations",
+      "languages": "Languages",
+      "keys": "Translation Keys",
+      "addLanguage": "Add Language",
+      "export": "Export",
+      "import": "Import"
+    },
+    "analytics": {
+      "title": "Analytics",
+      "overview": "Overview",
+      "pageViews": "Page Views",
+      "visitors": "Visitors",
+      "topArticles": "Top Articles",
+      "sources": "Traffic Sources"
+    },
+    "common": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "add": "Add",
+      "search": "Search",
+      "filter": "Filter",
+      "sort": "Sort",
+      "actions": "Actions",
+      "confirmDelete": "Are you sure you want to delete?",
+      "noResults": "No results",
+      "loading": "Loading...",
+      "success": "Operation successful",
+      "error": "An error occurred",
+      "viewAll": "View All",
+      "back": "Back",
+      "next": "Next",
+      "previous": "Previous"
+    },
+    "login": {
+      "title": "Login",
+      "subtitle": "Enter your credentials to access the dashboard",
+      "email": "Email",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "submit": "Login",
+      "forgotPassword": "Forgot password?",
+      "error": "Invalid email or password"
+    }
   }
 }

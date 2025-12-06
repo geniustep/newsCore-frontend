@@ -6,7 +6,7 @@ export const SITE_CONFIG = {
 } as const;
 
 export const API_CONFIG = {
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://api.sahara2797.com/api/v1',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || '/api/v1',
   timeout: 10000,
 } as const;
 

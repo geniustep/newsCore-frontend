@@ -1,7 +1,22 @@
 {
   "site": {
     "name": "Actualités Aujourd'hui",
-    "description": "Votre Première Source d'Actualités"
+    "description": "Votre Première Source d'Actualités",
+    "tagline": "Votre Première Source d'Actualités"
+  },
+  "auth": {
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "logout": "Déconnexion",
+    "subscribe": "S'abonner",
+    "profile": "Profil",
+    "forgotPassword": "Mot de passe oublié?",
+    "rememberMe": "Se souvenir de moi",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "firstName": "Prénom",
+    "lastName": "Nom"
   },
   "nav": {
     "home": "Accueil",
@@ -100,5 +115,163 @@
     "health": "Santé",
     "world": "Monde",
     "local": "Local"
+  },
+  "admin": {
+    "title": "Tableau de Bord",
+    "welcome": "Bienvenue dans le panneau d'administration NewsCore",
+    "logout": "Déconnexion",
+    "darkMode": "Mode Sombre",
+    "lightMode": "Mode Clair",
+    "nav": {
+      "dashboard": "Tableau de Bord",
+      "articles": "Articles",
+      "pages": "Pages",
+      "categories": "Catégories",
+      "tags": "Tags",
+      "media": "Médias",
+      "breakingNews": "Flash Info",
+      "scheduledPosts": "Planifiés",
+      "analytics": "Analytiques",
+      "menus": "Menus",
+      "builder": "Constructeur",
+      "templates": "Modèles",
+      "themes": "Thèmes",
+      "modules": "Modules",
+      "translations": "Traductions",
+      "users": "Utilisateurs",
+      "settings": "Paramètres"
+    },
+    "stats": {
+      "articles": "Articles",
+      "categories": "Catégories",
+      "tags": "Tags",
+      "views": "Vues"
+    },
+    "dashboard": {
+      "recentArticles": "Articles Récents",
+      "popularTags": "Tags Populaires",
+      "noArticles": "Pas encore d'articles",
+      "noTags": "Pas encore de tags",
+      "status": {
+        "published": "Publié",
+        "draft": "Brouillon",
+        "pending": "En Attente",
+        "scheduled": "Planifié"
+      }
+    },
+    "articles": {
+      "title": "Gestion des Articles",
+      "new": "Nouvel Article",
+      "edit": "Modifier l'Article",
+      "delete": "Supprimer l'Article",
+      "publish": "Publier",
+      "unpublish": "Dépublier",
+      "schedule": "Planifier",
+      "fields": {
+        "title": "Titre",
+        "slug": "Slug",
+        "content": "Contenu",
+        "excerpt": "Extrait",
+        "category": "Catégorie",
+        "tags": "Tags",
+        "author": "Auteur",
+        "status": "Statut",
+        "publishDate": "Date de Publication",
+        "featuredImage": "Image à la Une"
+      }
+    },
+    "pages": {
+      "title": "Gestion des Pages",
+      "new": "Nouvelle Page",
+      "edit": "Modifier la Page",
+      "delete": "Supprimer la Page"
+    },
+    "categories": {
+      "title": "Gestion des Catégories",
+      "new": "Nouvelle Catégorie",
+      "edit": "Modifier la Catégorie",
+      "delete": "Supprimer la Catégorie",
+      "fields": {
+        "name": "Nom",
+        "slug": "Slug",
+        "description": "Description",
+        "parent": "Catégorie Parente",
+        "color": "Couleur",
+        "icon": "Icône"
+      }
+    },
+    "tags": {
+      "title": "Gestion des Tags",
+      "new": "Nouveau Tag",
+      "edit": "Modifier le Tag",
+      "delete": "Supprimer le Tag"
+    },
+    "media": {
+      "title": "Bibliothèque Média",
+      "upload": "Télécharger",
+      "delete": "Supprimer",
+      "select": "Sélectionner",
+      "noFiles": "Aucun fichier",
+      "uploadHint": "Glissez les fichiers ici ou cliquez pour télécharger"
+    },
+    "users": {
+      "title": "Gestion des Utilisateurs",
+      "new": "Nouvel Utilisateur",
+      "edit": "Modifier l'Utilisateur",
+      "delete": "Supprimer l'Utilisateur",
+      "roles": {
+        "admin": "Administrateur",
+        "editor": "Éditeur",
+        "author": "Auteur",
+        "contributor": "Contributeur"
+      }
+    },
+    "settings": {
+      "title": "Paramètres",
+      "general": "Général",
+      "seo": "SEO",
+      "social": "Réseaux Sociaux",
+      "email": "Email",
+      "api": "API",
+      "save": "Enregistrer",
+      "saved": "Paramètres Enregistrés"
+    },
+    "builder": {
+      "title": "Constructeur de Modèles",
+      "save": "Enregistrer",
+      "preview": "Aperçu",
+      "undo": "Annuler",
+      "redo": "Rétablir",
+      "addSection": "Ajouter Section",
+      "addBlock": "Ajouter Bloc",
+      "deleteSection": "Supprimer Section",
+      "deleteBlock": "Supprimer Bloc",
+      "sectionSettings": "Paramètres Section",
+      "blockSettings": "Paramètres Bloc"
+    },
+    "common": {
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "edit": "Modifier",
+      "add": "Ajouter",
+      "search": "Rechercher",
+      "filter": "Filtrer",
+      "sort": "Trier",
+      "actions": "Actions",
+      "confirmDelete": "Êtes-vous sûr de vouloir supprimer?",
+      "noResults": "Aucun résultat",
+      "loading": "Chargement..."
+    },
+    "login": {
+      "title": "Connexion",
+      "subtitle": "Entrez vos identifiants pour accéder au tableau de bord",
+      "email": "Email",
+      "password": "Mot de passe",
+      "rememberMe": "Se souvenir de moi",
+      "submit": "Connexion",
+      "forgotPassword": "Mot de passe oublié?",
+      "error": "Email ou mot de passe invalide"
+    }
   }
 }

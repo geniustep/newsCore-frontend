@@ -2,7 +2,8 @@ import { NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import { Cairo } from 'next/font/google';
 import { locales, localeConfig, Locale } from '@/i18n/config';
-import { ThemeProvider, getThemeSettings } from '@/components/providers';
+import { ThemeProvider } from '@/components/providers';
+import { getThemeSettings } from '@/lib/theme/getThemeSettings';
 import '@/styles/globals.css';
 
 const cairo = Cairo({

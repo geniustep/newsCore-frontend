@@ -11,6 +11,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'api.sahara2797.com',
       },
+      // Local development
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
       // Allow any external image sources (for news articles from various sources)
       {
         protocol: 'https',
@@ -20,6 +25,15 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react'],
+  },
+  // Proxy API requests to backend server
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:3000/api/:path*',
+      },
+    ];
   },
 };
 
