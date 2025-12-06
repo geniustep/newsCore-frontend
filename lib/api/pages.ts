@@ -139,9 +139,9 @@ export const pagesApi = {
   /**
    * Get a single page by slug
    */
-  getBySlug: async (slug: string, language?: string): Promise<Page> => {
+  getBySlug: async (slug: string, language?: string, preview?: boolean): Promise<Page> => {
     const { data } = await apiClient.get(`/pages/slug/${slug}`, {
-      params: { language },
+      params: { language, preview: preview ? 'true' : undefined },
     });
     return extractData<Page>(data);
   },

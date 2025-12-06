@@ -81,7 +81,7 @@ export default async function PageView({
   const isPreview = searchParams.preview === 'true';
 
   try {
-    const page = await pagesApi.getBySlug(slug, locale);
+    const page = await pagesApi.getBySlug(slug, locale, isPreview);
 
     // Allow viewing if published OR if in preview mode
     if (!page || (!isPreview && page.status !== 'PUBLISHED')) {
