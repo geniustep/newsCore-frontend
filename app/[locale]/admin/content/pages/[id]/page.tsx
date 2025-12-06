@@ -382,7 +382,7 @@ export default function EditPagePage() {
               {/* Preview Button */}
               {page?.slug && (
                 <a
-                  href={`/${locale}/page/${page.slug}`}
+                  href={`/${locale}/page/${page.slug}?preview=true`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2 border border-blue-200 text-blue-600 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center gap-2"

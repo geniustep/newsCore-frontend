@@ -11,6 +11,7 @@ import SidebarTemplate from '@/components/pages/templates/SidebarTemplate';
 import ContactTemplate from '@/components/pages/templates/ContactTemplate';
 import AboutTemplate from '@/components/pages/templates/AboutTemplate';
 import LandingTemplate from '@/components/pages/templates/LandingTemplate';
+import PreviewBanner from '@/components/pages/PreviewBanner';
 
 // Generate static params for all locales
 export function generateStaticParams() {
@@ -69,21 +70,29 @@ function PageTemplate({ page, locale }: { page: Page; locale: string }) {
 
 export default async function PageView({
   params: { slug, locale },
+  searchParams,
 }: {
   params: { slug: string; locale: string };
+  searchParams: { preview?: string };
 }) {
   setRequestLocale(locale);
   await getTranslations();
 
+  const isPreview = searchParams.preview === 'true';
+
   try {
     const page = await pagesApi.getBySlug(slug, locale);
 
-    if (!page || page.status !== 'PUBLISHED') {
+    // Allow viewing if published OR if in preview mode
+    if (!page || (!isPreview && page.status !== 'PUBLISHED')) {
       notFound();
     }
 
     return (
       <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
+        {/* Preview Banner for non-published pages */}
+        {page.status !== 'PUBLISHED' && <PreviewBanner status={page.status} />}
+        
         <Header />
         
         <main className="flex-1">

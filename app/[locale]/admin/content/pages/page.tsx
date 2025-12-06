@@ -120,7 +120,7 @@ function PageRow({ page, locale, onDelete }: { page: Page; locale: string; onDel
                   تعديل
                 </Link>
                 <Link
-                  href={`/${locale}/page/${page.slug}`}
+                  href={`/${locale}/page/${page.slug}?preview=true`}
                   target="_blank"
                   className="block w-full px-4 py-2.5 text-right text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3"
                   onClick={() => setShowMenu(false)}
