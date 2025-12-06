@@ -34,7 +34,10 @@
     "share": "Share",
     "related": "Related Articles",
     "comments": "Comments",
-    "views": "views"
+    "views": "views",
+    "investigation": "Investigation",
+    "report": "Report",
+    "minRead": "min read"
   },
   "search": {
     "placeholder": "Search news...",
@@ -63,7 +66,13 @@
     "description": "Get the latest news and updates directly in your inbox",
     "placeholder": "Your email",
     "subscribe": "Subscribe",
-    "success": "Successfully subscribed!"
+    "success": "Successfully subscribed!",
+    "subtitle": "Join thousands of subscribers and get the latest news",
+    "daily": "Daily Newsletter",
+    "weekly": "Weekly Newsletter",
+    "breaking": "Breaking News Alerts",
+    "emailPlaceholder": "Enter your email",
+    "privacy": "We respect your privacy and will never share your email"
   },
   "sidebar": {
     "trending": "Trending",
@@ -100,11 +109,49 @@
     "title": "Download Our App",
     "subtitle": "Get the latest news on your phone",
     "appStore": "App Store",
-    "googlePlay": "Google Play"
+    "googlePlay": "Google Play",
+    "feature1": "Instant Notifications",
+    "feature1Desc": "Get breaking news alerts",
+    "feature2": "Offline Reading",
+    "feature2Desc": "Read news without internet",
+    "feature3": "Personalized Experience",
+    "feature3Desc": "Content tailored to your interests"
   },
   "breaking": {
     "title": "Breaking",
     "now": "Now"
+  },
+  "news": {
+    "breaking": "Breaking News"
+  },
+  "gallery": {
+    "photos": "photos",
+    "viewAll": "View All Photos"
+  },
+  "podcast": {
+    "episodes": "episodes",
+    "listen": "Listen Now",
+    "subscribe": "Subscribe"
+  },
+  "live": {
+    "nowLive": "Live Now",
+    "noLive": "No live broadcast currently",
+    "upcoming": "Upcoming Events",
+    "noUpcoming": "No upcoming events",
+    "fullSchedule": "Full Schedule",
+    "watchLive": "Watch Live"
+  },
+  "social": {
+    "followUs": "Follow Us",
+    "likeUs": "Like Us",
+    "trending": "Trending",
+    "shareOn": "Share on"
+  },
+  "cookies": {
+    "message": "We use cookies to improve your experience. By continuing to browse, you agree to our use of cookies.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "learnMore": "Learn More"
   },
   "categories": {
     "politics": "Politics",

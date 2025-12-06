@@ -34,7 +34,10 @@
     "share": "Partager",
     "related": "Articles Connexes",
     "comments": "Commentaires",
-    "views": "vues"
+    "views": "vues",
+    "investigation": "Enquête",
+    "report": "Reportage",
+    "minRead": "min de lecture"
   },
   "search": {
     "placeholder": "Rechercher dans les actualités...",
@@ -63,7 +66,13 @@
     "description": "Recevez les dernières actualités directement dans votre boîte mail",
     "placeholder": "Votre email",
     "subscribe": "S'abonner",
-    "success": "Abonnement réussi!"
+    "success": "Abonnement réussi!",
+    "subtitle": "Rejoignez des milliers d'abonnés et recevez les dernières actualités",
+    "daily": "Newsletter Quotidienne",
+    "weekly": "Newsletter Hebdomadaire",
+    "breaking": "Alertes Flash Info",
+    "emailPlaceholder": "Entrez votre email",
+    "privacy": "Nous respectons votre vie privée et ne partagerons jamais votre email"
   },
   "sidebar": {
     "trending": "Tendances",
@@ -100,11 +109,49 @@
     "title": "Téléchargez Notre Application",
     "subtitle": "Recevez les dernières actualités sur votre téléphone",
     "appStore": "App Store",
-    "googlePlay": "Google Play"
+    "googlePlay": "Google Play",
+    "feature1": "Notifications Instantanées",
+    "feature1Desc": "Recevez les alertes flash info",
+    "feature2": "Lecture Hors Ligne",
+    "feature2Desc": "Lisez les actualités sans internet",
+    "feature3": "Expérience Personnalisée",
+    "feature3Desc": "Contenu adapté à vos intérêts"
   },
   "breaking": {
     "title": "Flash Info",
     "now": "Maintenant"
+  },
+  "news": {
+    "breaking": "Flash Info"
+  },
+  "gallery": {
+    "photos": "photos",
+    "viewAll": "Voir Toutes les Photos"
+  },
+  "podcast": {
+    "episodes": "épisodes",
+    "listen": "Écouter",
+    "subscribe": "S'abonner"
+  },
+  "live": {
+    "nowLive": "En Direct",
+    "noLive": "Pas de diffusion en direct actuellement",
+    "upcoming": "Événements à Venir",
+    "noUpcoming": "Pas d'événements à venir",
+    "fullSchedule": "Programme Complet",
+    "watchLive": "Regarder en Direct"
+  },
+  "social": {
+    "followUs": "Suivez-nous",
+    "likeUs": "Aimez-nous",
+    "trending": "Tendances",
+    "shareOn": "Partager sur"
+  },
+  "cookies": {
+    "message": "Nous utilisons des cookies pour améliorer votre expérience. En continuant à naviguer, vous acceptez notre utilisation des cookies.",
+    "accept": "Accepter",
+    "decline": "Refuser",
+    "learnMore": "En Savoir Plus"
   },
   "categories": {
     "politics": "Politique",
