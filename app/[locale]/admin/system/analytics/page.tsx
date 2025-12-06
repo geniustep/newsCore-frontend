@@ -23,6 +23,7 @@ import {
   Tablet,
 } from 'lucide-react';
 import { analyticsApi } from '@/lib/api/admin';
+import { useAdminAuthStore } from '@/stores/admin-auth';
 import { cn } from '@/lib/utils/cn';
 
 interface StatCardProps {
@@ -127,6 +128,7 @@ function DeviceChart({ data }: { data: { device: string; percentage: number }[] 
 
 export default function AnalyticsPage() {
   const [period, setPeriod] = useState<'today' | 'week' | 'month' | 'year'>('week');
+  const { isAuthenticated } = useAdminAuthStore();
 
   interface OverviewData {
     pageviews: number;
@@ -159,6 +161,7 @@ export default function AnalyticsPage() {
         };
       }
     },
+    enabled: isAuthenticated,
   });
 
   const { data: topArticles } = useQuery({
@@ -177,6 +180,7 @@ export default function AnalyticsPage() {
         ];
       }
     },
+    enabled: isAuthenticated,
   });
 
   const deviceData = [

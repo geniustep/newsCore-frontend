@@ -24,6 +24,7 @@ import {
   MoreVertical,
 } from 'lucide-react';
 import { mediaApi } from '@/lib/api/admin';
+import { useAdminAuthStore } from '@/stores/admin-auth';
 import { cn } from '@/lib/utils/cn';
 
 interface MediaItem {
@@ -131,6 +132,7 @@ function MediaCard({ item, onSelect, onDelete }: { item: MediaItem; onSelect: (i
 }
 
 export default function MediaLibraryPage() {
+  const { isAuthenticated } = useAdminAuthStore();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('all');
@@ -146,6 +148,7 @@ export default function MediaLibraryPage() {
       });
       return result as unknown as { data: MediaItem[]; meta: { total: number } };
     },
+    enabled: isAuthenticated,
   });
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {

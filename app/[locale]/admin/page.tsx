@@ -25,6 +25,7 @@ import {
   Activity,
 } from 'lucide-react';
 import { adminApi } from '@/lib/api/admin';
+import { useAdminAuthStore } from '@/stores/admin-auth';
 import { cn } from '@/lib/utils/cn';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -175,25 +176,30 @@ export default function AdminDashboard() {
   const t = useTranslations('admin');
   const locale = useLocale();
   const basePath = `/${locale}/admin`;
+  const { isAuthenticated } = useAdminAuthStore();
 
   const { data: articlesData } = useQuery({
     queryKey: ['admin-articles-stats'],
     queryFn: async () => adminApi.getArticles({ limit: 1 }) as unknown as { meta?: { total: number }; data?: unknown[] },
+    enabled: isAuthenticated,
   });
 
   const { data: categoriesData } = useQuery({
     queryKey: ['admin-categories'],
     queryFn: async () => adminApi.getCategories() as unknown as { data?: unknown[] },
+    enabled: isAuthenticated,
   });
 
   const { data: tagsData } = useQuery({
     queryKey: ['admin-tags-popular'],
     queryFn: async () => adminApi.getPopularTags(10) as unknown as { data?: Array<{ id: string; name: string; usageCount: number }> },
+    enabled: isAuthenticated,
   });
 
   const { data: recentArticles } = useQuery({
     queryKey: ['admin-recent-articles'],
     queryFn: async () => adminApi.getArticles({ limit: 5, sortBy: 'createdAt', sortOrder: 'desc' }) as unknown as { data?: Array<{ id: string; title: string; status: string; coverImageUrl?: string; author?: { displayName?: string }; createdAt: string }> },
+    enabled: isAuthenticated,
   });
 
   const stats = [

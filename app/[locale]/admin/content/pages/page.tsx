@@ -26,6 +26,7 @@ import {
   Home,
 } from 'lucide-react';
 import { pagesApi } from '@/lib/api/admin';
+import { useAdminAuthStore } from '@/stores/admin-auth';
 import { cn } from '@/lib/utils/cn';
 
 interface Page {
@@ -149,6 +150,7 @@ function PageRow({ page, locale, onDelete }: { page: Page; locale: string; onDel
 export default function PagesManagementPage() {
   const locale = useLocale();
   const basePath = `/${locale}/admin/content/pages`;
+  const { isAuthenticated } = useAdminAuthStore();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -162,6 +164,7 @@ export default function PagesManagementPage() {
       });
       return result as unknown as { data: Page[]; meta: { total: number } };
     },
+    enabled: isAuthenticated,
   });
 
   const handleDelete = (id: string) => {

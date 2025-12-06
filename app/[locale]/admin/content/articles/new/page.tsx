@@ -31,6 +31,7 @@ import {
   Tag,
 } from 'lucide-react';
 import { articlesApi, categoriesApi, tagsApi } from '@/lib/api/admin';
+import { useAdminAuthStore } from '@/stores/admin-auth';
 
 interface Category {
   id: string;
@@ -66,6 +67,7 @@ export default function NewArticlePage() {
   });
 
   const [showTagSelect, setShowTagSelect] = useState(false);
+  const { isAuthenticated } = useAdminAuthStore();
 
   // Fetch categories
   const { data: categories } = useQuery({
@@ -74,6 +76,7 @@ export default function NewArticlePage() {
       const result = await categoriesApi.getAll();
       return result as unknown as Category[];
     },
+    enabled: isAuthenticated,
   });
 
   // Fetch tags
@@ -83,6 +86,7 @@ export default function NewArticlePage() {
       const result = await tagsApi.getAll();
       return result as unknown as TagItem[];
     },
+    enabled: isAuthenticated,
   });
 
   // Create article mutation

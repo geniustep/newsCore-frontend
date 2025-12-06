@@ -23,6 +23,7 @@ import {
   UserCog,
 } from 'lucide-react';
 import { usersApi } from '@/lib/api/admin';
+import { useAdminAuthStore } from '@/stores/admin-auth';
 import { cn } from '@/lib/utils/cn';
 
 interface UserItem {
@@ -164,6 +165,7 @@ function UserRow({ user, onEdit, onDelete }: { user: UserItem; onEdit: (user: Us
 
 export default function UsersManagementPage() {
   const queryClient = useQueryClient();
+  const { isAuthenticated } = useAdminAuthStore();
   
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState<string>('all');
@@ -179,6 +181,7 @@ export default function UsersManagementPage() {
       });
       return result as unknown as { data: UserItem[]; meta: { total: number } };
     },
+    enabled: isAuthenticated,
   });
 
   const deleteMutation = useMutation({

@@ -21,6 +21,7 @@ import {
   EyeOff,
 } from 'lucide-react';
 import { adminApi } from '@/lib/api/admin';
+import { useAdminAuthStore } from '@/stores/admin-auth';
 import { cn } from '@/lib/utils/cn';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -352,6 +353,7 @@ function CategoryModal({
 export default function CategoriesPage() {
   const t = useTranslations('admin');
   useLocale();
+  const { isAuthenticated } = useAdminAuthStore();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -360,6 +362,7 @@ export default function CategoriesPage() {
   const { data, isLoading } = useQuery({
     queryKey: ['admin-categories'],
     queryFn: () => adminApi.getCategories(),
+    enabled: isAuthenticated,
   });
 
   const categories: Category[] = data?.data || [];

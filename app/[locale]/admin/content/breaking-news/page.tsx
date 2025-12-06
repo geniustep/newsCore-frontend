@@ -21,6 +21,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { breakingNewsApi } from '@/lib/api/admin';
+import { useAdminAuthStore } from '@/stores/admin-auth';
 import { cn } from '@/lib/utils/cn';
 
 interface BreakingNewsItem {
@@ -146,6 +147,7 @@ function BreakingNewsCard({
 
 export default function BreakingNewsPage() {
   const queryClient = useQueryClient();
+  const { isAuthenticated } = useAdminAuthStore();
   
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState<BreakingNewsItem | null>(null);
@@ -162,6 +164,7 @@ export default function BreakingNewsPage() {
       const result = await breakingNewsApi.getAll();
       return result as unknown as BreakingNewsItem[];
     },
+    enabled: isAuthenticated,
   });
 
   const createMutation = useMutation({

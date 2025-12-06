@@ -28,6 +28,7 @@ import {
   ArrowUpDown,
 } from 'lucide-react';
 import { adminApi } from '@/lib/api/admin';
+import { useAdminAuthStore } from '@/stores/admin-auth';
 import { cn } from '@/lib/utils/cn';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -183,6 +184,7 @@ export default function ArticlesPage() {
   const t = useTranslations('admin');
   const locale = useLocale();
   const basePath = `/${locale}/admin/content/articles`;
+  const { isAuthenticated } = useAdminAuthStore();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -199,6 +201,7 @@ export default function ArticlesPage() {
       });
       return result as unknown as { data: Article[]; meta: { total: number; page: number; totalPages: number } };
     },
+    enabled: isAuthenticated,
   });
 
   const handleDelete = (id: string) => {

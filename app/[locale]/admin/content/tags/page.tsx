@@ -19,6 +19,7 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { tagsApi } from '@/lib/api/admin';
+import { useAdminAuthStore } from '@/stores/admin-auth';
 
 interface TagItem {
   id: string;
@@ -76,6 +77,7 @@ function TagCard({ tag, onEdit, onDelete }: { tag: TagItem; onEdit: (tag: TagIte
 
 export default function TagsManagementPage() {
   const queryClient = useQueryClient();
+  const { isAuthenticated } = useAdminAuthStore();
   
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -88,6 +90,7 @@ export default function TagsManagementPage() {
       const result = await tagsApi.getAll(searchQuery || undefined);
       return result as unknown as TagItem[];
     },
+    enabled: isAuthenticated,
   });
 
   const createMutation = useMutation({
