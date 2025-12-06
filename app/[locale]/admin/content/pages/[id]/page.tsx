@@ -112,18 +112,18 @@ export default function EditPagePage() {
 
   // Prepare data for API
   const prepareDataForApi = useCallback((data: typeof formData) => {
-    return {
+    const apiData: Record<string, unknown> = {
       title: data.title,
-      slug: data.slug || undefined,
-      content: data.content || undefined,
       status: data.status,
-      template: data.template || undefined,
-      language: data.language,
-      isHomepage: data.isHomepage,
-      seoTitle: data.seoTitle || undefined,
-      seoDescription: data.seoDescription || undefined,
-      seoKeywords: data.seoKeywords || undefined,
     };
+    
+    // Only add optional fields if they have values
+    if (data.content) apiData.content = data.content;
+    if (data.seoTitle) apiData.seoTitle = data.seoTitle;
+    if (data.seoDescription) apiData.seoDescription = data.seoDescription;
+    if (data.seoKeywords) apiData.seoKeywords = data.seoKeywords;
+    
+    return apiData;
   }, []);
 
   // Update page mutation
