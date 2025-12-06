@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import { Clock, User } from 'lucide-react';
@@ -26,30 +27,36 @@ const getAuthorName = (author: Article['author']): string => {
   return '';
 };
 
+// Client-only time formatting component to avoid hydration mismatch
+function TimeAgo({ date, locale }: { date: string; locale: string }) {
+  const [mounted, setMounted] = useState(false);
+  const [timeAgo, setTimeAgo] = useState<string>('');
+
+  useEffect(() => {
+    setMounted(true);
+    const getLocale = () => {
+      switch (locale) {
+        case 'ar': return ar;
+        case 'fr': return fr;
+        default: return enUS;
+      }
+    };
+    setTimeAgo(formatDistanceToNow(new Date(date), {
+      addSuffix: true,
+      locale: getLocale(),
+    }));
+  }, [date, locale]);
+
+  if (!mounted) return null;
+  return <>{timeAgo}</>;
+}
+
 export default function HeroSection({
   mainArticle,
   sideArticles = [],
   layout = 'classic',
 }: HeroSectionProps) {
   const locale = useLocale();
-
-  const getLocale = () => {
-    switch (locale) {
-      case 'ar':
-        return ar;
-      case 'fr':
-        return fr;
-      default:
-        return enUS;
-    }
-  };
-
-  const formatTime = (date: string) => {
-    return formatDistanceToNow(new Date(date), {
-      addSuffix: true,
-      locale: getLocale(),
-    });
-  };
 
   // Classic Layout: 60% main + 40% side
   if (layout === 'classic') {
@@ -96,7 +103,7 @@ export default function HeroSection({
                   {mainArticle.publishedAt && (
                     <span className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
-                      {formatTime(mainArticle.publishedAt)}
+                      <TimeAgo date={mainArticle.publishedAt} locale={locale} />
                     </span>
                   )}
                 </div>
@@ -133,7 +140,7 @@ export default function HeroSection({
                     </h3>
                     {article.publishedAt && (
                       <p className="text-xs text-gray-500">
-                        {formatTime(article.publishedAt)}
+                        <TimeAgo date={article.publishedAt} locale={locale} />
                       </p>
                     )}
                   </div>
@@ -233,7 +240,7 @@ export default function HeroSection({
             {mainArticle.publishedAt && (
               <span className="flex items-center gap-2">
                 <Clock className="w-5 h-5" />
-                {formatTime(mainArticle.publishedAt)}
+                <TimeAgo date={mainArticle.publishedAt} locale={locale} />
               </span>
             )}
           </div>

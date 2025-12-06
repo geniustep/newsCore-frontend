@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import { Clock, ArrowLeft, ArrowRight } from 'lucide-react';
@@ -15,6 +16,30 @@ interface CategorySectionProps {
   icon?: React.ReactNode;
 }
 
+// Client-only time formatting component to avoid hydration mismatch
+function TimeAgo({ date, locale }: { date: string; locale: string }) {
+  const [mounted, setMounted] = useState(false);
+  const [timeAgo, setTimeAgo] = useState<string>('');
+
+  useEffect(() => {
+    setMounted(true);
+    const getLocale = () => {
+      switch (locale) {
+        case 'ar': return ar;
+        case 'fr': return fr;
+        default: return enUS;
+      }
+    };
+    setTimeAgo(formatDistanceToNow(new Date(date), {
+      addSuffix: true,
+      locale: getLocale(),
+    }));
+  }, [date, locale]);
+
+  if (!mounted) return null;
+  return <>{timeAgo}</>;
+}
+
 export default function CategorySection({
   categoryName,
   categorySlug,
@@ -28,24 +53,6 @@ export default function CategorySection({
 
   const mainArticle = articles[0];
   const sideArticles = articles.slice(1, 4);
-
-  const getLocale = () => {
-    switch (locale) {
-      case 'ar':
-        return ar;
-      case 'fr':
-        return fr;
-      default:
-        return enUS;
-    }
-  };
-
-  const formatTime = (date: string) => {
-    return formatDistanceToNow(new Date(date), {
-      addSuffix: true,
-      locale: getLocale(),
-    });
-  };
 
   const colorClasses = {
     primary: 'text-primary border-primary bg-primary',
@@ -109,7 +116,7 @@ export default function CategorySection({
                   {mainArticle.publishedAt && (
                     <div className="flex items-center gap-2 text-sm text-white/80">
                       <Clock className="w-4 h-4" />
-                      {formatTime(mainArticle.publishedAt)}
+                      <TimeAgo date={mainArticle.publishedAt} locale={locale} />
                     </div>
                   )}
                 </div>
@@ -142,7 +149,7 @@ export default function CategorySection({
                     {article.publishedAt && (
                       <p className="text-xs text-gray-500 flex items-center gap-1">
                         <Clock className="w-3 h-3" />
-                        {formatTime(article.publishedAt)}
+                        <TimeAgo date={article.publishedAt} locale={locale} />
                       </p>
                     )}
                   </div>

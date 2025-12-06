@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Play, Clock } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
 
@@ -19,8 +19,18 @@ interface VideoSectionProps {
 
 export default function VideoSection({ videos }: VideoSectionProps) {
   const t = useTranslations();
-  useLocale();
+  const locale = useLocale();
   const [selectedVideo, setSelectedVideo] = useState(videos[0]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const formatNumber = (num: number) => {
+    if (!mounted) return num.toString();
+    return num.toLocaleString(locale);
+  };
 
   if (!videos || videos.length === 0) return null;
 
@@ -65,7 +75,7 @@ export default function VideoSection({ videos }: VideoSectionProps) {
                   {selectedVideo.duration}
                 </span>
                 {selectedVideo.views && (
-                  <span>{selectedVideo.views.toLocaleString()} {t('video.views')}</span>
+                  <span>{formatNumber(selectedVideo.views)} {t('video.views')}</span>
                 )}
               </div>
             </div>
@@ -103,7 +113,7 @@ export default function VideoSection({ videos }: VideoSectionProps) {
                       </h4>
                       {video.views && (
                         <p className="text-xs text-gray-500 mt-1">
-                          {video.views.toLocaleString()} {t('video.views')}
+                          {formatNumber(video.views)} {t('video.views')}
                         </p>
                       )}
                     </div>

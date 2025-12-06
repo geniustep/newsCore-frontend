@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import type { Menu, MenuItem } from '@/lib/api/menus';
 
@@ -17,6 +17,16 @@ export default function MenuRenderer({
 }: MenuRendererProps) {
   const locale = useLocale();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const getLabel = (item: MenuItem): string => {
     if (locale === 'ar' && item.labelAr) return item.labelAr;
@@ -47,9 +57,8 @@ export default function MenuRenderer({
   const renderMenuItem = (item: MenuItem, level = 0): React.ReactNode => {
     if (!item.isVisible) return null;
 
-    // Check device visibility
-    if (typeof window !== 'undefined') {
-      const isMobile = window.innerWidth < 768;
+    // Check device visibility only after mounting to avoid hydration mismatch
+    if (mounted) {
       if (isMobile && !item.showOnMobile) return null;
       if (!isMobile && !item.showOnDesktop) return null;
     }

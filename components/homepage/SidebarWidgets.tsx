@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 import { TrendingUp, Mail, ThumbsUp } from 'lucide-react';
@@ -133,10 +133,21 @@ interface PollWidgetProps {
 
 export function PollWidget({ question, options }: PollWidgetProps) {
   const t = useTranslations();
+  const locale = useLocale();
   const [voted, setVoted] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const totalVotes = options.reduce((sum, opt) => sum + opt.votes, 0);
+
+  const formatNumber = (num: number) => {
+    if (!mounted) return num.toString();
+    return num.toLocaleString(locale);
+  };
 
   const handleVote = () => {
     if (selectedOption) {
@@ -199,7 +210,7 @@ export function PollWidget({ question, options }: PollWidgetProps) {
             );
           })}
           <p className="text-sm text-gray-500 text-center mt-4">
-            {t('poll.totalVotes')}: {totalVotes.toLocaleString()}
+            {t('poll.totalVotes')}: {formatNumber(totalVotes)}
           </p>
         </div>
       )}

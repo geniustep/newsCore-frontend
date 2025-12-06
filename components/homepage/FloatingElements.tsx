@@ -82,9 +82,24 @@ export function ChatWidget() {
 
 export function CookieNotice() {
   const t = useTranslations();
+  const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(true);
 
-  if (!visible) return null;
+  useEffect(() => {
+    // Check if user has already accepted cookies
+    const accepted = localStorage.getItem('cookies-accepted');
+    if (accepted) {
+      setVisible(false);
+    }
+    setMounted(true);
+  }, []);
+
+  const handleAccept = () => {
+    localStorage.setItem('cookies-accepted', 'true');
+    setVisible(false);
+  };
+
+  if (!mounted || !visible) return null;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 bg-gray-900 text-white p-4 shadow-lg">
@@ -94,13 +109,13 @@ export function CookieNotice() {
         </p>
         <div className="flex gap-3">
           <button
-            onClick={() => setVisible(false)}
+            onClick={handleAccept}
             className="px-6 py-2 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors whitespace-nowrap"
           >
             {t('cookies.accept')}
           </button>
           <button
-            onClick={() => setVisible(false)}
+            onClick={handleAccept}
             className="px-6 py-2 border border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors whitespace-nowrap"
           >
             {t('cookies.decline')}

@@ -178,6 +178,11 @@
     "decline": "Decline",
     "learnMore": "Learn More"
   },
+  "chat": {
+    "title": "Live Chat",
+    "message": "Hello! How can we help you?",
+    "placeholder": "Type your message..."
+  },
   "subscribe": {
     "title": "Subscribe to our Premium Services",
     "subtitle": "Get unlimited access to all exclusive content and special features",
