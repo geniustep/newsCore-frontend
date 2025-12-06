@@ -6,7 +6,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useLocale } from 'next-intl';
 import { useQuery } from '@tanstack/react-query';
 import {
   TrendingUp,
@@ -17,7 +16,6 @@ import {
   FileText,
   BarChart3,
   PieChart,
-  Calendar,
   ArrowUpRight,
   Globe,
   Smartphone,
@@ -128,7 +126,6 @@ function DeviceChart({ data }: { data: { device: string; percentage: number }[] 
 }
 
 export default function AnalyticsPage() {
-  const locale = useLocale();
   const [period, setPeriod] = useState<'today' | 'week' | 'month' | 'year'>('week');
 
   const { data: overview, isLoading } = useQuery({

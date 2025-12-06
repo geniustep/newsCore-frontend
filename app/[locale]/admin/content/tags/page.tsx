@@ -6,7 +6,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useLocale } from 'next-intl';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Plus,
@@ -20,7 +19,6 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { tagsApi } from '@/lib/api/admin';
-import { cn } from '@/lib/utils/cn';
 
 interface TagItem {
   id: string;
@@ -77,7 +75,6 @@ function TagCard({ tag, onEdit, onDelete }: { tag: TagItem; onEdit: (tag: TagIte
 }
 
 export default function TagsManagementPage() {
-  const locale = useLocale();
   const queryClient = useQueryClient();
   
   const [searchQuery, setSearchQuery] = useState('');

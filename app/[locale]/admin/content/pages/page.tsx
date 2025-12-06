@@ -7,7 +7,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import { useQuery } from '@tanstack/react-query';
 import {
   Plus,
@@ -147,7 +147,6 @@ function PageRow({ page, locale, onDelete }: { page: Page; locale: string; onDel
 }
 
 export default function PagesManagementPage() {
-  const t = useTranslations('admin');
   const locale = useLocale();
   const basePath = `/${locale}/admin/content/pages`;
 

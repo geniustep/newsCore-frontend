@@ -6,7 +6,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useLocale } from 'next-intl';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Plus,
@@ -18,7 +17,6 @@ import {
   Shield,
   User,
   Mail,
-  Calendar,
   CheckCircle,
   XCircle,
   Key,
@@ -165,7 +163,6 @@ function UserRow({ user, onEdit, onDelete }: { user: UserItem; onEdit: (user: Us
 }
 
 export default function UsersManagementPage() {
-  const locale = useLocale();
   const queryClient = useQueryClient();
   
   const [searchQuery, setSearchQuery] = useState('');

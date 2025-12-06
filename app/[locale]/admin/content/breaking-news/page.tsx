@@ -6,7 +6,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useLocale } from 'next-intl';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Plus,
@@ -146,7 +145,6 @@ function BreakingNewsCard({
 }
 
 export default function BreakingNewsPage() {
-  const locale = useLocale();
   const queryClient = useQueryClient();
   
   const [showModal, setShowModal] = useState(false);

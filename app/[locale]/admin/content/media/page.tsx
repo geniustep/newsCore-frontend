@@ -6,7 +6,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useLocale } from 'next-intl';
 import { useQuery } from '@tanstack/react-query';
 import {
   Upload,
@@ -132,7 +131,6 @@ function MediaCard({ item, onSelect, onDelete }: { item: MediaItem; onSelect: (i
 }
 
 export default function MediaLibraryPage() {
-  const locale = useLocale();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('all');

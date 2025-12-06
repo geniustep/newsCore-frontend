@@ -25,14 +25,12 @@ import {
   Code,
   Heading1,
   Heading2,
-  Plus,
   X,
   Upload,
   FolderOpen,
   Tag,
 } from 'lucide-react';
 import { articlesApi, categoriesApi, tagsApi } from '@/lib/api/admin';
-import { cn } from '@/lib/utils/cn';
 
 interface Category {
   id: string;
@@ -67,9 +65,7 @@ export default function NewArticlePage() {
     },
   });
 
-  const [showCategorySelect, setShowCategorySelect] = useState(false);
   const [showTagSelect, setShowTagSelect] = useState(false);
-  const [newTag, setNewTag] = useState('');
 
   // Fetch categories
   const { data: categories } = useQuery({
