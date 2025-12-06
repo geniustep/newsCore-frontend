@@ -13,6 +13,9 @@ import AboutTemplate from '@/components/pages/templates/AboutTemplate';
 import LandingTemplate from '@/components/pages/templates/LandingTemplate';
 import PreviewBanner from '@/components/pages/PreviewBanner';
 
+// Force dynamic rendering for preview mode support
+export const dynamic = 'force-dynamic';
+
 // Generate static params for all locales
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -21,11 +24,14 @@ export function generateStaticParams() {
 // Generate metadata
 export async function generateMetadata({
   params: { slug, locale },
+  searchParams,
 }: {
   params: { slug: string; locale: string };
+  searchParams: { preview?: string };
 }): Promise<Metadata> {
   try {
-    const page = await pagesApi.getBySlug(slug, locale);
+    const isPreview = searchParams?.preview === 'true';
+    const page = await pagesApi.getBySlug(slug, locale, isPreview);
     
     return {
       title: page.seo?.title || page.title,
