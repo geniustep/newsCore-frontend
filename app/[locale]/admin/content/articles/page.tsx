@@ -214,7 +214,7 @@ export default function ArticlesPage() {
           limit: 20,
           search: searchQuery || undefined,
           status: statusFilter !== 'all' ? statusFilter : undefined,
-        });
+        }) as unknown as { data?: Article[]; meta?: { total: number; page: number; totalPages: number } };
         
         // Normalize the data structure to ensure all fields are properly typed
         const normalizedData = {
