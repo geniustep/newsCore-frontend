@@ -139,6 +139,7 @@ function RecentArticleRow({ article, locale }: { article: { id: string; title: s
     >
       <div className="w-16 h-16 rounded-xl bg-gray-100 dark:bg-gray-700 overflow-hidden flex-shrink-0">
         {article.coverImageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={article.coverImageUrl}
             alt={article.title}

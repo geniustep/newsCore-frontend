@@ -229,9 +229,6 @@ export default function NewPagePage() {
     }
   };
 
-  // Preview URL based on slug
-  const previewUrl = formData.slug ? `/${locale}/page/${formData.slug}` : null;
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}

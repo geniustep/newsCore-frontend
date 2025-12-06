@@ -107,14 +107,14 @@ function GeneralSettings() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center">
-            <Image className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+            <Image className="w-12 h-12 text-gray-400 mx-auto mb-3" aria-hidden="true" />
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">الشعار الرئيسي</p>
             <button className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm hover:bg-gray-200 dark:hover:bg-gray-600">
               رفع صورة
             </button>
           </div>
           <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center">
-            <Image className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+            <Image className="w-12 h-12 text-gray-400 mx-auto mb-3" aria-hidden="true" />
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">أيقونة الموقع</p>
             <button className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm hover:bg-gray-200 dark:hover:bg-gray-600">
               رفع صورة
@@ -175,7 +175,7 @@ function SEOSettings() {
         </h3>
         <div className="space-y-4">
           <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center">
-            <Image className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+            <Image className="w-12 h-12 text-gray-400 mx-auto mb-3" aria-hidden="true" />
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">صورة المشاركة الافتراضية</p>
             <button className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm hover:bg-gray-200 dark:hover:bg-gray-600">
               رفع صورة

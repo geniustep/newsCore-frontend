@@ -75,6 +75,7 @@ function UserRow({ user, onEdit, onDelete }: { user: UserItem; onEdit: (user: Us
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
             {user.avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img src={user.avatarUrl} alt="" className="w-full h-full object-cover" />
             ) : (
               <User className="w-5 h-5 text-gray-500" />
