@@ -38,7 +38,7 @@ export default function AdminLoginPage() {
     
     try {
       // Call the real API
-      const response = await authApi.login(email, password) as {
+      const response = await authApi.login(email, password) as unknown as {
         user: {
           id: string;
           email: string;
