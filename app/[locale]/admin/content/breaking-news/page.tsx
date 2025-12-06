@@ -213,16 +213,11 @@ export default function BreakingNewsPage() {
 
   const handleSubmit = () => {
     if (!formData.title.trim()) return;
-    
-    const submitData = {
-      ...formData,
-      expiresAt: formData.expiresAt || undefined,
-    };
 
     if (editingItem) {
-      updateMutation.mutate({ id: editingItem.id, data: submitData });
+      updateMutation.mutate({ id: editingItem.id, data: formData });
     } else {
-      createMutation.mutate(submitData);
+      createMutation.mutate(formData);
     }
   };
 
