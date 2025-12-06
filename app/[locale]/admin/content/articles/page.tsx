@@ -190,18 +190,25 @@ export default function ArticlesPage() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['admin-articles', page, searchQuery, statusFilter],
     queryFn: async () => {
-      const result = await adminApi.getArticles({
-        page,
-        limit: 20,
-        search: searchQuery || undefined,
-        status: statusFilter !== 'all' ? statusFilter : undefined,
-      });
-      return result as unknown as { data: Article[]; meta: { total: number; page: number; totalPages: number } };
+      try {
+        const result = await adminApi.getArticles({
+          page,
+          limit: 20,
+          search: searchQuery || undefined,
+          status: statusFilter !== 'all' ? statusFilter : undefined,
+        });
+        return result as unknown as { data: Article[]; meta: { total: number; page: number; totalPages: number } };
+      } catch (err: any) {
+        console.error('Error fetching articles:', err);
+        throw err;
+      }
     },
     enabled: isAuthenticated,
+    retry: 1,
+    retryDelay: 1000,
   });
 
   const handleDelete = (id: string) => {
@@ -284,6 +291,22 @@ export default function ArticlesPage() {
           <div className="p-8 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
             <p className="mt-4 text-gray-500 dark:text-gray-400">جاري التحميل...</p>
+          </div>
+        ) : error ? (
+          <div className="p-12 text-center">
+            <XCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              حدث خطأ
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400 mb-6">
+              {error instanceof Error ? error.message : 'فشل في تحميل المقالات. يرجى المحاولة مرة أخرى.'}
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary/90 transition-colors inline-flex items-center gap-2"
+            >
+              إعادة المحاولة
+            </button>
           </div>
         ) : (data?.data?.length ?? 0) > 0 ? (
           <div className="overflow-x-auto">

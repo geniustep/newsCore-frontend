@@ -33,12 +33,12 @@ const createAdminApiClient = (): AxiosInstance => {
     reject: (error?: any) => void;
   }> = [];
 
-  const processQueue = (error: any, token: string | null = null) => {
+  const processQueue = (error: any, value: any = null) => {
     failedQueue.forEach((prom) => {
       if (error) {
         prom.reject(error);
       } else {
-        prom.resolve(token);
+        prom.resolve(value);
       }
     });
     failedQueue = [];
@@ -81,8 +81,10 @@ const createAdminApiClient = (): AxiosInstance => {
                 axios(originalRequest)
                   .then((res) => {
                     isRefreshing = false;
-                    processQueue(null, res);
-                    resolve(res);
+                    // Apply same response transformation as interceptor
+                    const transformedResponse = res.data?.data ?? res.data;
+                    processQueue(null, transformedResponse);
+                    resolve(transformedResponse);
                   })
                   .catch((err) => {
                     isRefreshing = false;
