@@ -1,30 +1,11 @@
 'use client';
 
-import { useMemo } from 'react';
-import dynamic from 'next/dynamic';
+import { useMemo, useState, useEffect } from 'react';
 import { Page } from '@/lib/api';
 import type { Template, Section, Block, BlockType } from '@/lib/template-engine/types';
 import { getBlockMeta, getVariant } from '@/lib/template-engine/registry';
 import { cn } from '@/lib/utils/cn';
 import { Loader2 } from 'lucide-react';
-
-// Dynamically import block components
-const ArticleGrid = dynamic(() => import('@/components/template-engine/blocks/ArticleGrid'), {
-  loading: () => <BlockLoadingPlaceholder />,
-  ssr: false,
-});
-const BigHero = dynamic(() => import('@/components/template-engine/blocks/BigHero'), {
-  loading: () => <BlockLoadingPlaceholder />,
-  ssr: false,
-});
-const ArticleList = dynamic(() => import('@/components/template-engine/blocks/ArticleList'), {
-  loading: () => <BlockLoadingPlaceholder />,
-  ssr: false,
-});
-const ArticleSlider = dynamic(() => import('@/components/template-engine/blocks/ArticleSlider'), {
-  loading: () => <BlockLoadingPlaceholder />,
-  ssr: false,
-});
 
 function BlockLoadingPlaceholder() {
   return (
@@ -208,29 +189,68 @@ function BlockContent({
   variant: string; 
   config: Record<string, unknown>;
 }) {
-  // For blocks that need data, show a placeholder for now
-  // In production, this would use useSWR or React Query to fetch data
+  const [mounted, setMounted] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [BlockComponent, setBlockComponent] = useState<React.ComponentType<any> | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+    
+    // Dynamically import the appropriate block component
+    const loadComponent = async () => {
+      try {
+        let component;
+        switch (type) {
+          case 'article-grid':
+            component = (await import('@/components/template-engine/blocks/ArticleGrid')).default;
+            break;
+          case 'big-hero':
+            component = (await import('@/components/template-engine/blocks/BigHero')).default;
+            break;
+          case 'article-list':
+            component = (await import('@/components/template-engine/blocks/ArticleList')).default;
+            break;
+          case 'article-slider':
+            component = (await import('@/components/template-engine/blocks/ArticleSlider')).default;
+            break;
+          default:
+            component = null;
+        }
+        setBlockComponent(() => component);
+      } catch (error) {
+        console.error('Failed to load block component:', error);
+      }
+    };
+    
+    loadComponent();
+  }, [type]);
+
+  // Show placeholder during SSR and initial mount
+  if (!mounted) {
+    return <BlockLoadingPlaceholder />;
+  }
+
+  // Show placeholder while loading component
+  if (!BlockComponent && ['article-grid', 'big-hero', 'article-list', 'article-slider'].includes(type)) {
+    return <BlockLoadingPlaceholder />;
+  }
+
+  // For blocks that need data, show with empty data for now
   const emptyData = { articles: [] as never[], total: 0, hasMore: false };
 
-  switch (type) {
-    case 'article-grid':
-      return <ArticleGrid variant={variant} config={config} data={emptyData} />;
-    case 'big-hero':
-      return <BigHero variant={variant} config={config} data={emptyData} />;
-    case 'article-list':
-      return <ArticleList variant={variant} config={config} data={emptyData} />;
-    case 'article-slider':
-      return <ArticleSlider variant={variant} config={config} data={emptyData} />;
-    default:
-      return (
-        <div className="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-lg p-6 min-h-[150px]">
-          <div className="text-center text-gray-500 dark:text-gray-400">
-            <div className="text-3xl mb-2">🧩</div>
-            <p className="font-medium">{getBlockMeta(type as BlockType)?.nameAr || type}</p>
-            <p className="text-sm">{variant}</p>
-          </div>
-        </div>
-      );
+  if (BlockComponent) {
+    return <BlockComponent variant={variant} config={config} data={emptyData} />;
   }
+
+  // Default fallback for unknown block types
+  return (
+    <div className="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-lg p-6 min-h-[150px]">
+      <div className="text-center text-gray-500 dark:text-gray-400">
+        <div className="text-3xl mb-2">🧩</div>
+        <p className="font-medium">{getBlockMeta(type as BlockType)?.nameAr || type}</p>
+        <p className="text-sm">{variant}</p>
+      </div>
+    </div>
+  );
 }
 
