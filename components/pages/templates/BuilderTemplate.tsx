@@ -188,35 +188,39 @@ function BlockRenderer({ block }: BlockRendererProps) {
   const colSpan = block.gridArea?.column?.span || 12;
   const variantConfig = getVariant(block.type, block.variant);
   const mergedConfig = { ...variantConfig?.defaultConfig, ...block.config };
-  
-  // For now, render with empty data - in production, this would fetch real data
-  const emptyData = { articles: [], total: 0, page: 1, totalPages: 0, hasMore: false };
 
   return (
     <div 
       className="col-span-12"
       style={{ gridColumn: `span ${Math.min(colSpan, 12)}` }}
     >
-      {renderBlock(block.type, block.variant, mergedConfig, emptyData)}
+      <BlockContent type={block.type} variant={block.variant} config={mergedConfig} />
     </div>
   );
 }
 
-function renderBlock(
-  type: BlockType | string, 
-  variant: string, 
-  config: Record<string, unknown>, 
-  data: { articles: unknown[]; total: number; page: number; totalPages: number; hasMore: boolean }
-) {
+function BlockContent({ 
+  type, 
+  variant, 
+  config 
+}: { 
+  type: BlockType | string; 
+  variant: string; 
+  config: Record<string, unknown>;
+}) {
+  // For blocks that need data, show a placeholder for now
+  // In production, this would use useSWR or React Query to fetch data
+  const emptyData = { articles: [] as never[], total: 0, hasMore: false };
+
   switch (type) {
     case 'article-grid':
-      return <ArticleGrid variant={variant} config={config} data={data} />;
+      return <ArticleGrid variant={variant} config={config} data={emptyData} />;
     case 'big-hero':
-      return <BigHero variant={variant} config={config} data={data} />;
+      return <BigHero variant={variant} config={config} data={emptyData} />;
     case 'article-list':
-      return <ArticleList variant={variant} config={config} data={data} />;
+      return <ArticleList variant={variant} config={config} data={emptyData} />;
     case 'article-slider':
-      return <ArticleSlider variant={variant} config={config} data={data} />;
+      return <ArticleSlider variant={variant} config={config} data={emptyData} />;
     default:
       return (
         <div className="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-lg p-6 min-h-[150px]">
