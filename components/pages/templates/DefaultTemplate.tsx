@@ -1,9 +1,11 @@
 'use client';
 
+import { useMemo } from 'react';
 import { Page } from '@/lib/api';
 import { Calendar, Share2, Printer } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import BuilderTemplate from './BuilderTemplate';
 
 interface TemplateProps {
   page: Page;
@@ -11,6 +13,21 @@ interface TemplateProps {
 }
 
 export default function DefaultTemplate({ page, locale }: TemplateProps) {
+  // Check if content is a Builder template (JSON)
+  const isBuilderTemplate = useMemo(() => {
+    try {
+      if (!page.content) return false;
+      const parsed = JSON.parse(page.content);
+      return parsed.sections && Array.isArray(parsed.sections);
+    } catch {
+      return false;
+    }
+  }, [page.content]);
+
+  // If it's a Builder template, use BuilderTemplate
+  if (isBuilderTemplate) {
+    return <BuilderTemplate page={page} locale={locale} />;
+  }
   const formatDate = (dateString?: string) => {
     if (!dateString) return '';
     return new Date(dateString).toLocaleDateString(locale === 'ar' ? 'ar-SA' : locale, {
