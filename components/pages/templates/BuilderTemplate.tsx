@@ -108,11 +108,22 @@ function SectionRenderer({ section }: SectionRendererProps) {
     if (section.background.type === 'color' && section.background.color) {
       sectionStyle.backgroundColor = section.background.color;
     } else if (section.background.type === 'gradient' && section.background.gradient) {
-      sectionStyle.background = section.background.gradient;
+      // Convert gradient object to CSS string
+      const { type, colors, direction } = section.background.gradient;
+      if (type === 'linear') {
+        sectionStyle.background = `linear-gradient(${direction || 'to bottom'}, ${colors.join(', ')})`;
+      } else if (type === 'radial') {
+        sectionStyle.background = `radial-gradient(${colors.join(', ')})`;
+      }
     } else if (section.background.type === 'image' && section.background.image) {
-      sectionStyle.backgroundImage = `url(${section.background.image})`;
-      sectionStyle.backgroundSize = 'cover';
-      sectionStyle.backgroundPosition = 'center';
+      const img = section.background.image;
+      const imageUrl = typeof img === 'string' ? img : img.url;
+      sectionStyle.backgroundImage = `url(${imageUrl})`;
+      sectionStyle.backgroundSize = typeof img === 'object' ? (img.size || 'cover') : 'cover';
+      sectionStyle.backgroundPosition = typeof img === 'object' ? (img.position || 'center') : 'center';
+      if (typeof img === 'object' && img.fixed) {
+        sectionStyle.backgroundAttachment = 'fixed';
+      }
     }
   }
 
